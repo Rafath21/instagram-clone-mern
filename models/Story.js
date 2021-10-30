@@ -1,0 +1,18 @@
+const mongoose=require('mongoose');
+const StorySchema=new mongoose.Schema({
+    reelurl:[{
+        public_id: {
+       type: String,
+       },
+        url: {
+        type: String,
+       },
+    }],
+    caption:String,
+    postedBy:{
+        type: mongoose.Schema.Types.ObjectId,
+        ref:'users'
+    }
+})
+let Story=mongoose.model("Story",StorySchema);
+module.exports=Story;

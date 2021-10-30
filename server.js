@@ -25,6 +25,11 @@ cloudinary.config({
     api_secret: process.env.CLOUDINARY_API_SECRET
 })
 //app.use("/api/v1/auth",require('./routes/authRoutes/authRoute'));
+app.use("/api/v1/auth",require("./routes/authRoutes/authRoute"));
+app.use("/api/v1/feedposts",require("./routes/userRoutes/homeRoute"))
+app.use("/api/v1/feedreels",require("./routes/userRoutes/homeRoute"))
+app.use("/api/v1/feedstories",require("./routes/userRoutes/homeRoute"))
+app.use("api/v1/comment",require("./routes/userRoutes/homeRoute"))
 
 
 /*app.use(express.static(path.join(__dirname,"./client/build")));
