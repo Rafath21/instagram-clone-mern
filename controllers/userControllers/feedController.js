@@ -1,12 +1,86 @@
-exports.posts=async()=>{
-
+const User=require("../../models/User");
+exports.posts=async(req,res)=>{ 
+    try{
+        let curruserid=req.params.userid;
+        let postFeed=await User.findById(curruserid).populate({path:'postFeed',populate:{path:'postedBy', select:'username _id pfp'}})
+        .populate({path:'postFeed',populate:{path:'comments',populate:{path:'userid',select:'username _id pfp'}}});
+        postFeed=postFeed.postFeed;
+        res.status(200).json({
+            success:true,
+            message:"Get feed posts successful!",
+            postFeed:postFeed
+        })
+    }catch(err){
+        res.status(400).json({
+            error:err.message
+        })
+    }
 }
-exports.reels=async()=>{
+exports.reels=async(req,res)=>{
+    try{
+        let curruserid=req.params.userid;
+        let reelFeed=await User.findById(curruserid).populate({path:'reelFeed',populate:{path:'postedBy', select:'username _id pfp'}})
+        .populate({path:'reelFeed',populate:{path:'comments',populate:{path:'userid',select:'username _id pfp'}}});
+        reelFeed=reelFeed.reelFeed;
 
+        res.status(200).json({
+            success:true,
+            reelFeed:reelFeed
+        })
+
+    }catch(err){
+        res.status(400).json({
+            error:err.message
+        })
+    }
 }
-exports.stories=async()=>{
+exports.stories=async(req,res)=>{
+ try{
+        let curruserid=req.params.userid;
+        let storyFeed=await User.findById(curruserid).populate({path:'storyFeed',populate:{path:'postedBy', select:'username _id pfp'}})
+        .populate({path:'storyFeed',populate:{path:'comments',populate:{path:'userid',select:'username _id pfp'}}});;
+        storyFeed=storyFeed.storyFeed;
+        res.status(200).json({
+            success:true,
+            storyFeed:storyFeed
+        })
 
+    }catch(err){
+        res.status(400).json({
+            error:err.message
+        })
+    }
 }
-exports.activty=async()=>{
+exports.activity=async()=>{
+ try{
+        let curruserid=req.params.userid;
+        let activityFeed=await User.findById(curruserid).populate({path:'activity',populate:{path:'postedBy', select:'username _id pfp'}})
+        .populate({path:'activity',populate:{path:'comments',populate:{path:'userid',select:'username _id pfp'}}});
+        activityFeed=activityFeed.activity;
+        res.status(200).json({
+            success:true,
+            activityFeed:activityFeed
+        })
 
+    }catch(err){
+        res.status(400).json({
+            error:err.message
+        })
+    }
+}
+exports.requests=async()=>{
+    try{
+        let curruserid=req.params.userid;
+        let requestsFeed=await User.findById(curruserid).populate({path:'requests',populate:{path:'postedBy', select:'username _id pfp'}})
+        .populate({path:'requests',populate:{path:'comments',populate:{path:'userid',select:'username _id pfp'}}});
+        requestsFeed=requestsFeed.requests;
+        res.status(200).json({
+            success:true,
+            requestsFeed:requestsFeed
+        })
+    }catch(err){
+        res.status(400).json({
+            error:err.message
+        })
+    }
 }

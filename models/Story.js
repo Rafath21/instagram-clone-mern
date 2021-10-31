@@ -1,6 +1,6 @@
 const mongoose=require('mongoose');
 const StorySchema=new mongoose.Schema({
-    reelurl:[{
+    storyurl:[{
         public_id: {
        type: String,
        },

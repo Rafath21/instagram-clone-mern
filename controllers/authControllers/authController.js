@@ -18,27 +18,15 @@ const sendToken=(user,statusCode,res)=>{
   });
 }
 exports.register=async(req,res,next)=>{
-    const{username,email,password}=req.body;
+    console.log("in register");
+    const{email,password}=req.body;
     try{
         const user=await User.create({
-            username,
             email,
             password,
         });
         sendToken(user,200,res);
-        const message1=`A new user ${username} just signed up on the Instagram-clone App `
-        const message2=`Hi ${username}! Glad that you signed up on Instagram-clone App. Hope you enjoy the App experience. Please leave
-        a feedback if you do.`
-        sendEmail({
-            to:process.env.EMAIL_USER,
-            subject:"New User Signed up!",
-            text:message1
-        })
-        sendEmail({
-            to:email,
-            subject:"Thank You for signing up!",
-            text:message2
-        })
+        
     }catch(err){
         next(err);
     }

@@ -1,12 +1,13 @@
 const mongoose=require('mongoose');
 const PostSchema=new mongoose.Schema({
     posturl:{
-        public_id: {
+        type:String
+      /*  public_id: {
        type: String,
        },
         url: {
         type: String,
-       },
+       },*/
     },
     caption:String,
     comments:[
@@ -14,20 +15,39 @@ const PostSchema=new mongoose.Schema({
         comment:String,
         userid: {
            type: mongoose.Schema.Types.ObjectId,
-           ref:'users'
+           ref:'User'
         }
     }
     ],
     likes:[
         {
            type: mongoose.Schema.Types.ObjectId,
-           ref:'users'
+           ref:'User'
         }
     ],
     postedBy:{
         type: mongoose.Schema.Types.ObjectId,
-        ref:'users'
+        ref:'User'
     }
 })
+PostSchema.methods.addToLikes=function(userid){
+    this.likes.push(userid)
+}
+PostSchema.methods.removeFromLikes=function(userid){
+    let likes=this.likes;
+    console.log(likes);
+    const index=likes.indexOf(userid);
+    if(index>-1){
+        likes.splice(index,1)
+    }
+    this.likes=likes;
+}
+PostSchema.methods.addToComments=function(comment,userid){
+    let obj={
+        comment:comment,
+        userid:userid
+    }
+    this.comments.push(obj);
+}
 let Post=mongoose.model("Post",PostSchema);
 module.exports=Post;

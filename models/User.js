@@ -5,7 +5,6 @@ const jwt=require('jsonwebtoken');
 let UserSchema=new mongoose.Schema({
     username:{
         type:String,
-        required:[true,"Please provide a username"]
     },
     email:{
         type:String,
@@ -25,61 +24,67 @@ let UserSchema=new mongoose.Schema({
     posts:[
         {
            type: mongoose.Schema.Types.ObjectId,
-           ref:'posts'
+           ref:'Post'
         }
     ],
     reels:[
         {
            type: mongoose.Schema.Types.ObjectId,
-           ref:'reels'
+           ref:'Reel'
         }
     ],
     stories:[
          {
            type: mongoose.Schema.Types.ObjectId,
-           ref:'stories'
+           ref:'Story'
         }
     ],
     followings:[
          {
            type: mongoose.Schema.Types.ObjectId,
-           ref:'users'
+           ref:'User'
         }
     ],
     followers:[
          {
            type: mongoose.Schema.Types.ObjectId,
-           ref:'users'
+           ref:'User'
         }
     ],
     suggestions:[
          {
            type: mongoose.Schema.Types.ObjectId,
-           ref:'users'
+           ref:'User'
         }
     ],
     postFeed:[
         {
            type: mongoose.Schema.Types.ObjectId,
-           ref:'posts'
+           ref:'Post'
         }
     ],
     storyFeed:[
         {
            type: mongoose.Schema.Types.ObjectId,
-           ref:'stories'
+           ref:'Story'
         }
     ],
     reelFeed:[
         {
            type: mongoose.Schema.Types.ObjectId,
-           ref:'reels'
+           ref:'Reel'
         }
     ],
     activity:[
         {
            type: mongoose.Schema.Types.ObjectId,
-           ref:'users'
+           ref:'User'
+        }
+    ],
+    requests:[
+         {
+           type: mongoose.Schema.Types.ObjectId,
+           ref:'User'
         }
     ],
     typeOfAccount:{
@@ -89,12 +94,13 @@ let UserSchema=new mongoose.Schema({
     },
     bio:String,
     pfp:{
-    public_id: {
+        type:String,
+    /*public_id: {
       type: String,
     },
     url: {
       type: String,
-    },
+    },*/
   },
     resetPasswordToken:String,
     ressetPasswordExpire:Date,
@@ -123,6 +129,35 @@ UserSchema.methods.getResetPasswordToken=function(){
     this.resetPasswordToken=crypto.createHash("sha256").update(resetToken).digest("hex");
     this.ressetPasswordExpire=Date.now()+10*(60*1000);
     return resetToken;
+}
+UserSchema.methods.setupMethod=function(username,bio,typeOfAccount,pfp){
+    this.username=username;
+    this.bio=bio;
+    this.pfp=pfp;
+    this.typeOfAccount=typeOfAccount;
+}
+UserSchema.methods.addToRequests=function(ouserid){
+    this.requests.push(ouserid);
+}
+UserSchema.methods.addToFollowers=function(ouserid){
+    console.log(this.followers);
+    this.followers.push(ouserid)
+}
+UserSchema.methods.addToFollowings=function(ouserid){
+    console.log(this.followings);
+    this.followings.push(ouserid);
+}
+UserSchema.methods.addToActivity=function(ouserid){
+    this.activity.push(ouserid);
+}
+UserSchema.methods.getFollowers=function(){
+    return this.followers;
+}
+UserSchema.methods.addToPosts=function(postid){
+    this.posts.push(postid);
+}
+UserSchema.methods.addToPostFeed=function(postid){
+    this.postFeed.push(postid);
 }
 
 let User=mongoose.model("User",UserSchema);
