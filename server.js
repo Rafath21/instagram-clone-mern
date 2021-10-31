@@ -26,12 +26,10 @@ cloudinary.config({
 })
 //app.use("/api/v1/auth",require('./routes/authRoutes/authRoute'));
 app.use("/api/v1/auth",require("./routes/authRoutes/authRoute"));
-app.use("/api/v1/feedposts",require("./routes/userRoutes/homeRoute"))
-app.use("/api/v1/feedreels",require("./routes/userRoutes/homeRoute"))
-app.use("/api/v1/feedstories",require("./routes/userRoutes/homeRoute"))
-app.use("api/v1/comment",require("./routes/userRoutes/homeRoute"))
-
-
+app.use("/api/v1/feed",require("./routes/userRoutes/feedRoute"));
+app.use("/api/v1/profile",require("./require/userRoutes/profileRoute"));
+app.use("/api/v1/post",require("./routes/userRoutes/postRoute"));
+app.use("/api/v1/reel",require("./routes/userRoutes/reelRoute"));
 /*app.use(express.static(path.join(__dirname,"./client/build")));
 app.get("*",(req,res)=>{
      res.sendFile(path.resolve(__dirname, "./client/build/index.html"));
