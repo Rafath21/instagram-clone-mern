@@ -22,6 +22,7 @@ exports.profile=async(req,res)=>{
         res.status(200).json({
             pfp:otheruser.pfp,
             bio:otheruser.bio,
+            username:otheruser.username
         })
     }
     }catch(err){

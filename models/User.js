@@ -159,6 +159,18 @@ UserSchema.methods.addToPosts=function(postid){
 UserSchema.methods.addToPostFeed=function(postid){
     this.postFeed.push(postid);
 }
+UserSchema.methods.addToReels=function(reelid){
+    this.reels.push(reelid);
+}
+UserSchema.methods.addToReelFeed=function(reelid){
+    this.reelFeed.push(reelid);
+}
+UserSchema.methods.addToStories=function(storyid){
+    this.stories.push(storyid);
+}
+UserSchema.methods.addToStoryFeed=function(storyid){
+    this.storyFeed.push(storyid);
+}
 
 let User=mongoose.model("User",UserSchema);
 module.exports=User;

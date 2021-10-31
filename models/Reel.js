@@ -29,5 +29,24 @@ const ReelSchema=new mongoose.Schema({
         ref:'users'
     }
 })
-let Reel=mongoose.model("Post",ReelSchema);
+ReelSchema.methods.addToLikes=function(userid){
+    this.likes.push(userid)
+}
+ReelSchema.methods.removeFromLikes=function(userid){
+    let likes=this.likes;
+    console.log(likes);
+    const index=likes.indexOf(userid);
+    if(index>-1){
+        likes.splice(index,1)
+    }
+    this.likes=likes;
+}
+ReelSchema.methods.addToComments=function(comment,userid){
+    let obj={
+        comment:comment,
+        userid:userid
+    }
+    this.comments.push(obj);
+}
+let Reel=mongoose.model("Reel",ReelSchema);
 module.exports=Reel;
