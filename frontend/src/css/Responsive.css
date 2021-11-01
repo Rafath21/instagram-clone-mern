@@ -1,0 +1,235 @@
+@media screen and (max-width: 1024px) {
+  body {
+    width: 100vw;
+  }
+  .stories-posts-sidebar-container {
+    margin-left: 0;
+    width: 100%;
+  }
+  .home-sidebar {
+    display: none;
+  }
+  .reels-container {
+    height: 95vh;
+    margin-top: 8%;
+  }
+  .video-card {
+    width: 100vw;
+    scroll-snap-align: start;
+  }
+  .stories-container > li:nth-child(n + 2) {
+    margin-left: 15px;
+  }
+  .requests-container {
+    width: 100%;
+    left: -2%;
+  }
+  .home-header {
+    height: 32%;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+  }
+  .stories-posts-container {
+    width: 100%;
+  }
+  .profile-main-container {
+    width: 100vw;
+  }
+  .profile-container {
+    width: 100%;
+    left: 0;
+  }
+  .profile-details {
+    width: 70%;
+    display: flex;
+    flex-direction: column;
+    margin-left: 8%;
+  }
+  .profile-pfp {
+    height: 54%;
+    width: 31%;
+  }
+  .profile-username {
+    margin-left: -12px;
+    font-size: 219%;
+  }
+  .posts-followers-following-container {
+    width: 0;
+    margin-left: 101px;
+    font-size: 116%;
+    justify-content: space-around;
+  }
+  .posts-followers-following-container > p {
+    margin-left: 12px;
+  }
+  .profile-posts {
+    width: 100%;
+    grid-template-columns: auto auto auto;
+    grid-gap: 15px;
+  }
+  .post-img {
+    height: 91%;
+    width: 16%;
+  }
+  .profile-post {
+    width: 103%;
+    height: 164px;
+    object-fit: contain;
+  }
+  .main-post-card-container {
+    width: 100%;
+    margin-left: 0;
+    margin-top: 185px;
+  }
+  .create-post-container {
+    left: 10px;
+    right: 0;
+    width: 94%;
+  }
+  .create-post-caption {
+    max-width: 60%;
+    left: 38%;
+    top: 58%;
+  }
+  .create-new-post-btn {
+    top: 86%;
+  }
+  .other-icons {
+    position: fixed;
+    z-index: 100;
+    top: -12px;
+    width: 100%;
+  }
+  .notifications {
+    margin-top: -1%;
+  }
+  .slick-slide {
+    width: 24vw !important;
+    margin: 7px;
+  }
+  .story-img-container {
+    height: 88px;
+    width: 100%;
+  }
+  .slick-track {
+    margin-left: -10px;
+  }
+  /* the parent */
+  .slick-list {
+    margin: 0;
+  }
+  .home-stories {
+    width: 100%;
+  }
+  .profile-sendMsg {
+    padding: 13px;
+    border: none;
+    color: white;
+    background: dodgerblue;
+    border-radius: 10px;
+  }
+  .profile-pfp {
+    margin-left: 3px;
+  }
+  .chat > img {
+    width: 26%;
+  }
+  .chat-window-header > img {
+    width: 18%;
+  }
+  .chats-container,
+  .chat-window-container {
+    width: 100vw;
+    left: 5%;
+  }
+  .chat-window-container {
+    height: 95vh;
+    margin-top: 3%;
+  }
+  .story-img-container > img {
+    width: 111%;
+    object-fit: cover;
+    height: 93%;
+    border-radius: 50%;
+    margin-left: 4px;
+  }
+  .post-card-container {
+    width: 97vw;
+    margin-left: 3px;
+  }
+  .chat-window-msgform > button {
+    right: -4%;
+  }
+  .chat-window-msgform {
+    margin-top: 5%;
+  }
+  .chat-window-messages,
+  .chat-window-msgform {
+    width: 90%;
+  }
+  #suggestions-icon {
+    display: inline-block;
+    font-size: 23px;
+    font-weight: 600;
+    position: relative;
+    top: 45%;
+    right: 6px;
+  }
+  .posts-title {
+    margin-top: 114px;
+  }
+  .header-search-box {
+    margin-top: 15px;
+  }
+  .home-sidebar-responsive {
+    position: absolute;
+    z-index: 100;
+    width: 100%;
+    background: #fafafa;
+  }
+  .sidebar-suggestions-container {
+    overflow-x: hidden;
+    overflow-y: auto;
+    margin-top: 4px;
+    color: black;
+  }
+  #suggestions-container-close {
+    display: inline;
+    font-size: 22px;
+    position: absolute;
+    top: 0%;
+    left: 1%;
+  }
+
+  .post-like,
+  #comment-icon {
+    width: 14%;
+  }
+  .sidebar-container {
+    -webkit-border-radius: 50px;
+    border-radius: 50px;
+    background: #d1d8ec;
+    -webkit-box-shadow: 12px 12px 24px #a9afbf, -12px -12px 24px #f9ffff;
+    box-shadow: 12px 12px 24px #a9afbf, -12px -12px 24px #f9ffff;
+  }
+  .chat {
+    width: 100%;
+  }
+  .profile-post {
+    -webkit-border-radius: 50px;
+    border-radius: 15px;
+    background: #d1d8ec;
+    -webkit-box-shadow: 12px 12px 24px #a9afbf, -12px -12px 24px #f9ffff;
+    box-shadow: 12px 12px 24px #a9afbf, -12px -12px 24px #f9ffff;
+  }
+  .register-form-container,
+  .login-form-container {
+    width: 100%;
+    left: 0;
+  }
+  .profile-header {
+    min-height: 45vh;
+  }
+}

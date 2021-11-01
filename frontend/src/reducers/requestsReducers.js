@@ -47,3 +47,27 @@ export const deleteRequestReducer=(state={isRequestDeleted:false},action)=>{
              return state;
     }
 }
+export const deleteActivityReducer=(state={isActivityDeleted:false},action)=>{
+    switch(action.type){
+        case DELETE_REQUEST_REQUEST:
+            return{
+                loadingDeleteActivity:true,
+                isActivityDeleted:false
+            }
+        
+        case DELETE_REQUEST_SUCCESS:
+            return{
+                loadingDeleteActivity:false,
+                isActivityDeleted:true
+            }
+        
+        case DELETE_REQUEST_FAILED:
+            return{
+                loadingDeleteActivity:false,
+                error:action.payload
+            }
+        
+         default:
+             return state;
+    }
+}
