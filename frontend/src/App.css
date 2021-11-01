@@ -1,0 +1,74 @@
+@import url("https://fonts.googleapis.com/css2?family=Kanit:wght@600&display=swap");
+@import url("https://fonts.googleapis.com/css2?family=Kanit:wght@600&family=Roboto:wght@300&display=swap");
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  font-family: "Roboto", sans-serif;
+}
+
+* {
+  scrollbar-width: thin;
+  scrollbar-color: #0f1724 #11ece5;
+}
+
+*::-webkit-scrollbar {
+  width: 12px;
+}
+
+*::-webkit-scrollbar-track {
+  background: #0f1724;
+}
+
+*::-webkit-scrollbar-thumb {
+  background-color: #11ece5;
+  border-radius: 20px;
+  border: 3px solid #0f1724;
+}
+body {
+  background: #040609;
+  overflow-x: hidden;
+}
+.note {
+  margin-left: 8px;
+  margin-top: 8px;
+  font-size: 0.8rem;
+  color: #ebf0ffd9;
+}
+.leaflet-tile {
+  filter: sepia(100%) hue-rotate(300deg) invert(100%);
+}
+.leaflet-marker-icon {
+  width: 30px !important;
+  height: 30px !important;
+}
+.leaflet-popup-content-wrapper {
+  background: #0f1724 !important;
+  color: #ffff !important;
+}
+.leaflet-container {
+  height: 100%;
+  background-color: #0f1724 !important;
+}
+.title {
+  font-family: "Kanit", sans-serif;
+  font-size: 2rem;
+  color: #11ece5;
+  font-weight: bolder;
+  width: 30%;
+}
+.loader {
+  margin-top: 15%;
+}
+@media screen and (max-width: 700px) {
+  .title {
+    font-size: 0.8rem;
+    margin-bottom: 5px;
+  }
+  .loader {
+    display: none;
+  }
+  .note {
+    font-size: 0.6rem;
+  }
+}
