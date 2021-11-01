@@ -171,6 +171,21 @@ UserSchema.methods.addToStories=function(storyid){
 UserSchema.methods.addToStoryFeed=function(storyid){
     this.storyFeed.push(storyid);
 }
-
+UserSchema.methods.deleteFromPostFeed=function(postid){
+    let postfeed=this.postFeed;
+    const index=postfeed.indexOf(postid);
+    if(index>-1){
+        postfeed.splice(index,1)
+    }
+    this.postfeed=postfeed;
+}
+UserSchema.methods.deleteFromPosts=function(postid){
+     let allposts=this.posts;
+    const index=allposts.indexOf(postid);
+    if(index>-1){
+        allposts.splice(index,1)
+    }
+    this.posts=allposts;
+}
 let User=mongoose.model("User",UserSchema);
 module.exports=User;

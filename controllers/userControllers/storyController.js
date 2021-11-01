@@ -3,11 +3,13 @@ const User=require("../../models/User");
 exports.newStory=async(req,res)=>{
     try{
         let {storyurl,caption}=req.body; 
+        console.log(req.body)
         let storyid=await Story.create({
             storyurl:storyurl,
             caption:caption,
             postedBy:req.params.userid
         })
+
         let user=await User.findById(req.params.userid).populate('followers');
         user.addToStories(storyid);
         await user.save();
@@ -19,7 +21,7 @@ exports.newStory=async(req,res)=>{
         })
         res.send("something")
     }catch(err){
-        res.send("errror")
+        res.send(err.message)
         console.log("an errror occured!");
     }
 }

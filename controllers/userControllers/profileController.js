@@ -4,10 +4,12 @@ exports.profile=async(req,res)=>{
     const curruserid=req.params.userid;
     const otheruserid=req.body.ouid;
     try{
-    let otheruser=await User.findById(otheruserid).populate('posts').populate("followers").populate("followings");
+    let otheruser=await User.findById(otheruserid).populate('posts')
+    .populate({path:'followers', select:'username _id pfp'})
+    .populate({path:'followings', select:'username _id pfp'})
     let otherUserFollowers=otheruser.getFollowers();
     console.log("other user followers:",otherUserFollowers);
-    if(otheruser.typeOfAccount=="Public" || otherUserFollowers.includes(curruserid)){
+    if(curruserid==otheruserid || otheruser.typeOfAccount=="Public" || otherUserFollowers.includes(curruserid)){
         console.log("Allowed!")
         res.status(200).json({
             username:otheruser.username,
@@ -22,7 +24,9 @@ exports.profile=async(req,res)=>{
         res.status(200).json({
             pfp:otheruser.pfp,
             bio:otheruser.bio,
-            username:otheruser.username
+            username:otheruser.username,
+            noOfFollowers:otheruser.followers.length,
+            noOfFollowings:otheruser.followings.length
         })
     }
     }catch(err){

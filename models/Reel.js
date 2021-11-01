@@ -14,19 +14,19 @@ const ReelSchema=new mongoose.Schema({
         comment:String,
         userid: {
            type: mongoose.Schema.Types.ObjectId,
-           ref:'users'
+           ref:'User'
         }
     }
     ],
     likes:[
         {
            type: mongoose.Schema.Types.ObjectId,
-           ref:'users'
+           ref:'User'
         }
     ],
     postedBy:{
         type: mongoose.Schema.Types.ObjectId,
-        ref:'users'
+        ref:'User'
     }
 })
 ReelSchema.methods.addToLikes=function(userid){

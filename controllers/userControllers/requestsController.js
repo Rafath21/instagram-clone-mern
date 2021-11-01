@@ -3,8 +3,7 @@ exports.handleRequests=async(req,res)=>{
     try{
       let ouserid=req.body.ouid; //other user's id
       let curruserid=req.params.userid
-
-        let curruser=await User.findById(curruserid);
+    let curruser=await User.findById(curruserid);
         let otheruser=await User.findById(ouserid);
         console.log(curruser);
         console.log(otheruser);

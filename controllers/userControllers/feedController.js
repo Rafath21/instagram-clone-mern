@@ -18,8 +18,10 @@ exports.posts=async(req,res)=>{
 }
 exports.reels=async(req,res)=>{
     try{
+        console.log("in reel feed");
         let curruserid=req.params.userid;
-        let reelFeed=await User.findById(curruserid).populate({path:'reelFeed',populate:{path:'postedBy', select:'username _id pfp'}})
+        let reelFeed=await User.findById(curruserid)
+        .populate({path:'reelFeed',populate:{path:'postedBy', select:'username _id pfp'}})
         .populate({path:'reelFeed',populate:{path:'comments',populate:{path:'userid',select:'username _id pfp'}}});
         reelFeed=reelFeed.reelFeed;
 
@@ -38,7 +40,6 @@ exports.stories=async(req,res)=>{
  try{
         let curruserid=req.params.userid;
         let storyFeed=await User.findById(curruserid).populate({path:'storyFeed',populate:{path:'postedBy', select:'username _id pfp'}})
-        .populate({path:'storyFeed',populate:{path:'comments',populate:{path:'userid',select:'username _id pfp'}}});;
         storyFeed=storyFeed.storyFeed;
         res.status(200).json({
             success:true,
@@ -51,11 +52,10 @@ exports.stories=async(req,res)=>{
         })
     }
 }
-exports.activity=async()=>{
+exports.activity=async(req,res)=>{
  try{
         let curruserid=req.params.userid;
-        let activityFeed=await User.findById(curruserid).populate({path:'activity',populate:{path:'postedBy', select:'username _id pfp'}})
-        .populate({path:'activity',populate:{path:'comments',populate:{path:'userid',select:'username _id pfp'}}});
+        let activityFeed=await User.findById(curruserid).populate({path:'activity',select:'username _id pfp'})
         activityFeed=activityFeed.activity;
         res.status(200).json({
             success:true,
@@ -68,11 +68,11 @@ exports.activity=async()=>{
         })
     }
 }
-exports.requests=async()=>{
+exports.requests=async(req,res)=>{
     try{
         let curruserid=req.params.userid;
-        let requestsFeed=await User.findById(curruserid).populate({path:'requests',populate:{path:'postedBy', select:'username _id pfp'}})
-        .populate({path:'requests',populate:{path:'comments',populate:{path:'userid',select:'username _id pfp'}}});
+        let requestsFeed=await User.findById(curruserid).populate({path:'requests',select:'username _id pfp'})
+        //.populate({path:'requests',populate:{path:'postedBy', select:'username _id pfp'}})
         requestsFeed=requestsFeed.requests;
         res.status(200).json({
             success:true,

@@ -1,9 +1,5 @@
 const User=require("../../models/User");
 const Post=require("../../models/Post")
-//get a post
-//exports.post=async(req,res)=>{
-
-//}
 exports.updateLikes=async(req,res)=>{
     try{
     const curruserid=req.params.userid;
@@ -56,8 +52,11 @@ exports.newPost=async(req,res)=>{
             caption:caption,
             postedBy:req.params.userid
         })
+        console.log(postid);
         let user=await User.findById(req.params.userid).populate('followers');
         user.addToPosts(postid);
+        await user.save();
+        user.addToPostFeed(postid);
         await user.save();
         let followers=user.followers;
         followers.map(async(e)=>{
@@ -65,9 +64,47 @@ exports.newPost=async(req,res)=>{
             follower.addToPostFeed(postid)
             await follower.save();
         })
-        res.send("something")
+        res.status(200).json({
+            success:true,
+            message:"Posted successfully!"
+        })
     }catch(err){
-        res.send("errror")
-        console.log("an errror occured!");
+        res.status(400).json({
+            error:err.message
+        })
+    }
+}
+exports.deletePost=async(req,res)=>{
+    try{
+        let curruserid=req.params.userid;
+        let postid=req.body.postid;
+        let post=await Post.findById(postid);
+        if(post.postedBy._id!=curruserid){
+            res.status(400).json({
+                succuess:false,
+                message:"You can't delete this post since you didn't create it!"
+            })
+        }else{
+            await post.remove();
+           let curruser=await User.findById(curruserid);
+            curruser.deleteFromPosts(postid);
+            await curruser.save();
+            curruser.deleteFromPostFeed(postid);
+            await curruser.save();
+            let followers=curruser.followers;
+            followers.map(async(e)=>{
+            let follower=await User.findById(e._id);
+            follower.deleteFromPostFeed(postid)
+            await follower.save();
+        })
+        res.status(200).json({
+            success:true,
+            message:"Post Deleted!"
+        })
+        }
+    }catch(err){
+        res.status(400).json({
+            error:err.message
+        })
     }
 }
