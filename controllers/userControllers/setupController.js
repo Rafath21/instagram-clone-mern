@@ -1,9 +1,17 @@
 const User=require("../../models/User");
 const sendEmail=require('../../utils/sendEmail');
+const cloudinary=require("cloudinary");
 exports.setupProfile=async(req,res)=>{
     try{
+      const myCloud=await cloudinary.v2.uploader.upload(req.body.pfp,{
+        folder:"instagram-clone",
+    });
       let user=await User.findById(req.params.userid);
       let {username,bio,typeOfAccount,pfp}=req.body;
+      pfp={
+          public_id:myCloud.public_id,
+        url:myCloud.secure_url,
+      }
       user.setupMethod(username,bio,typeOfAccount,pfp);
       await user.save();
       const message1=`A new user ${username} just signed up on the Instagram-clone App `

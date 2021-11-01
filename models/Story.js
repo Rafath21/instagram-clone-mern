@@ -1,13 +1,12 @@
 const mongoose=require('mongoose');
 const StorySchema=new mongoose.Schema({
     storyurl:{
-        type:String,
-        /*public_id: {
+        public_id: {
        type: String,
        },
         url: {
         type: String,
-       },*/
+       },
     },
     caption:String,
     postedBy:{

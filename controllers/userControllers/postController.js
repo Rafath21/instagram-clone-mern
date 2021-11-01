@@ -1,5 +1,6 @@
 const User=require("../../models/User");
 const Post=require("../../models/Post")
+const cloudinary=require("cloudinary");
 exports.updateLikes=async(req,res)=>{
     try{
     const curruserid=req.params.userid;
@@ -47,6 +48,13 @@ exports.updateComments=async(req,res)=>{
 exports.newPost=async(req,res)=>{
     try{
         let {posturl,caption}=req.body; 
+        const myCloud=await cloudinary.v2.uploader.upload(req.body.posturl,{
+        folder:"instagram-clone",
+    });
+    posturl={
+          public_id:myCloud.public_id,
+        url:myCloud.secure_url,
+      }
         let postid=await Post.create({
             posturl:posturl,
             caption:caption,

@@ -94,13 +94,12 @@ let UserSchema=new mongoose.Schema({
     },
     bio:String,
     pfp:{
-        type:String,
-    /*public_id: {
+    public_id: {
       type: String,
     },
     url: {
       type: String,
-    },*/
+    },
   },
     resetPasswordToken:String,
     ressetPasswordExpire:Date,

@@ -1,9 +1,6 @@
 const User=require("../../models/User");
 const Reel=require("../../models/Reel")
-//get a reel
-//exports.reel=async(req,res)=>{
-
-//}
+const cloudinary=require("cloudinary");
 exports.updateLikes=async(req,res)=>{
     try{
     const curruserid=req.params.userid;
@@ -51,6 +48,13 @@ exports.updateComments=async(req,res)=>{
 exports.newReel=async(req,res)=>{
     try{
         let {reelurl,caption}=req.body; 
+        const myCloud=await cloudinary.v2.uploader.upload(req.body.reelurl,{
+        folder:"instagram-clone",
+    });
+    reelurl={
+          public_id:myCloud.public_id,
+        url:myCloud.secure_url,
+      }
         let reelid=await Reel.create({
             reelurl:reelurl,
             caption:caption,
@@ -67,9 +71,13 @@ exports.newReel=async(req,res)=>{
             follower.addToReelFeed(reelid)
             await follower.save();
         })
-        res.send("something")
+        res.status(200).json({
+            success:true,
+            message:"Posted succuessfully!"
+        })
     }catch(err){
-        res.send("errror")
-        console.log("an errror occured!");
+        res.status(400).json({
+            error:err.message
+        })
     }
 }
