@@ -1,13 +1,8 @@
 const mongoose=require('mongoose');
 const PostSchema=new mongoose.Schema({
     posturl:{
-       public_id: {
-       type: String,
+      type: String,
        },
-        url: {
-        type: String,
-       },
-    },
     caption:String,
     comments:[
         {

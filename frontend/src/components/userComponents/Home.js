@@ -18,6 +18,7 @@ import {
   deleteActivity,
   deleteRequest,
 } from "../../actions/requestsActions";
+import { getOwnStory } from '../../actions/storyActions';
 const Home=()=> {
   let history = useHistory();
   let dispatch = useDispatch();
@@ -62,6 +63,7 @@ useEffect(()=>{
 },[isPostCreated])
 useEffect(()=>{
     storiesfeed(user?._id);
+    getOwnStory(user?._id);
 },[isStoryCreated])
 useEffect(()=>{
     setUserName(user?.username);
@@ -320,7 +322,7 @@ useEffect(()=>{
                       ></i>
                     </div>
                     <div className="follows-container-follows">
-                      {activityfeed.map((request, index) => {
+                      {feedActivity.map((request, index) => {
                         return (
                           <div className="follows-container-inner-follows">
                             <img
@@ -412,16 +414,16 @@ useEffect(()=>{
                         <div className="story-img-container">
                           <img
                             className="others-stories"
-                            src={e.storyBypfp}
+                            src={e.postedBy.pfp}
                             onClick={() => {
-                              history.push({
-                                /* pathname: `/story/${e.storyByUn}`,
+                             /* history.push({
+                                 pathname: `/story/${e.storyByUn}`,
                                 state: {
                                   uid: e.storyByUid,
                                   uname: e.storyByUn,
                                   upfp: e.storyBypfp,
-                                },*/
-                              });
+                                },
+                              });*/
                             }}
                           />
                         </div>
@@ -434,7 +436,7 @@ useEffect(()=>{
                             }
                           }
                         >
-                          <h6>Story by username</h6>
+                          <h6>{e.postedBy.username}</h6>
                         </Link>
                       </li>
                     );
@@ -448,9 +450,6 @@ useEffect(()=>{
                       <Postcard
                         key={index}
                         post={post}
-                        uid={value?.uid}
-                        username={userName}
-                        pfpUrl={pfpUrl}
                       />
                     );
                   })}
@@ -476,12 +475,9 @@ useEffect(()=>{
                   setSuggestionsOpen(false);
                 }}
               ></i>
-              {value ? (
+              {user ? (
                 <>
                   <Suggestions
-                    username={userName}
-                    profilepic={pfpUrl}
-                    uid={value?.uid}
                   />
                 </>
               ) : (

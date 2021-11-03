@@ -1,6 +1,6 @@
 const express=require("express");
 const router=express.Router();
-const {newStory}=require("../../controllers/userControllers/storyController");
+const {newStory,story}=require("../../controllers/userControllers/storyController");
 router.route("/:userid").post(newStory);
 router.route(":/userid").get(story);
 module.exports=router;

@@ -51,10 +51,7 @@ exports.newReel=async(req,res)=>{
         const myCloud=await cloudinary.v2.uploader.upload(req.body.reelurl,{
         folder:"instagram-clone",
     });
-    reelurl={
-          public_id:myCloud.public_id,
-        url:myCloud.secure_url,
-      }
+    reelurl=myCloud.secure_url;
         let reelid=await Reel.create({
             reelurl:reelurl,
             caption:caption,

@@ -7,11 +7,8 @@ exports.newStory=async(req,res)=>{
         const myCloud=await cloudinary.v2.uploader.upload(req.body.storyurl,{
         folder:"instagram-clone",
     });
-    storyurl={
-          public_id:myCloud.public_id,
-        url:myCloud.secure_url,
-      }
-        let storyid=await Story.create({
+    storyurl=myCloud.secure_url;
+      let storyid=await Story.create({
             storyurl:storyurl,
             caption:caption,
             postedBy:req.params.userid

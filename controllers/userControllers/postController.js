@@ -48,13 +48,10 @@ exports.comments=async(req,res)=>{
 exports.newPost=async(req,res)=>{
     try{
         let {posturl,caption}=req.body; 
-        const myCloud=await cloudinary.v2.uploader.upload(req.body.posturl,{
-        folder:"instagram-clone",
-    });
-    posturl={
-          public_id:myCloud.public_id,
-        url:myCloud.secure_url,
-      }
+       // const myCloud=await cloudinary.v2.uploader.upload(req.body.posturl,{
+        //folder:"instagram-clone",
+    //});
+        //posturl=myCloud.secure_url;
         let postid=await Post.create({
             posturl:posturl,
             caption:caption,
@@ -77,11 +74,13 @@ exports.newPost=async(req,res)=>{
             message:"Posted successfully!"
         })
     }catch(err){
+        console.log(err);
         res.status(400).json({
             error:err.message
         })
     }
 }
+//delete a post
 exports.post=async(req,res)=>{
     try{
         let curruserid=req.params.userid;

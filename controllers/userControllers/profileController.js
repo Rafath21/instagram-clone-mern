@@ -5,30 +5,40 @@ exports.profile=async(req,res)=>{
     const otheruserid=req.body.ouid;
     console.log(curruserid+" "+otheruserid);
     console.log("in profile route");
+
     try{
     let otheruser=await User.findById(otheruserid).populate('posts')
     .populate({path:'followers', select:'username _id pfp'})
     .populate({path:'followings', select:'username _id pfp'})
     let otherUserFollowers=otheruser.getFollowers();
-    console.log("other user followers:",otherUserFollowers);
+    let followStatus="";
+    if(otherUserFollowers.includes(curruserid)){
+        followStatus="Following"
+    }
     if(curruserid==otheruserid || otheruser.typeOfAccount=="Public" || otherUserFollowers.includes(curruserid)){
-        console.log("Allowed!")
         res.status(200).json({
+            followStatus:followStatus,
+            status:"allowed",
             username:otheruser.username,
             pfp:otheruser.pfp,
             bio:otheruser.bio,
             followers:otheruser.followers,
             followings:otheruser.followings,
             posts:otheruser.posts,
+            followersCount:otheruser.followers.length,
+            followingsCount:otheruser.followings.length,
+            postsCount:otheruser.posts.length
         })
     }else{
-        console.log("Not allowed")
         res.status(200).json({
+            status:"Not allowed",
             pfp:otheruser.pfp,
             bio:otheruser.bio,
             username:otheruser.username,
-            noOfFollowers:otheruser.followers.length,
-            noOfFollowings:otheruser.followings.length
+            followersCount:otheruser.followers.length,
+            followingsCount:otheruser.followings.length,
+            postsCount:otheruser.posts.length
+
         })
     }
     }catch(err){
