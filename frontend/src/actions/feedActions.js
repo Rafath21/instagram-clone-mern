@@ -5,10 +5,10 @@ export const postfeed=(userid)=>async(dispatch)=>{
         dispatch({type:FEED_POSTS_REQUEST});
         const {data}=await axios({
             method:'GET',
-            url:`http://localhost:6000/api/v1/feed/posts/${userid}`,
+            url:`http://localhost:7000/api/v1/feed/posts/${userid}`,
             withCredentials:true,
         })
-        dispatch({type:FEED_POSTS_SUCCESS,payload:data})
+        dispatch({type:FEED_POSTS_SUCCESS,payload:data.postFeed})
     }catch(err){
         dispatch({type:FEED_POSTS_FAILED,payload:err})
     }
@@ -18,10 +18,10 @@ export const reelfeed=(userid)=>async(dispatch)=>{
         dispatch({type:FEED_REELS_REQUEST});
         const {data}=await axios({
             method:'GET',
-            url:`http://localhost:6000/api/v1/feed/reels/${userid}`,
+            url:`http://localhost:7000/api/v1/feed/reels/${userid}`,
             withCredentials:true,
         })
-        dispatch({type:FEED_REELS_SUCCESS,payload:data})
+        dispatch({type:FEED_REELS_SUCCESS,payload:data.reelFeed})
     }catch(err){
         dispatch({type:FEED_REELS_FAILED,payload:err})
     }
@@ -31,10 +31,10 @@ export const activityfeed=(userid)=>async(dispatch)=>{
         dispatch({type:FEED_ACTIVITY_REQUEST});
         const {data}=await axios({
             method:'GET',
-            url:`http://localhost:6000/api/v1/feed/activity/${userid}`,
+            url:`http://localhost:7000/api/v1/feed/activity/${userid}`,
             withCredentials:true,
         })
-        dispatch({type:FEED_ACTIVITY_SUCCESS,payload:data})
+        dispatch({type:FEED_ACTIVITY_SUCCESS,payload:data.activityFeed})
     }catch(err){
         dispatch({type:FEED_ACTIVITY_FAILED,payload:err})
     }
@@ -44,10 +44,10 @@ export const requestsfeed=(userid)=>async(dispatch)=>{
         dispatch({type:FEED_REQUESTS_REQUEST});
         const {data}=await axios({
             method:'GET',
-            url:`http://localhost:6000/api/v1/feed/requestsfeed/${userid}`,
+            url:`http://localhost:7000/api/v1/feed/requestsfeed/${userid}`,
             withCredentials:true,
         })
-        dispatch({type:FEED_REQUESTS_SUCCESS,payload:data})
+        dispatch({type:FEED_REQUESTS_SUCCESS,payload:data.requestsFeed})
     }catch(err){
         dispatch({type:FEED_REQUESTS_FAILED,payload:err})
     }
@@ -57,10 +57,10 @@ export const storiesfeed=(userid)=>async(dispatch)=>{
         dispatch({type:FEED_STORIES_REQUEST});
         const {data}=await axios({
             method:'GET',
-            url:`http://localhost:6000/api/v1/feed/stories/${userid}`,
+            url:`http://localhost:7000/api/v1/feed/stories/${userid}`,
             withCredentials:true,
         })
-        dispatch({type:FEED_STORIES_SUCCESS,payload:data})
+        dispatch({type:FEED_STORIES_SUCCESS,payload:data.storyFeed})
     }catch(err){
         dispatch({type:FEED_STORIES_FAILED,payload:err})
     }

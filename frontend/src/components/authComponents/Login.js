@@ -1,16 +1,28 @@
-import "../css/App.css";
-import "../css/Responsive.css";
-import { signInWithGoogle, auth } from "../firebase";
-import { Redirect, Link } from "react-router-dom";
-import { AuthContext } from "../AuthProvider";
-import { useContext, useState } from "react";
+import "../../css/App.css";
+import "../../css/Responsive.css";
+import { Redirect, Link ,useHistory} from "react-router-dom";
+import { useState,useEffect } from "react";
+import { useSelector, useDispatch } from "react-redux";
+import { login, clearErrors } from "../../actions/authActions";
 let Login = () => {
-  let value = useContext(AuthContext);
+  let history = useHistory();
+  let dispatch = useDispatch();
   let [currUserEmail, setCurrUserEmail] = useState("");
   let [currUserPswd, setCurrUserPswd] = useState("");
+  const { error, isAuthenticated, user } = useSelector((state) => state.user);
+ useEffect(() => {
+    if (error) {
+      alert(error);
+      dispatch(clearErrors());
+    }if (isAuthenticated!=false) {
+      history.push("/");
+    }
+  }, [dispatch, error, history, isAuthenticated]);
+  async function handleLogin() {
+    dispatch(login(currUserEmail, currUserPswd));
+  }
   return (
     <div>
-      {value ? <Redirect to="/home" /> : ""}
       <div className="login-form-container">
         <div className="form-container">
           <h1>Welcome Back!</h1>
@@ -51,25 +63,12 @@ let Login = () => {
           <button
             onClick={(e) => {
               e.preventDefault();
-              auth
-                .signInWithEmailAndPassword(currUserEmail, currUserPswd)
-                .then((res) => {
-                  //
-                })
-                .catch((err) => {
-                  alert(err.message);
-                });
+              handleLogin()
             }}
             type="submit"
             class="loginbtn"
           >
             Login
-          </button>
-        </div>
-
-        <div className="container-signin">
-          <button onClick={signInWithGoogle} className="login-with-google">
-            Login with Google
           </button>
         </div>
         <p>

@@ -44,22 +44,22 @@ let Suggestions = (props) => {
   return (
     <div className="sidebar-container">
       <div className="sidebar-profile">
-        <img className="sidebar-pfp" src={props.profilepic} />
+        <img className="sidebar-pfp" src={user.pfp} />
         <Link
           to={{
-            pathname: `/profile/${props.username}`,
+            pathname: `/profile/${user.username}`,
             state: {
-              uid: props.uid,
+              uid: user._id,
             },
           }}
           style={{ textDecoration: "none" }}
         >
-          <p className="sidebar-username">{props.username}</p>
+          <p className="sidebar-username">{user.username}</p>
         </Link>
         <button
           className="home-signout-btn"
           onClick={() => {
-            auth.signOut();
+            //signout
           }}
         >
           Sign Out
@@ -69,17 +69,17 @@ let Suggestions = (props) => {
 
       <p className="suggestions-title">Suggestions</p>
       <div className="sidebar-suggestions-container">
-        {suggestions.map((element, index) => {
+        {allSuggestions.map((element, index) => {
           return (
             <div className="suggestion-inner" key={index}>
               <div className="suggestion-pfp">
-                <img id="suggestion-pfp" src={element.photoURL} />
+                <img id="suggestion-pfp" src={element.pfp} />
               </div>
               <Link
                 to={{
                   pathname: `/profile/${element.username}`,
                   state: {
-                    uid: element.uid,
+                    uid: element._id,
                   },
                 }}
                 style={{ textDecoration: "none" }}
@@ -90,24 +90,12 @@ let Suggestions = (props) => {
                 <button
                   className="suggestion-follow-btn"
                   onClick={async (e) => {
-                    let reqDoc = await firestore
-                      .collection("users")
-                      .doc(element.uid)
-                      .get();
-                    let req = "request" + props.uid;
                     if (reqDoc.data().typeOfAccount == "private") {
                       e.target.innerText = "Requested";
                     } else {
                       e.target.innerText = "Following";
                     }
-                    handleFollow(
-                      element.uid,
-                      element.username,
-                      element.photoURL,
-                      props.uid,
-                      props.username,
-                      props.profilepic
-                    );
+                 
                   }}
                 >
                   {element.followStatus}

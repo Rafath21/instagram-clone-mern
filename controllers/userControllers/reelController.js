@@ -1,7 +1,7 @@
 const User=require("../../models/User");
 const Reel=require("../../models/Reel")
 const cloudinary=require("cloudinary");
-exports.updateLikes=async(req,res)=>{
+exports.likes=async(req,res)=>{
     try{
     const curruserid=req.params.userid;
     const reelid=req.body.reelid;
@@ -26,7 +26,7 @@ exports.updateLikes=async(req,res)=>{
     }
    
 }
-exports.updateComments=async(req,res)=>{
+exports.comments=async(req,res)=>{
     try{
     const curruserid=req.params.userid;
     const comment=req.body.comment;

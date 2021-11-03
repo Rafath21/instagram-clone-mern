@@ -1,35 +1,34 @@
-import "../../css/auth.css";
-import {  Link, useHistory } from "react-router-dom";
-import {  useState, useEffect } from "react";
+import "../../css/App.css";
+import "../../css/Responsive.css";
+import { Redirect, Link ,useHistory} from "react-router-dom";
+import { useState,useEffect } from "react";
+import { register} from "../../actions/authActions";
 import { useSelector, useDispatch } from "react-redux";
-import { register, clearErrors } from "../../actions/authActions";
 let Register = () => {
-  let history = useHistory();
-  let dispatch = useDispatch();
-  let [username, setUsername] = useState("");
-  let [email, setEmail] = useState("");
-  let [password, setPassword] = useState("");
-  let [confirmPassword, setconfirmPassword] = useState("");
+  let [currUserEmail, setCurrUserEmail] = useState("");
+  let [currUserPswd, setCurrUserPswd] = useState("");
+  let [confirmPassword,setconfirmPassword]=useState("");
   const { error, loading, isAuthenticated } = useSelector(
     (state) => state.user
   );
-
-
-  async function handleRegister(e) {
-    if (password != confirmPassword) {
+  let history = useHistory();
+  let dispatch = useDispatch();
+  let validRegex =
+    /^[a-zA-Z0-9.!#$%&'*+/=?^_`{|}~-]+@[a-zA-Z0-9-]+(?:\.[a-zA-Z0-9-]+)*$/;
+async function handleRegister(e) {
+    if (currUserPswd != confirmPassword) {
       alert("passwords don't match");
     } else {
-      dispatch(register(username, email, password));
+      dispatch(register( currUserEmail,currUserPswd));
     }
   }
   useEffect(() => {
     if (error) {
-      alert.error(error);
-      dispatch(clearErrors());
+      alert(error);
     }
 
     if (isAuthenticated) {
-      history.push("/");
+      history.push("/setup");
     }
   }, [dispatch, error, history, isAuthenticated]);
   return (
@@ -39,30 +38,15 @@ let Register = () => {
           <h1>Register</h1>
           <p>Please fill in this form to create an account.</p>
           <hr />
-          {error && <span className="error-message">{error}</span>}
-
-          <label for="username">
-            <b>Username</b>
-          </label>
-          <input
-            onChange={(e) => {
-              setUsername(e.currentTarget.value);
-            }}
-            class="name-input"
-            type="text"
-            placeholder="Enter Username"
-            name="username"
-            required
-          />
           <label for="email">
             <b>Email</b>
           </label>
           <input
             onChange={(e) => {
-              setEmail(e.currentTarget.value);
+              setCurrUserEmail(e.currentTarget.value);
             }}
             class="email-input"
-            type="email"
+            type="text"
             placeholder="Enter Email"
             name="email"
             id="email"
@@ -74,7 +58,7 @@ let Register = () => {
           </label>
           <input
             onChange={(e) => {
-              setPassword(e.currentTarget.value);
+              setCurrUserPswd(e.currentTarget.value);
             }}
             class="password-input"
             type="password"
@@ -83,8 +67,9 @@ let Register = () => {
             id="psw"
             required
           />
-          <label for="confirm-psw">
-            <b>Confirm password</b>
+          <hr />
+          <label for="psw">
+            <b>Confirm Password</b>
           </label>
           <input
             onChange={(e) => {
@@ -92,16 +77,26 @@ let Register = () => {
             }}
             class="password-input"
             type="password"
-            placeholder="Enter Password"
+            placeholder="Enter Password again"
             name="psw"
             id="psw"
             required
           />
+          <hr />
 
           <button
             onClick={(e) => {
               e.preventDefault();
-              handleRegister(e);
+
+              if (!currUserEmail.match(validRegex)) {
+                alert("Invalid email address!");
+                return;
+              }
+              if (currUserPswd.length < 6) {
+                alert("Password must contain at least 6 characters.🤔");
+                return;
+              }
+              handleRegister();
             }}
             type="submit"
             className="registerbtn"
@@ -122,4 +117,5 @@ let Register = () => {
     </div>
   );
 };
+
 export default Register;

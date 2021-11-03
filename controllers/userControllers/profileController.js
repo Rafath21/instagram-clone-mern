@@ -3,6 +3,8 @@ const User=require("../../models/User");
 exports.profile=async(req,res)=>{
     const curruserid=req.params.userid;
     const otheruserid=req.body.ouid;
+    console.log(curruserid+" "+otheruserid);
+    console.log("in profile route");
     try{
     let otheruser=await User.findById(otheruserid).populate('posts')
     .populate({path:'followers', select:'username _id pfp'})

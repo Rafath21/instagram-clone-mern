@@ -1,12 +1,12 @@
 import { LIKE_A_REEL_REQUEST,LIKE_A_REEL_SUCCESS,LIKE_A_REEL_FAILED } from "../constants/reelConstants"
 import { COMMENT_REEL_REQUEST,COMMENT_REEL_SUCCESS,COMMENT_REEL_FAILED } from "../constants/reelConstants"
 import { CREATE_REEL_REQUEST,CREATE_REEL_SUCCESS,CREATE_REEL_FAILED } from "../constants/reelConstants"
-export const likePost=(userid,reelid)=>async(dispatch)=>{
+export const likeReel=(userid,reelid)=>async(dispatch)=>{
     try{
         dispatch({type:LIKE_A_REEL_REQUEST});
         const {data}=await axios({
-            method:'POST',
-            url:`http://localhost:6000/api/v1/post/likes/${userid}`,
+            method:'PUT',
+            url:`http://localhost:7000/api/v1/post/likes/${userid}`,
             withCredentials:true,
             data:{
                 reelid
@@ -17,12 +17,12 @@ export const likePost=(userid,reelid)=>async(dispatch)=>{
         dispatch({type:LIKE_A_REEL_FAILED,payload:err})
     }
 }
-export const commentPost=(userid,comment,reelid)=>async(dispatch)=>{
+export const commentReel=(userid,comment,reelid)=>async(dispatch)=>{
     try{
         dispatch({type:COMMENT_REEL_REQUEST});
         const {data}=await axios({
-            method:'POST',
-            url:`http://localhost:6000/api/v1/post/comments/${userid}`,
+            method:'PUT',
+            url:`http://localhost:7000/api/v1/post/comments/${userid}`,
             withCredentials:true,
             data:{
                 reelid,comment
@@ -38,7 +38,7 @@ export const createReel=(userid,reelurl,caption)=>async(dispatch)=>{
         dispatch({type:CREATE_REEL_REQUEST});
         const {data}=await axios({
             method:'POST',
-            url:`http://localhost:6000/api/v1/reel/${userid}`,
+            url:`http://localhost:7000/api/v1/reel/${userid}`,
             withCredentials:true,
             data:{
                 reelurl,caption

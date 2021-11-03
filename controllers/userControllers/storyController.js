@@ -26,9 +26,25 @@ exports.newStory=async(req,res)=>{
             follower.addToStoryFeed(storyid)
             await follower.save();
         })
-        res.send("something")
+        res.status(200).json({
+            success:true
+        })
     }catch(err){
-        res.send(err.message)
-        console.log("an errror occured!");
+        res.send({
+            error:err.message
+        })
+    }
+}
+exports.story=async(req,res)=>{
+    try{
+        let userid=await User.findById(req.params.userid);
+        let stories=userid.stories;
+        res.status(200).json({
+            stories
+        })
+    }catch(err){
+        res.status(200).json({
+            err
+        })
     }
 }

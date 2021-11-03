@@ -72,7 +72,6 @@ exports.requests=async(req,res)=>{
     try{
         let curruserid=req.params.userid;
         let requestsFeed=await User.findById(curruserid).populate({path:'requests',select:'username _id pfp'})
-        //.populate({path:'requests',populate:{path:'postedBy', select:'username _id pfp'}})
         requestsFeed=requestsFeed.requests;
         res.status(200).json({
             success:true,

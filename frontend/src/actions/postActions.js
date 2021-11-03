@@ -5,8 +5,8 @@ export const likePost=(userid,postid)=>async(dispatch)=>{
     try{
         dispatch({type:LIKE_A_POST_REQUEST});
         const {data}=await axios({
-            method:'POST',
-            url:`http://localhost:6000/api/v1/post/likes/${userid}`,
+            method:'PUT',
+            url:`http://localhost:7000/api/v1/post/likes/${userid}`,
             withCredentials:true,
             data:{
                 postid:postid
@@ -21,8 +21,8 @@ export const commentPost=(userid,comment,postid)=>async(dispatch)=>{
     try{
         dispatch({type:COMMENT_POST_REQUEST});
         const {data}=await axios({
-            method:'POST',
-            url:`http://localhost:6000/api/v1/post/comments/${userid}`,
+            method:'PUT',
+            url:`http://localhost:7000/api/v1/post/comments/${userid}`,
             withCredentials:true,
             data:{
                 postid:postid,
@@ -39,7 +39,7 @@ export const createPost=(userid,posturl,caption)=>async(dispatch)=>{
         dispatch({type:CREATE_POST_REQUEST});
         const {data}=await axios({
             method:'POST',
-            url:`http://localhost:6000/api/v1/post/${userid}`,
+            url:`http://localhost:7000/api/v1/post/${userid}`,
             withCredentials:true,
             data:{
                posturl,caption

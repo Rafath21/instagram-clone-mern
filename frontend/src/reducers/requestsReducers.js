@@ -1,4 +1,7 @@
-import {ACCEPT_REQUEST_REQUEST,ACCEPT_REQUEST_SUCCESS,ACCEPT_REQUEST_FAILED , DELETE_REQUEST_REQUEST,DELETE_REQUEST_SUCCESS,DELETE_REQUEST_FAILED} from "../constants/requestsConstants"
+import {ACCEPT_REQUEST_REQUEST,ACCEPT_REQUEST_SUCCESS,ACCEPT_REQUEST_FAILED ,
+     DELETE_REQUEST_REQUEST,DELETE_REQUEST_SUCCESS,DELETE_REQUEST_FAILED,
+    SEND_REQUEST_SUCCESS, SEND_REQUEST_REQUEST,SEND_REQUEST_FAILED
+    } from "../constants/requestsConstants"
 export const acceptRequestReducer=(state={isRequestAccepted:false},action)=>{
     switch(action.type){
         case ACCEPT_REQUEST_REQUEST:
@@ -64,6 +67,27 @@ export const deleteActivityReducer=(state={isActivityDeleted:false},action)=>{
         case DELETE_REQUEST_FAILED:
             return{
                 loadingDeleteActivity:false,
+                error:action.payload
+            }
+        
+         default:
+             return state;
+    }
+}
+export const sendRequestReducer=(state={followStatus:"Follow"},action)=>{
+    switch(action.type){
+        case SEND_REQUEST_REQUEST:
+            return{
+                followStatus:"Follow"
+            }
+        
+        case SEND_REQUEST_SUCCESS:
+            return{
+                followStatus:action.payload
+            }
+        
+        case SEND_REQUEST_FAILED:
+            return{
                 error:action.payload
             }
         

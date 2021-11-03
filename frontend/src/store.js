@@ -3,12 +3,14 @@ import thunk from "redux-thunk";
 import {composeWithDevTools} from "redux-devtools-extension";
 import { getPostsFeedReducer,getReelsFeedReducer, getActivityFeedReducer,getRequestsFeedReducer,getStoriesFeedReducer } from "./reducers/feedReducers";
 import { getProfileReducer, updateProfileReducer } from "./reducers/profileReducers";
-import { acceptRequestReducer, deleteActivityReducer, deleteRequestReducer } from "./reducers/requestsReducers";
+import { acceptRequestReducer, deleteActivityReducer, deleteRequestReducer, sendRequestReducer } from "./reducers/requestsReducers";
 import { createPostReducer, updateCommentsReducer, updateLikesReducer } from "./reducers/postReducers";
 import { createReelReducer, updateReelCommentsReducer, updateReelLikesReducer } from "./reducers/reelReducers";
-import { createStoryReducer } from "./reducers/storyReducers";
-
+import { createStoryReducer, getOwnStoryReducer } from "./reducers/storyReducers";
+import { authReducer } from "./reducers/authReducers";
+import { getSuggestionsReducer } from "./reducers/suggestionsReducers";
 const reducer=combineReducers({
+    user:authReducer,
     feedPosts:getPostsFeedReducer,
     feedReels:getReelsFeedReducer,
     feedActivity:getActivityFeedReducer,
@@ -25,7 +27,10 @@ const reducer=combineReducers({
     isReelLikeUpdated:updateReelLikesReducer,
     isReelCommentUpdated:updateReelCommentsReducer,
     isReelCreated:createReelReducer,
-    isStoryCreated:createStoryReducer
+    isStoryCreated:createStoryReducer,
+    ownStories:getOwnStoryReducer,
+    allSuggestions:getSuggestionsReducer,
+    followStatus:sendRequestReducer
 });
 
 let initialState={};

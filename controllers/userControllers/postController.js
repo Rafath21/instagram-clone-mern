@@ -1,7 +1,7 @@
 const User=require("../../models/User");
 const Post=require("../../models/Post")
 const cloudinary=require("cloudinary");
-exports.updateLikes=async(req,res)=>{
+exports.likes=async(req,res)=>{
     try{
     const curruserid=req.params.userid;
     const postid=req.body.postid;
@@ -26,7 +26,7 @@ exports.updateLikes=async(req,res)=>{
     }
    
 }
-exports.updateComments=async(req,res)=>{
+exports.comments=async(req,res)=>{
     try{
     const curruserid=req.params.userid;
     const comment=req.body.comment;
@@ -82,7 +82,7 @@ exports.newPost=async(req,res)=>{
         })
     }
 }
-exports.deletePost=async(req,res)=>{
+exports.post=async(req,res)=>{
     try{
         let curruserid=req.params.userid;
         let postid=req.body.postid;

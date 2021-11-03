@@ -1,10 +1,8 @@
 const express=require("express");
 const router=express.Router();
-const {post,newPost,updateLikes,updateComments,deletePost}=require("../../controllers/userControllers/postController");
-//router.route("/:userid").get(post);
-
+const {newPost,likes,comments,post}=require("../../controllers/userControllers/postController");
 router.route("/:userid").post(newPost);
-router.route("/likes/:userid").post(updateLikes);
-router.route("/comments/:userid").post(updateComments);
-router.route("/delete/:userid").delete(deletePost);
+router.route("/likes/:userid").put(likes);
+router.route("/comments/:userid").put(comments);
+router.route("/delete/:userid").delete(post);
 module.exports=router;

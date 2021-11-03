@@ -11,18 +11,21 @@ exports.handleRequests=async(req,res)=>{
             console.log("in private")
             otheruser.addToRequests(curruserid)
             await otheruser.save();
+            res.status(200).json({
+                success:true,
+                followStatus:"Requested"
+            })
         }else{
             otheruser.addToActivity(curruserid);
             otheruser.addToFollowers(curruserid);
             await otheruser.save();
-
             curruser.addToFollowings(ouserid);
             await curruser.save();
-           }
-      res.status(200).json({
-          success:true,
-          message:"Request added successfully!"
-      })
+           res.status(200).json({
+                success:true,
+                followStatus:"Following"
+            })
+        }
     
 }catch(err){
         res.status(400).json({

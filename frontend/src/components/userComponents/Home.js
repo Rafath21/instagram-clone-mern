@@ -1,41 +1,85 @@
-import { Redirect } from "react-router-dom";
-import "../css/App.css";
-import { useEffect, useContext, useState, useRef } from "react";
-import { Link, useHistory } from "react-router-dom";
-import "../css/Responsive.css";
-import HomeLoader from "../Loaders/HomeLoader";
-let Home = (props) => {
+import React from 'react';
+import { Redirect, Link ,useHistory} from "react-router-dom";
+import { useState ,useEffect} from "react";
+import { useSelector, useDispatch } from "react-redux";
+import {getProfile} from "../../actions/profileActions";
+import { createPost } from '../../actions/postActions';
+import HomeLoader from "../../Loaders/HomeLoader";
+import Postcard from "./Postcard";
+import Suggestions from "./Suggestions";
+import {
+  activityfeed,
+  postfeed,
+  requestsfeed,
+  storiesfeed,
+} from "../../actions/feedActions";
+import {
+  acceptRequest,
+  deleteActivity,
+  deleteRequest,
+} from "../../actions/requestsActions";
+const Home=()=> {
+  let history = useHistory();
+  let dispatch = useDispatch();
+  const { user, isAuthenticated } = useSelector((state) => state.user);
+  const {feedPosts}=useSelector((state)=>state.feedPosts);
+  const {feedActivity}=useSelector((state)=>state.feedActivity);
+  const {feedRequests}=useSelector((state)=>state.feedRequests);
+  const {feedStories}=useSelector((state)=>state.feedStories);
+  const {isActivityDeleted}=useSelector((state)=>state.isActivityDeleted);
+  const {isRequestAccepted}=useSelector((state)=>state.isRequestAccepted);
+  const {isRequestDeleted}=useSelector((state)=>state.isRequestDeleted);
+  const {isPostCreated}=useSelector((state)=>state.isPostCreated);
+  const {isStoryCreated}=useSelector((state)=>state.isStoryCreated);
+  const {allSuggestions}=useSelector((state)=>state.allSuggestions);
   let [userName, setUserName] = useState("");
   let [pfpUrl, setpfpUrl] = useState("");
   let [reqOpen, setreqOpen] = useState(false);
   let [createBoxOpen, setcreateBoxOpen] = useState(false);
-  let [allRequests, setRequests] = useState([]);
-  let [typeOfAccount, settypeOfAccount] = useState("");
   let [uploadFilename, setuploadFilename] = useState("");
   let [uploadFile, setuploadFile] = useState("");
   let [uploadCaption, setuploadCaption] = useState("");
   let postCapref = useRef();
-  let [feedPosts, setfeedPosts] = useState([]);
   let [searchValue, setsearchValue] = useState("");
   let [notificationCount, setnotificationCount] = useState("");
-  let history = useHistory();
-  let [storiesArr, setStoriesArr] = useState([]);
   let [messagesCount, setmessagesCount] = useState(0);
   let [suggestionsOpen, setSuggestionsOpen] = useState(false);
   let [searchSuggOpen, setSearchSuggOpen] = useState(false);
   let [searchSugg, setSearchSugg] = useState([]);
   let [searchUid, setsearchUid] = useState(null);
-  let [loading, setLoading] = useState(true);
+  let [loading, setLoading] = useState(false);
   let [ownStories, setOwnStories] = useState([]);
-  let [allUsers, setallUsers] = useState([
-    {
-      uid: "",
-      username: "",
-      pfpUrl: "",
-    },
-  ]);
-  return (
-    <>
+  function clearCaption() {
+    postCapref.current.value = "";
+  }
+useEffect(()=>{
+    if(isAuthenticated==false){
+        history.push("/login");
+    }
+},[history,isAuthenticated,dispatch])
+useEffect(()=>{
+    postfeed(user._id);
+},[isPostCreated])
+useEffect(()=>{
+    storiesfeed(user?._id);
+},[isStoryCreated])
+useEffect(()=>{
+    setUserName(user?.username);
+    setpfpUrl(user?.pfp);
+},[isProfileUpdated]);
+  useEffect(async () => {
+  //set own stories
+    if (user.typeOfAccount == "Private") {
+      requestsfeed(user._id);
+      setnotificationCount(feedRequests.length);
+    } else {
+      activityfeed(user._id);
+      setnotificationCount(feedActivity.length);
+    }
+    setLoading(false);
+  }, [isActivityDeleted,isRequestAccepted,isRequestDeleted]);
+    return (
+         <>
       {loading ? (
         <HomeLoader />
       ) : (
@@ -55,6 +99,13 @@ let Home = (props) => {
                   if (e.target.value.length == 0) setSearchSuggOpen(false);
                   else setSearchSuggOpen(true);
                   setsearchValue(e.target.value);
+                  /* setSearchSugg(
+                    allUsers.filter((obj) => {
+                      return obj.username
+                        .toLowerCase()
+                        .includes(searchValue.toLowerCase());
+                    })
+                  );*/
                 }}
               />
 
@@ -66,14 +117,16 @@ let Home = (props) => {
                       <>
                         <Link
                           id="link"
-                          to={{
-                            pathname: `/profile/${suggestion.username}`,
-                            state: { uid: suggestion.uid },
-                          }}
+                          to={
+                            {
+                              // pathname: `/profile/${suggestion.username}`,
+                              // state: { uid: suggestion.uid },
+                            }
+                          }
                         >
                           <div className="search-suggestion">
-                            <img src={suggestion.pfpUrl} />
-                            <p>{suggestion.username}</p>
+                            <img src="" />
+                            <p>Suggestion Username</p>
                           </div>
                         </Link>
                       </>
@@ -143,7 +196,7 @@ let Home = (props) => {
                     onClick={async (e) => {
                       clearCaption();
                       e.preventDefault();
-
+                      createPost(user?._id, uploadFile, caption);
                       e.target.innerText = "POSTING..";
                       setTimeout(() => {
                         e.target.innerText = "POSTED!";
@@ -165,7 +218,7 @@ let Home = (props) => {
                 to={{
                   pathname: "/reels",
                   state: {
-                    uid: value ? value?.uid : "",
+                    //uid: value ? value?.uid : "",
                   },
                 }}
                 style={{ textDecoration: "none" }}
@@ -185,14 +238,16 @@ let Home = (props) => {
 
               <Link
                 className="link"
-                to={{
-                  pathname: "/chats",
+                to={
+                  {
+                    /*pathname: "/chats",
                   state: {
                     uid: value ? value?.uid : "",
                     username: userName,
                     pfpUrl: pfpUrl,
-                  },
-                }}
+                  },*/
+                  }
+                }
                 style={{ textDecoration: "none" }}
               >
                 <i
@@ -207,7 +262,7 @@ let Home = (props) => {
 
           {reqOpen ? (
             <div className="requests-container">
-              {typeOfAccount == "private" ? (
+              {user.typeOfAccount == "private" ? (
                 <>
                   <div className="requests-heading">Follow Requests</div>
                   <i
@@ -219,19 +274,20 @@ let Home = (props) => {
                   ></i>
 
                   <div className="requests">
-                    {allRequests.map((request, index) => {
+                    {feedRequests.map((request, index) => {
                       return (
                         <div key={index} className="requests-inner">
-                          <img className="request-pfp" src={request.pfp} />
+                          <img className="request-pfp" src="" />
                           <p className="request-username">
-                            {request.name} wants to follow you
+                            //Name here wants to follow you
                           </p>
 
                           <button
                             className="request-allow-btn"
-                            onClick={async () => {
-                              
-                              
+                            onClick={async (e) => {
+                              e.preventDefault();
+                              let ouid = "";
+                              acceptRequest(user?._id, ouid);
                             }}
                           >
                             Allow
@@ -240,12 +296,9 @@ let Home = (props) => {
                             class="far fa-times-circle"
                             id="request-close-btn"
                             onClick={async (e) => {
-                              await firestore
-                                .collection("users")
-                                .doc(value?.uid)
-                                .collection("requests")
-                                .doc("request" + request?.ruid)
-                                .delete();
+                              let ouid = "";
+                              e.preventDefault();
+                              deleteRequest(user?._id, ouid);
                             }}
                           ></i>
                         </div>
@@ -267,16 +320,16 @@ let Home = (props) => {
                       ></i>
                     </div>
                     <div className="follows-container-follows">
-                      {allRequests.map((request, index) => {
+                      {activityfeed.map((request, index) => {
                         return (
                           <div className="follows-container-inner-follows">
                             <img
-                              src={request.pfp}
+                              src=""
                               alt=""
                               className="follows-container-pfp"
                             />
                             <p className="follows-container-username">
-                              {request.name}
+                              Name here
                             </p>
                             <p className="follows-container-followingyou">
                               started following you
@@ -285,12 +338,9 @@ let Home = (props) => {
                               class="far fa-times-circle"
                               id="follows-container-close"
                               onClick={async (e) => {
-                                await firestore
-                                  .collection("users")
-                                  .doc(value?.uid)
-                                  .collection("requests")
-                                  .doc("request" + request?.ruid)
-                                  .delete();
+                                e.preventDefault();
+                                let ouid = "";
+                                deleteActivity(user._id, ouid);
                               }}
                             ></i>
                           </div>
@@ -311,19 +361,19 @@ let Home = (props) => {
                   <li className="story-list-item">
                     <div className="story-img-container">
                       <img
-                        src={pfpUrl}
+                        src=""
                         className={
                           ownStories.length > 0 ? "own-stories-circle" : ""
                         }
                         onClick={() => {
                           if (ownStories.length > 0) {
                             history.push({
-                              pathname: `/story/${value.uid}`,
+                              /* pathname: `/story/${value.uid}`,
                               state: {
                                 uid: value?.uid,
                                 uname: userName,
                                 upfp: pfpUrl,
-                              },
+                              },*/
                             });
                           }
                         }}
@@ -349,14 +399,14 @@ let Home = (props) => {
                       to={{
                         pathname: `/profile/${userName}`,
                         state: {
-                          uid: value?.uid,
+                          uid: user?.id,
                         },
                       }}
                     >
-                      <h6>{userName}</h6>
+                      <h6>{user?.username}</h6>
                     </Link>
                   </li>
-                  {storiesArr.map((e) => {
+                  {feedStories.map((e) => {
                     return (
                       <li className="story-list-item">
                         <div className="story-img-container">
@@ -365,24 +415,26 @@ let Home = (props) => {
                             src={e.storyBypfp}
                             onClick={() => {
                               history.push({
-                                pathname: `/story/${e.storyByUn}`,
+                                /* pathname: `/story/${e.storyByUn}`,
                                 state: {
                                   uid: e.storyByUid,
                                   uname: e.storyByUn,
                                   upfp: e.storyBypfp,
-                                },
+                                },*/
                               });
                             }}
                           />
                         </div>
                         <Link
                           id="link"
-                          to={{
-                            pathname: `/profile/${e.storyByUn}`,
-                            state: { uid: e?.storyByUid },
-                          }}
+                          to={
+                            {
+                              /* pathname: `/profile/${e.storyByUn}`,
+                            state: { uid: e?.storyByUid },*/
+                            }
+                          }
                         >
-                          <h6>{e.storyByUn}</h6>
+                          <h6>Story by username</h6>
                         </Link>
                       </li>
                     );
@@ -441,5 +493,6 @@ let Home = (props) => {
       )}
     </>
   );
-};
+}
+
 export default Home;

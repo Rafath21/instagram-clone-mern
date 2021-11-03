@@ -93,14 +93,11 @@ let UserSchema=new mongoose.Schema({
         default:'Public'
     },
     bio:String,
-    pfp:{
-    public_id: {
-      type: String,
+    pfp:
+    {
+        type:String,
+        default:"https://res.cloudinary.com/dsxredxry/image/upload/v1635842754/instagram-clone/360_F_346839683_6nAPzbhpSkIpb8pmAwufkC7c5eD7wYws_uhduyh.jpg"
     },
-    url: {
-      type: String,
-    },
-  },
     resetPasswordToken:String,
     ressetPasswordExpire:Date,
 })
@@ -130,10 +127,10 @@ UserSchema.methods.getResetPasswordToken=function(){
     return resetToken;
 }
 UserSchema.methods.setupMethod=function(username,bio,typeOfAccount,pfp){
-    this.username=username;
-    this.bio=bio;
-    this.pfp=pfp;
-    this.typeOfAccount=typeOfAccount;
+    if(username!="")this.username=username;
+    if(bio!="") this.bio=bio;
+    if(typeOfAccount!="") this.typeOfAccount=typeOfAccount;
+    if(pfp!="") this.pfp=pfp;
 }
 UserSchema.methods.addToRequests=function(ouserid){
     this.requests.push(ouserid);
@@ -201,6 +198,13 @@ UserSchema.methods.deleteFromActivity=function(ouid){
         allactivity.splice(index,1)
     }
     this.activity=allactivity;
+}
+UserSchema.methods.getSuggestions=function(users,uid){
+    let followings=this.followings;
+    users=users.filter((e)=>{
+        return !followings.includes(e._id) && e._id!=uid;
+    })
+    return users;
 }
 let User=mongoose.model("User",UserSchema);
 module.exports=User;
