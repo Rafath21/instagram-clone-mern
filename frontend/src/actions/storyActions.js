@@ -1,5 +1,7 @@
 import {CREATE_STORY_REQUEST,CREATE_STORY_SUCCESS,CREATE_STORY_FAILED} from "../constants/storyConstants"
 import { GET_OWN_STORY_REQUEST,GET_OWN_STORY_SUCCESS,GET_OWN_STORY_FAILED } from "../constants/storyConstants";
+import axios from "axios";
+
 export const createStory=(userid,storyurl,caption)=>async(dispatch)=>{
     try{
         dispatch({type:CREATE_STORY_REQUEST});

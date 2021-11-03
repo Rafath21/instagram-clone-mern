@@ -48,10 +48,11 @@ exports.comments=async(req,res)=>{
 exports.newPost=async(req,res)=>{
     try{
         let {posturl,caption}=req.body; 
-       // const myCloud=await cloudinary.v2.uploader.upload(req.body.posturl,{
-        //folder:"instagram-clone",
-    //});
-        //posturl=myCloud.secure_url;
+        const myCloud=await cloudinary.v2.uploader.upload(req.body.posturl,{
+        folder:"instagram-clone",
+    });
+        posturl=myCloud.secure_url;
+        console.log(posturl);
         let postid=await Post.create({
             posturl:posturl,
             caption:caption,

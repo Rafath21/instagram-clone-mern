@@ -32,8 +32,6 @@ let Setup = () => {
       disptach(updateProfile(user._id,userName,accountType,bio,img));
       if(isProfileUpdated){
         history.push("/");
-      }else{
-        alert("Something went wrong 😫. Please check the credentials")
       }
   }
   return (

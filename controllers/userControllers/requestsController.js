@@ -21,6 +21,10 @@ exports.handleRequests=async(req,res)=>{
             await otheruser.save();
             curruser.addToFollowings(ouserid);
             await curruser.save();
+            otheruser.posts.map(async(e)=>{
+                curruser.addToPostFeed(e);
+                await curruser.save();
+            })
            res.status(200).json({
                 success:true,
                 followStatus:"Following"
@@ -46,6 +50,10 @@ exports.acceptRequest=async(req,res)=>{
     await curruser.save();
     otheruser.addToFollowings(curruserid);
     await otheruser.save();
+    curruser.posts.map(async(e)=>{
+                otheruser.addToPostFeed(e);
+                await otheruser.save();
+            })
     //remove from activity also
     res.status(200).json({
         success:true,

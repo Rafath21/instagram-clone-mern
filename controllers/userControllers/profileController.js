@@ -3,15 +3,15 @@ const User=require("../../models/User");
 exports.profile=async(req,res)=>{
     const curruserid=req.params.userid;
     const otheruserid=req.body.ouid;
-    console.log(curruserid+" "+otheruserid);
-    console.log("in profile route");
 
     try{
-    let otheruser=await User.findById(otheruserid).populate('posts')
+    let otheruser=await User.findById(otheruserid)
+    .populate({path:'posts',populate:{path:'postedBy', select:'username pfp _id'}})
+    .populate({path:'posts',populate:{path:'comments',populate:{path:'userid',select:'username pfp _id'}}})
     .populate({path:'followers', select:'username _id pfp'})
     .populate({path:'followings', select:'username _id pfp'})
     let otherUserFollowers=otheruser.getFollowers();
-    let followStatus="";
+    let followStatus="Follow";
     if(otherUserFollowers.includes(curruserid)){
         followStatus="Following"
     }
@@ -31,6 +31,7 @@ exports.profile=async(req,res)=>{
         })
     }else{
         res.status(200).json({
+            followStatus:followStatus,
             status:"Not allowed",
             pfp:otheruser.pfp,
             bio:otheruser.bio,

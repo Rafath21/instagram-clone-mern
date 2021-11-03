@@ -1,10 +1,11 @@
 import React from 'react'
 import { useSelector, useDispatch } from "react-redux";
-import { useState ,useEffect} from "react";
+import { useState ,useEffect,useRef} from "react";
 import { Redirect, Link ,useHistory} from "react-router-dom";
 import "../../css/App.css";
 import {likePost, commentPost } from "../../actions/postActions";
 let Postcard = (props) => {
+  let dispatch = useDispatch();
   let {user}=useSelector((state)=>state.user);
   let [comments, setComments] = useState([]);
   let [likes, setLikes] = useState(0);
@@ -50,7 +51,7 @@ let Postcard = (props) => {
           <div
             className="post-like"
             onClick={async () => {
-              likePost(user?._id, props.post?._id);
+              dispatch(likePost(user?._id, props.post?._id));
               if (currUserLike == false) setCurrUserLike(true);
               else setCurrUserLike(false);
             }}
@@ -99,7 +100,7 @@ let Postcard = (props) => {
               <p className="comment-title">Comments</p>
             </div>
             <div className="comment-form-comments">
-              {comments.map((e, index) => {
+              {comments?.map((e, index) => {
                 return (
                   <div className="comment-form-inner" key={index}>
                     <img className="comment-pfp" src={e.userid.pfp} />
@@ -132,7 +133,7 @@ let Postcard = (props) => {
                 className="user-comment-post-button"
                 onClick={async () => {
                   clearComment();
-                  commentPost(user?._id, currUserComment, props.post?._id);
+                  dispatch(commentPost(user?._id, currUserComment, props.post?._id));
                   let arr = [];
                   arr = [...comments];
                   arr.push({
@@ -155,8 +156,8 @@ let Postcard = (props) => {
         )}
 
         <div className="post-comments-container">
-          {comments.length <= 1 ? (
-            comments.map((e, index) => {
+          {comments?.length <= 1 ? (
+            comments?.map((e, index) => {
               return (
                 <div className="post-comments-inner" key={index}>
                   <Link

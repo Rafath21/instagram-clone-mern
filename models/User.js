@@ -42,19 +42,14 @@ let UserSchema=new mongoose.Schema({
     followings:[
          {
            type: mongoose.Schema.Types.ObjectId,
-           ref:'User'
+           ref:'User',
         }
     ],
     followers:[
          {
            type: mongoose.Schema.Types.ObjectId,
-           ref:'User'
-        }
-    ],
-    suggestions:[
-         {
-           type: mongoose.Schema.Types.ObjectId,
-           ref:'User'
+           ref:'User',
+
         }
     ],
     postFeed:[
@@ -66,7 +61,7 @@ let UserSchema=new mongoose.Schema({
     storyFeed:[
         {
            type: mongoose.Schema.Types.ObjectId,
-           ref:'Story'
+           ref:'Story',
         }
     ],
     reelFeed:[
@@ -78,13 +73,13 @@ let UserSchema=new mongoose.Schema({
     activity:[
         {
            type: mongoose.Schema.Types.ObjectId,
-           ref:'User'
+           ref:'User',
         }
     ],
     requests:[
          {
            type: mongoose.Schema.Types.ObjectId,
-           ref:'User'
+           ref:'User',
         }
     ],
     typeOfAccount:{
@@ -201,10 +196,17 @@ UserSchema.methods.deleteFromActivity=function(ouid){
 }
 UserSchema.methods.getSuggestions=function(users,uid){
     let followings=this.followings;
-    users=users.filter((e)=>{
-        return !followings.includes(e._id) && e._id!=uid;
+    users=users.map((e)=>{
+        if(!followings.includes(e._id) && e._id!=uid && !e.requests.includes(uid) && !e.activity.includes(uid)){
+            let user={
+                _id:e._id,
+                pfp:e.pfp,
+                username:e.username
+            }
+            return user;
+        }
     })
-    return users;
+   return users;
 }
 let User=mongoose.model("User",UserSchema);
 module.exports=User;

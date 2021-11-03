@@ -1,6 +1,8 @@
 import { LIKE_A_REEL_REQUEST,LIKE_A_REEL_SUCCESS,LIKE_A_REEL_FAILED } from "../constants/reelConstants"
 import { COMMENT_REEL_REQUEST,COMMENT_REEL_SUCCESS,COMMENT_REEL_FAILED } from "../constants/reelConstants"
 import { CREATE_REEL_REQUEST,CREATE_REEL_SUCCESS,CREATE_REEL_FAILED } from "../constants/reelConstants"
+import axios from "axios";
+
 export const likeReel=(userid,reelid)=>async(dispatch)=>{
     try{
         dispatch({type:LIKE_A_REEL_REQUEST});

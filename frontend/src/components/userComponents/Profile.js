@@ -1,19 +1,21 @@
 import React, { useEffect, useState, useContext } from "react";
-import { useLocation, Link } from "react-router-dom";
+import { useLocation, Link,useHistory } from "react-router-dom";
 import "../../css/App.css";
 import Postcard from "./Postcard";
+import {getProfile} from "../../actions/profileActions"
 import Profileloader from "../../Loaders/Profileloader";
 import { useSelector, useDispatch } from "react-redux";
-import {sendFollow} from "../../actions/requestsActions";
+import {sendRequest} from "../../actions/requestsActions";
 const Profile=(props)=>{
+  let history=useHistory();
   const location = useLocation();
   let dispatch = useDispatch();
+  let {user}=useSelector((state)=>state.user);
   let {followStatus}=useSelector((state)=>state.followStatus);
   let {profile}=useSelector((state)=>state.profile)
   let [loading, setLoading] = useState(true);
   let [followsBoxOpen, setfollowsBoxOpen] = useState(false);
   let [followersBoxOpen, setfollowersBoxOpen] = useState(false);
-  let [bio, setBio] = useState("");
   let [ownProfile, setownProfile] = useState(false);
   let [post, setPost] = useState({
     caption: "",
@@ -31,7 +33,9 @@ const Profile=(props)=>{
     if(user._id==location.state.uid){
         setownProfile(true);
     }  
-    getProfile(user._id,location.state.uid);
+    dispatch(getProfile(user._id,location.state.uid));
+    setLoading(false);
+    console.log(profile?.posts);
   },[followStatus,dispatch,history])
   return (
     <>
@@ -90,7 +94,7 @@ const Profile=(props)=>{
                         onClick={(e) => {
                         e.preventDefault();
                           if (profile.followStatus != "Following") 
-                          sendFollow(user?._id,location.state.uid);
+                          dispatch(sendRequest(user?._id,location.state.uid));
                         }}
                       >
                         {profile.followStatus}
@@ -100,7 +104,7 @@ const Profile=(props)=>{
                 </div>
               </div>
 
-              <div className="profile-bio">{bio}</div>
+              <div className="profile-bio">{profile?.bio}</div>
             </div>
             {followersBoxOpen  && profile.status=="allowed"?(
               <div className="followers-box-container">
@@ -169,6 +173,7 @@ const Profile=(props)=>{
                         key={index}
                         src={e.posturl}
                         onClick={async () => {
+                          console.log(e);
                           setModal({
                             isOpen: true,
                             postId: e._id,

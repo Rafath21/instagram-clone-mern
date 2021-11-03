@@ -1,6 +1,8 @@
 import { LIKE_A_POST_REQUEST,LIKE_A_POST_SUCCESS,LIKE_A_POST_FAILED } from "../constants/postConstants"
 import { COMMENT_POST_REQUEST,COMMENT_POST_SUCCESS,COMMENT_POST_FAILED } from "../constants/postConstants"
 import { CREATE_POST_REQUEST,CREATE_POST_SUCCESS,CREATE_POST_FAILED } from "../constants/postConstants"
+import axios from "axios";
+
 export const likePost=(userid,postid)=>async(dispatch)=>{
     try{
         dispatch({type:LIKE_A_POST_REQUEST});

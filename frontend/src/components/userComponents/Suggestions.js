@@ -1,16 +1,17 @@
 import React from 'react';
 import { Redirect, Link ,useHistory} from "react-router-dom";
-import { useState ,useEffect} from "react";
-import { useSelector, useDispatch } from "react-redux";
+import { useState ,useEffect,useRef} from "react";
+import { useSelector, useDispatch} from "react-redux";
 import {getProfile} from "../../actions/profileActions";
 import {sendRequest} from "../../actions/requestsActions"
 import {logout} from "../../actions/authActions";
 const Suggestions=()=> {
 let history = useHistory();
   let dispatch = useDispatch();
+  let [state,setState]=useState(false);
   const { user, isAuthenticated } = useSelector((state) => state.user);
   const {allSuggestions}=useSelector((state)=>state.allSuggestions);
-  const {followStatus}=useSelector((state)=>state.followStatus)
+  const {followStatus}=useSelector((state)=>state.followStatus);
 return (
           <div className="sidebar-container">
       <div className="sidebar-profile">
@@ -29,7 +30,7 @@ return (
         <button
           className="home-signout-btn"
           onClick={() => {
-            logout()
+            dispatch(logout())
           }}
         >
           Sign Out
@@ -39,30 +40,32 @@ return (
 
       <p className="suggestions-title">Suggestions</p>
       <div className="sidebar-suggestions-container">
-        {allSuggestions.map((element, index) => {
-          return (
+        {allSuggestions?.map((element, index) => {
+          if(element!=null){
+            return (
             <div className="suggestion-inner" key={index}>
               <div className="suggestion-pfp">
-                <img id="suggestion-pfp" src={element.pfp} />
+                <img id="suggestion-pfp" src={element?.pfp} />
               </div>
               <Link
                 to={{
-                  pathname: `/profile/${element.username}`,
+                  pathname: `/profile/${element?.username}`,
                   state: {
-                    uid: element._id,
+                    uid: element?._id,
                   },
                 }}
                 style={{ textDecoration: "none" }}
               >
-                <div className="suggestion-username">{element.username}</div>
+                <div className="suggestion-username">{element?.username}</div>
               </Link>
               <div>
                 <button
-                  className="suggestion-follow-btn"
+                  className="suggestion-follow-btn"  disabled={state}
                   onClick={async (e) => {
-                   e.preventDefault();
-                    sendRequest(user._id,element._id);
-                    e.target.value=followStatus
+                    e.preventDefault();
+                   e.target.innerText="Requested!"
+                   setState(true)
+                  dispatch(sendRequest(user._id,element._id));
                   }}
                 >
                   Follow
@@ -70,10 +73,12 @@ return (
               </div>
             </div>
           );
+          }
+          
         })}
       </div>
     </div>
     )
 }
 
-export const Suggestions
+export default Suggestions;

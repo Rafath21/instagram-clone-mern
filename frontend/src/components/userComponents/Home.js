@@ -1,12 +1,12 @@
 import React from 'react';
 import { Redirect, Link ,useHistory} from "react-router-dom";
-import { useState ,useEffect} from "react";
+import { useState ,useEffect, useRef} from "react";
 import { useSelector, useDispatch } from "react-redux";
 import {getProfile} from "../../actions/profileActions";
 import { createPost } from '../../actions/postActions';
 import HomeLoader from "../../Loaders/HomeLoader";
 import Postcard from "./Postcard";
-import Suggestions from "./Suggestions";
+import  Suggestions  from "./Suggestions";
 import {
   activityfeed,
   postfeed,
@@ -19,6 +19,7 @@ import {
   deleteRequest,
 } from "../../actions/requestsActions";
 import { getOwnStory } from '../../actions/storyActions';
+import {getSuggestions} from "../../actions/suggestionsActions"
 const Home=()=> {
   let history = useHistory();
   let dispatch = useDispatch();
@@ -33,6 +34,7 @@ const Home=()=> {
   const {isPostCreated}=useSelector((state)=>state.isPostCreated);
   const {isStoryCreated}=useSelector((state)=>state.isStoryCreated);
   const {allSuggestions}=useSelector((state)=>state.allSuggestions);
+  const {isProfileUpdated}=useSelector((state)=>state.isProfileUpdated);
   let [userName, setUserName] = useState("");
   let [pfpUrl, setpfpUrl] = useState("");
   let [reqOpen, setreqOpen] = useState(false);
@@ -50,36 +52,52 @@ const Home=()=> {
   let [searchUid, setsearchUid] = useState(null);
   let [loading, setLoading] = useState(false);
   let [ownStories, setOwnStories] = useState([]);
+  const {followStatus}=useSelector((state)=>state.followStatus);
+
   function clearCaption() {
     postCapref.current.value = "";
   }
+    const updateImg = (e) => {
+    const reader = new FileReader();
+    reader.onload = () => {
+      if (reader.readyState === 2) {
+        //setProfilePreview(reader.result);
+        setuploadFile(reader.result);
+      }
+    };
+    reader.readAsDataURL(e.target.files[0]);
+  };
+  const newPost=()=>{
+dispatch(createPost(user?._id, uploadFile, uploadCaption));
+}
 useEffect(()=>{
     if(isAuthenticated==false){
         history.push("/login");
     }
+    dispatch(getSuggestions(user?._id));
 },[history,isAuthenticated,dispatch])
 useEffect(()=>{
-    postfeed(user._id);
-},[isPostCreated])
+    dispatch(postfeed(user?._id));
+},[history,dispatch,isAuthenticated,isPostCreated])
 useEffect(()=>{
-    storiesfeed(user?._id);
-    getOwnStory(user?._id);
-},[isStoryCreated])
+    dispatch(storiesfeed(user?._id));
+    dispatch(getOwnStory(user?._id));
+},[history,dispatch,isAuthenticated,isStoryCreated])
 useEffect(()=>{
     setUserName(user?.username);
     setpfpUrl(user?.pfp);
-},[isProfileUpdated]);
+},[history,dispatch,isAuthenticated,isProfileUpdated]);
   useEffect(async () => {
   //set own stories
-    if (user.typeOfAccount == "Private") {
-      requestsfeed(user._id);
-      setnotificationCount(feedRequests.length);
+    if (user?.typeOfAccount == "Private") {
+      dispatch(requestsfeed(user?._id));
+      setnotificationCount(feedRequests?.length);
     } else {
-      activityfeed(user._id);
-      setnotificationCount(feedActivity.length);
+      dispatch(activityfeed(user?._id));
+      setnotificationCount(feedActivity?.length);
     }
     setLoading(false);
-  }, [isActivityDeleted,isRequestAccepted,isRequestDeleted]);
+  }, [history,dispatch,isAuthenticated,isActivityDeleted,isRequestAccepted,isRequestDeleted]);
     return (
          <>
       {loading ? (
@@ -114,7 +132,7 @@ useEffect(()=>{
               <i class="fas fa-search" id="search-icon"></i>
               {searchSuggOpen ? (
                 <div className="search-suggestions">
-                  {searchSugg.map((suggestion) => {
+                  {searchSugg?.map((suggestion) => {
                     return (
                       <>
                         <Link
@@ -179,6 +197,7 @@ useEffect(()=>{
                       if (!e.target.files[0]) return;
                       setuploadFilename(e.target.files[0].name);
                       setuploadFile(e.target.files[0]);
+                      updateImg(e);
                     }}
                   />
                   <p className="create-post-caption-heading">
@@ -198,7 +217,7 @@ useEffect(()=>{
                     onClick={async (e) => {
                       clearCaption();
                       e.preventDefault();
-                      createPost(user?._id, uploadFile, caption);
+                      newPost();
                       e.target.innerText = "POSTING..";
                       setTimeout(() => {
                         e.target.innerText = "POSTED!";
@@ -276,20 +295,27 @@ useEffect(()=>{
                   ></i>
 
                   <div className="requests">
-                    {feedRequests.map((request, index) => {
+                    {feedRequests?.map((request, index) => {
                       return (
                         <div key={index} className="requests-inner">
-                          <img className="request-pfp" src="" />
+                          
+                          <img className="request-pfp" src={request.pfp} />
+                           <Link id="link" to={{
+                  pathname: `/profile/${request.username}`,
+                  state: {
+                    uid: request._id,
+                  },
+                }}
+                style={{ textDecoration: "none" }}>
                           <p className="request-username">
-                            //Name here wants to follow you
+                            {request.username} wants to follow you
                           </p>
-
+                          </Link>
                           <button
                             className="request-allow-btn"
                             onClick={async (e) => {
                               e.preventDefault();
-                              let ouid = "";
-                              acceptRequest(user?._id, ouid);
+                              dispatch(acceptRequest(user?._id, request._id));
                             }}
                           >
                             Allow
@@ -300,7 +326,7 @@ useEffect(()=>{
                             onClick={async (e) => {
                               let ouid = "";
                               e.preventDefault();
-                              deleteRequest(user?._id, ouid);
+                              dispatch(deleteRequest(user?._id, ouid));
                             }}
                           ></i>
                         </div>
@@ -322,17 +348,27 @@ useEffect(()=>{
                       ></i>
                     </div>
                     <div className="follows-container-follows">
-                      {feedActivity.map((request, index) => {
+                      {feedActivity?.map((request, index) => {
                         return (
                           <div className="follows-container-inner-follows">
+                             
                             <img
-                              src=""
+                              src={request.pfp}
                               alt=""
                               className="follows-container-pfp"
                             />
+                            <Link id="link" to={{
+                  pathname: `/profile/${request.username}`,
+                  state: {
+                    uid: request._id,
+                  },
+                }}
+                style={{ textDecoration: "none" }}>
                             <p className="follows-container-username">
-                              Name here
+                              {request.username}
                             </p>
+                            </Link>
+
                             <p className="follows-container-followingyou">
                               started following you
                             </p>
@@ -341,8 +377,7 @@ useEffect(()=>{
                               id="follows-container-close"
                               onClick={async (e) => {
                                 e.preventDefault();
-                                let ouid = "";
-                                deleteActivity(user._id, ouid);
+                                dispatch(deleteActivity(user._id,request._id));
                               }}
                             ></i>
                           </div>
@@ -363,12 +398,12 @@ useEffect(()=>{
                   <li className="story-list-item">
                     <div className="story-img-container">
                       <img
-                        src=""
+                        src={user?.pfp}
                         className={
-                          ownStories.length > 0 ? "own-stories-circle" : ""
+                          ownStories?.length > 0 ? "own-stories-circle" : ""
                         }
                         onClick={() => {
-                          if (ownStories.length > 0) {
+                          if (ownStories?.length > 0) {
                             history.push({
                               /* pathname: `/story/${value.uid}`,
                               state: {
@@ -384,14 +419,14 @@ useEffect(()=>{
                     <button
                       className="own-story"
                       onClick={() => {
-                        history.push({
+                      /*  history.push({
                           pathname: "/createstory",
                           state: {
                             uid: value?.uid,
                             uname: userName,
                             upfp: pfpUrl,
                           },
-                        });
+                        })*/
                       }}
                     >
                       +
@@ -408,7 +443,7 @@ useEffect(()=>{
                       <h6>{user?.username}</h6>
                     </Link>
                   </li>
-                  {feedStories.map((e) => {
+                  {feedStories?.map((e) => {
                     return (
                       <li className="story-list-item">
                         <div className="story-img-container">
@@ -416,14 +451,14 @@ useEffect(()=>{
                             className="others-stories"
                             src={e.postedBy.pfp}
                             onClick={() => {
-                             /* history.push({
+                            history.push({
                                  pathname: `/story/${e.storyByUn}`,
                                 state: {
                                   uid: e.storyByUid,
                                   uname: e.storyByUn,
                                   upfp: e.storyBypfp,
                                 },
-                              });*/
+                              });
                             }}
                           />
                         </div>
@@ -443,9 +478,9 @@ useEffect(()=>{
                   })}
                 </ul>
               </div>
-              {feedPosts.length > 0 ? (
+              {feedPosts?.length > 0 ? (
                 <div className="home-posts">
-                  {feedPosts.map((post, index) => {
+                  {feedPosts?.map((post, index) => {
                     return (
                       <Postcard
                         key={index}

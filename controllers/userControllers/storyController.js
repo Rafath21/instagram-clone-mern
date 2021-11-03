@@ -4,10 +4,10 @@ const cloudinary=require("cloudinary");
 exports.newStory=async(req,res)=>{
     try{
         let {storyurl,caption}=req.body; 
-        const myCloud=await cloudinary.v2.uploader.upload(req.body.storyurl,{
-        folder:"instagram-clone",
-    });
-    storyurl=myCloud.secure_url;
+      //  const myCloud=await cloudinary.v2.uploader.upload(req.body.storyurl,{
+        //folder:"instagram-clone",
+    //});
+    //storyurl=myCloud.secure_url;
       let storyid=await Story.create({
             storyurl:storyurl,
             caption:caption,
