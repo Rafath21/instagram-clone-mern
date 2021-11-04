@@ -59,9 +59,13 @@ let UserSchema=new mongoose.Schema({
         }
     ],
     storyFeed:[
+       /* {  
+           type: mongoose.Schema.Types.ObjectId,
+           ref:'User' ,
+        },*/
         {
            type: mongoose.Schema.Types.ObjectId,
-           ref:'Story',
+           ref:'Story', 
         }
     ],
     reelFeed:[

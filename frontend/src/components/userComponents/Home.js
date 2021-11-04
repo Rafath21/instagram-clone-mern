@@ -358,12 +358,12 @@ useEffect(()=>{
                               className="follows-container-pfp"
                             />
                             <Link id="link" to={{
-                  pathname: `/profile/${request.username}`,
-                  state: {
-                    uid: request._id,
-                  },
-                }}
-                style={{ textDecoration: "none" }}>
+                                    pathname: `/profile/${request.username}`,
+                                    state: {
+                                      uid: request._id,
+                                    },
+                                 }}
+                            style={{ textDecoration: "none" }}>
                             <p className="follows-container-username">
                               {request.username}
                             </p>
@@ -452,7 +452,7 @@ useEffect(()=>{
                             src={e.postedBy.pfp}
                             onClick={() => {
                             history.push({
-                                 pathname: `/story/${e.storyByUn}`,
+                                 pathname:  `/story/${e.storyByUn}`,
                                 state: {
                                   uid: e.storyByUid,
                                   uname: e.storyByUn,

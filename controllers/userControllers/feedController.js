@@ -39,11 +39,12 @@ exports.reels=async(req,res)=>{
 exports.stories=async(req,res)=>{
  try{
         let curruserid=req.params.userid;
-        let storyFeed=await User.findById(curruserid).populate({path:'storyFeed',populate:{path:'postedBy', select:'username _id pfp'}})
+        let storyFeed=await User.findById(curruserid).populate({path:'storyFeed'})
+        //.populate({path:'storyFeed',populate:{path:'postedBy', select:'username _id pfp'}})
         storyFeed=storyFeed.storyFeed;
         res.status(200).json({
             success:true,
-            storyFeed:storyFeed
+           storyFeed:storyFeed
         })
 
     }catch(err){
