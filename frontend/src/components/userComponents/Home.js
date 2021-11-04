@@ -238,9 +238,6 @@ useEffect(()=>{
                 className="link"
                 to={{
                   pathname: "/reels",
-                  state: {
-                    //uid: value ? value?.uid : "",
-                  },
                 }}
                 style={{ textDecoration: "none" }}
               >

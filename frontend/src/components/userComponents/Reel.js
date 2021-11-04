@@ -100,7 +100,7 @@ let Reels = () => {
                       e.preventDefault();
                       e.currentTarget.value = "Posting..";
                       captionClear();
-                     dispatch(createReel(user?._id,reelurl,uploadCaption))
+                     dispatch(createReel(user?._id,uploadFile,uploadCaption))
                       setTimeout(() => {
                         setCreateReelOpen(false);
                       }, 4000);

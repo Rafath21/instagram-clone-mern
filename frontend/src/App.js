@@ -3,7 +3,8 @@ import Login from "./components/authComponents/Login";
 import Register from "./components/authComponents/Register";
 import Home from "./components/userComponents/Home";
 import Setup from "./components/userComponents/Setup";
-import Profile from "./components/userComponents/Profile"
+import Profile from "./components/userComponents/Profile";
+import Reel from "./components/userComponents/Reel";
 function App() {
   return (
     <>
@@ -20,6 +21,9 @@ function App() {
           </Route>
            <Route path="/profile">
             <Profile/>
+          </Route>
+          <Route path="/reel">
+            <Reel/>
           </Route>
            <Route path="/">
             <Home/>

@@ -58,14 +58,14 @@ exports.newReel=async(req,res)=>{
             postedBy:req.params.userid
         })
         let user=await User.findById(req.params.userid).populate('followers');
-        user.addToReels(reelid);
+        user.reels.push(reelid);
         await user.save();
-        user.addToReelFeed(reelid);
+        user.reelFeed.push(reelid);
         await user.save();
         let followers=user.followers;
         followers.map(async(e)=>{
             let follower=await User.findById(e._id);
-            follower.addToReelFeed(reelid)
+            follower.reelFeed.push(reelid);
             await follower.save();
         })
         res.status(200).json({

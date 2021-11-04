@@ -2,6 +2,18 @@ const mongoose=require('mongoose');
 const crypto=require("crypto");
 const bcrypt=require("bcryptjs");
 const jwt=require('jsonwebtoken');
+let storyObj={
+    userid:{
+        type: mongoose.Schema.Types.ObjectId,
+        ref:'User'
+    },
+    stories:[
+        {
+        type: mongoose.Schema.Types.ObjectId,
+        ref:'Story'  
+        }
+    ]
+}
 let UserSchema=new mongoose.Schema({
     username:{
         type:String,
@@ -58,16 +70,7 @@ let UserSchema=new mongoose.Schema({
            ref:'Post'
         }
     ],
-    storyFeed:[
-       /* {  
-           type: mongoose.Schema.Types.ObjectId,
-           ref:'User' ,
-        },*/
-        {
-           type: mongoose.Schema.Types.ObjectId,
-           ref:'Story', 
-        }
-    ],
+    storyFeed:[storyObj],
     reelFeed:[
         {
            type: mongoose.Schema.Types.ObjectId,
@@ -131,35 +134,7 @@ UserSchema.methods.setupMethod=function(username,bio,typeOfAccount,pfp){
     if(typeOfAccount!="") this.typeOfAccount=typeOfAccount;
     if(pfp!="") this.pfp=pfp;
 }
-UserSchema.methods.addToRequests=function(ouserid){
-    this.requests.push(ouserid);
-}
-UserSchema.methods.addToFollowers=function(ouserid){
-    console.log(this.followers);
-    this.followers.push(ouserid)
-}
-UserSchema.methods.addToFollowings=function(ouserid){
-    console.log(this.followings);
-    this.followings.push(ouserid);
-}
-UserSchema.methods.addToActivity=function(ouserid){
-    this.activity.push(ouserid);
-}
-UserSchema.methods.getFollowers=function(){
-    return this.followers;
-}
-UserSchema.methods.addToPosts=function(postid){
-    this.posts.push(postid);
-}
-UserSchema.methods.addToPostFeed=function(postid){
-    this.postFeed.push(postid);
-}
-UserSchema.methods.addToReels=function(reelid){
-    this.reels.push(reelid);
-}
-UserSchema.methods.addToReelFeed=function(reelid){
-    this.reelFeed.push(reelid);
-}
+
 UserSchema.methods.addToStories=function(storyid){
     this.stories.push(storyid);
 }
@@ -214,3 +189,33 @@ UserSchema.methods.getSuggestions=function(users,uid){
 }
 let User=mongoose.model("User",UserSchema);
 module.exports=User;
+
+/*
+UserSchema.methods.addToRequests=function(ouserid){
+    this.requests.push(ouserid);
+}
+UserSchema.methods.addToFollowers=function(ouserid){
+    this.followers.push(ouserid)
+}
+UserSchema.methods.addToFollowings=function(ouserid){
+    this.followings.push(ouserid);
+}
+UserSchema.methods.addToActivity=function(ouserid){
+    this.activity.push(ouserid);
+}
+UserSchema.methods.getFollowers=function(){
+    return this.followers;
+}
+UserSchema.methods.addToPosts=function(postid){
+    this.posts.push(postid);
+}
+UserSchema.methods.addToPostFeed=function(postid){
+    this.postFeed.push(postid);
+}
+UserSchema.methods.addToReels=function(reelid){
+    this.reels.push(reelid);
+}
+UserSchema.methods.addToReelFeed=function(reelid){
+    this.reelFeed.push(reelid);
+}
+*/

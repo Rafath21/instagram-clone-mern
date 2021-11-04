@@ -5,26 +5,30 @@ exports.handleRequests=async(req,res)=>{
       let curruserid=req.params.userid
     let curruser=await User.findById(curruserid);
         let otheruser=await User.findById(ouserid);
-        console.log(curruser);
-        console.log(otheruser);
         if(otheruser.typeOfAccount==="Private"){
             console.log("in private")
-            otheruser.addToRequests(curruserid)
+            otheruser.requests.push(curruserid)
             await otheruser.save();
             res.status(200).json({
                 success:true,
                 followStatus:"Requested"
             })
         }else{
-            otheruser.addToActivity(curruserid);
-            otheruser.addToFollowers(curruserid);
+            otheruser.activity.push(curruserid);
+            otheruser.followers.push(curruserid)
             await otheruser.save();
-            curruser.addToFollowings(ouserid);
+            curruser.followings.push(ouserid);
             await curruser.save();
             otheruser.posts.map(async(e)=>{
-                curruser.addToPostFeed(e);
+                curruser.postFeed.push(e);
                 await curruser.save();
             })
+            let obj={
+            userid:ouserid,
+            stories:otheruser.stories
+        }
+        curruser.storyFeed.push(obj);
+        await otheruser.save();
            res.status(200).json({
                 success:true,
                 followStatus:"Following"
@@ -44,16 +48,20 @@ exports.acceptRequest=async(req,res)=>{
     let otheruserid=req.body.ouid;
     let curruser=await User.findById(curruserid);
     let otheruser=await User.findById(otheruserid);
-    console.log(curruser);
-    console.log(otheruser);
-    curruser.addToFollowers(otheruserid);
+    curruser.followers.push(otheruserid);
     await curruser.save();
-    otheruser.addToFollowings(curruserid);
+    otheruser.followings.push(curruserid)
     await otheruser.save();
     curruser.posts.map(async(e)=>{
-                otheruser.addToPostFeed(e);
+                otheruser.postFeed.push(e);
                 await otheruser.save();
             })
+     let obj={
+            userid:req.params.userid,
+            stories:curruser.stories
+        }
+        otheruser.storyFeed.push(obj);
+        await otheruser.save();
     //remove from activity also
     res.status(200).json({
         success:true,

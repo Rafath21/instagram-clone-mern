@@ -48,7 +48,7 @@ let VideoCard = (props) => {
   }, [videoRef]);
   useEffect(async () => {
     setLoading(true);
-    if (props.reel.likes?.includes(uid)) {
+    if (props.reel.likes?.includes(user?._id)) {
       setCurrUserlike(true);
     }
     setLoading(false);

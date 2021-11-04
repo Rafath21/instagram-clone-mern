@@ -60,14 +60,14 @@ exports.newPost=async(req,res)=>{
         })
         console.log(postid);
         let user=await User.findById(req.params.userid).populate('followers');
-        user.addToPosts(postid);
+        user.posts.push(postid);
         await user.save();
-        user.addToPostFeed(postid);
+        user.postFeed.push(postid);
         await user.save();
         let followers=user.followers;
         followers.map(async(e)=>{
             let follower=await User.findById(e._id);
-            follower.addToPostFeed(postid)
+            follower.postFeed.push(postid)
             await follower.save();
         })
         res.status(200).json({

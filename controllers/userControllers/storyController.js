@@ -4,10 +4,10 @@ const cloudinary=require("cloudinary");
 exports.newStory=async(req,res)=>{
     try{
         let {storyurl,caption}=req.body; 
-      //  const myCloud=await cloudinary.v2.uploader.upload(req.body.storyurl,{
-        //folder:"instagram-clone",
-    //});
-    //storyurl=myCloud.secure_url;
+       const myCloud=await cloudinary.v2.uploader.upload(req.body.storyurl,{
+        folder:"instagram-clone",
+    });
+    storyurl=myCloud.secure_url;
       let storyid=await Story.create({
             storyurl:storyurl,
             caption:caption,
@@ -18,10 +18,21 @@ exports.newStory=async(req,res)=>{
         user.addToStories(storyid);
         await user.save();
         let followers=user.followers;
+        let obj={
+            userid:req.params.userid,
+            stories:user.stories
+        }
         followers.map(async(e)=>{
-            let follower=await User.findById(e._id);
-            follower.addToStoryFeed(storyid)
-            await follower.save();
+            await User.findById(e._id).then(doc=>{
+                console.log(doc.storyFeed);
+               let find= doc.storyFeed.find(x=>x.userid==req.params.userid)
+               if(!find){
+                   doc.storyFeed.push(obj);
+               }else{
+                    find.stories.push(storyid);
+               }
+                doc.save();
+            })
         })
         res.status(200).json({
             success:true
