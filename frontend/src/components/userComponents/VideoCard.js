@@ -8,6 +8,8 @@ import { createReel } from "../../actions/reelActions";
 import { useSelector, useDispatch } from "react-redux";
 let VideoCard = (props) => {
   let dispatch=useDispatch();
+  const { user, isAuthenticated } = useSelector((state) => state.user);
+  const {isReelCommentUpdated}=useSelector((state)=>state.isReelCommentUpdated);
   let [commentboxOpen, setCommentBoxOpen] = useState(false);
   let [playing, setPlaying] = useState(true);
   let [createReelOpen, setCreateReelOpen] = useState(false);
@@ -19,6 +21,7 @@ let VideoCard = (props) => {
   let videoRef = useRef();
   let captionRef = useRef();
   let commentRef = useRef();
+  let [comments,setComments]=useState([]);
   function captionClear() {
     captionRef.current.value = "";
   }
@@ -33,9 +36,9 @@ let VideoCard = (props) => {
   const callbackFunction = (entries) => {
     const [entry] = entries;
     if (entry.isIntersection) {
-      videoRef.current.play();
+      videoRef.current?.play();
     } else {
-      videoRef.current.pause();
+      videoRef.current?.pause();
     }
   };
   useEffect(() => {
@@ -48,12 +51,12 @@ let VideoCard = (props) => {
   }, [videoRef]);
   useEffect(async () => {
     setLoading(true);
+    setComments(props.reel?.comments);
     if (props.reel.likes?.includes(user?._id)) {
       setCurrUserlike(true);
     }
     setLoading(false);
   }, []);
-
   return (
     <>
       {loading ? (
@@ -112,7 +115,7 @@ let VideoCard = (props) => {
                   to={{
                     pathname: `/profile/${props.reel.postedBy.username}`,
                     state: {
-                      uid: props.reel.postedBy._id,
+                      uid: props.reel?.postedBy._id,
                     },
                   }}
                   style={{ textDecoration: "none" }}
@@ -208,7 +211,7 @@ let VideoCard = (props) => {
                 <h3>Comments</h3>
               </div>
               <div className="reel-comments">
-                {props.reel.comments?.map((element, index) => {
+                {comments?.map((element, index) => {
                   return (
                     <div className="reel-comments-inner" key={index}>
                       <Link
@@ -241,6 +244,18 @@ let VideoCard = (props) => {
                   onClick={async () => {
                     commentClear();
                   dispatch(commentReel(user?._id, currUserComment, props.reel?._id));
+                  let arr = [];
+                  arr = [...comments];
+                  arr.push({
+                    userid: {
+                      _id: user?._id,
+                      username: user?.username,
+                      pfp: user?.pfp,
+                    },
+                    comment: currUserComment,
+                  });
+                  setcurrUserComment("");
+                  setComments(arr);
                 }}
                 >
                   POST

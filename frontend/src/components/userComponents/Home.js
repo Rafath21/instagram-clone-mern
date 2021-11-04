@@ -2,7 +2,6 @@ import React from 'react';
 import { Redirect, Link ,useHistory} from "react-router-dom";
 import { useState ,useEffect, useRef} from "react";
 import { useSelector, useDispatch } from "react-redux";
-import {getProfile} from "../../actions/profileActions";
 import { createPost } from '../../actions/postActions';
 import HomeLoader from "../../Loaders/HomeLoader";
 import Postcard from "./Postcard";
@@ -51,7 +50,7 @@ const Home=()=> {
   let [searchSugg, setSearchSugg] = useState([]);
   let [searchUid, setsearchUid] = useState(null);
   let [loading, setLoading] = useState(false);
-  let [ownStories, setOwnStories] = useState([]);
+  let {ownStories}=useSelector((state)=>state.ownStories);
   const {followStatus}=useSelector((state)=>state.followStatus);
 
   function clearCaption() {
@@ -78,7 +77,7 @@ useEffect(()=>{
 },[history,isAuthenticated,dispatch])
 useEffect(()=>{
     dispatch(postfeed(user?._id));
-},[history,dispatch,isAuthenticated,isPostCreated])
+},[history,dispatch,isAuthenticated,isPostCreated,postfeed])
 useEffect(()=>{
     dispatch(storiesfeed(user?._id));
     dispatch(getOwnStory(user?._id));
@@ -98,7 +97,8 @@ useEffect(()=>{
     }
     setLoading(false);
   }, [history,dispatch,isAuthenticated,isActivityDeleted,isRequestAccepted,isRequestDeleted]);
-    return (
+  console.log(feedStories); 
+  return (
          <>
       {loading ? (
         <HomeLoader />
@@ -397,17 +397,15 @@ useEffect(()=>{
                       <img
                         src={user?.pfp}
                         className={
-                          ownStories?.length > 0 ? "own-stories-circle" : ""
+                          ownStories?.stories?.length > 0 ? "own-stories-circle" : ""
                         }
                         onClick={() => {
-                          if (ownStories?.length > 0) {
+                          if (ownStories?.stories?.length > 0) {
                             history.push({
-                              /* pathname: `/story/${value.uid}`,
+                               pathname: `/${user?._id}/story`,
                               state: {
-                                uid: value?.uid,
-                                uname: userName,
-                                upfp: pfpUrl,
-                              },*/
+                                stories:ownStories?.stories
+                              },
                             });
                           }
                         }}
@@ -416,14 +414,9 @@ useEffect(()=>{
                     <button
                       className="own-story"
                       onClick={() => {
-                      /*  history.push({
+                     history.push({
                           pathname: "/createstory",
-                          state: {
-                            uid: value?.uid,
-                            uname: userName,
-                            upfp: pfpUrl,
-                          },
-                        })*/
+                        })
                       }}
                     >
                       +
@@ -441,19 +434,17 @@ useEffect(()=>{
                     </Link>
                   </li>
                   {feedStories?.map((e) => {
-                    return (
+                  return (
                       <li className="story-list-item">
                         <div className="story-img-container">
                           <img
                             className="others-stories"
-                            src={e.postedBy.pfp}
+                            src={e.userid.pfp}
                             onClick={() => {
                             history.push({
-                                 pathname:  `/story/${e.storyByUn}`,
+                                 pathname:  `/${e.userid._id}/story`,
                                 state: {
-                                  uid: e.storyByUid,
-                                  uname: e.storyByUn,
-                                  upfp: e.storyBypfp,
+                                  stories:e.stories
                                 },
                               });
                             }}
@@ -463,12 +454,12 @@ useEffect(()=>{
                           id="link"
                           to={
                             {
-                              /* pathname: `/profile/${e.storyByUn}`,
-                            state: { uid: e?.storyByUid },*/
+                               pathname: `/profile/${e.userid.username}`,
+                                state: { uid: e?.userid._id },
                             }
                           }
                         >
-                          <h6>{e.postedBy.username}</h6>
+                          <h6>{e.userid.username}</h6>
                         </Link>
                       </li>
                     );

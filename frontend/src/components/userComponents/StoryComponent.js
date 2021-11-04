@@ -6,17 +6,18 @@ import StoryLoader from "../../Loaders/StoryLoader";
 let StoryComponent = () => {
   let location = useLocation();
   let history = useHistory();
-  let [postedStories, setPostedStories] = useState([]);
-  let [loading, setLoading] = useState(true);
+  let [loading, setLoading] = useState(false);
   useEffect(async () => {
-    setPostedStories(location.state.story);
+    setLoading(true);
+    if(location.state.stories){
+      setLoading(false);
+    }
   }, []);
-
   function redirectToHome() {
     history.push("/");
   }
   function getStories() {
-    let stories = postedStories.map((story) => {
+    let stories = location.state.stories?.map((story) => {
       return {
         content: (props) => (
           <div className="story-container">
@@ -54,7 +55,7 @@ let StoryComponent = () => {
         <div className="main-story-container">
           <Stories
             stories={getStories()}
-            defaultInterval={5000}
+            defaultInterval={4000}
             width={"100%"}
             height="100vh"
             onAllStoriesEnd={redirectToHome}

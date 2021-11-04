@@ -8,7 +8,7 @@ export const likeReel=(userid,reelid)=>async(dispatch)=>{
         dispatch({type:LIKE_A_REEL_REQUEST});
         const {data}=await axios({
             method:'PUT',
-            url:`http://localhost:7000/api/v1/post/likes/${userid}`,
+            url:`http://localhost:7000/api/v1/reel/likes/${userid}`,
             withCredentials:true,
             data:{
                 reelid
@@ -24,7 +24,7 @@ export const commentReel=(userid,comment,reelid)=>async(dispatch)=>{
         dispatch({type:COMMENT_REEL_REQUEST});
         const {data}=await axios({
             method:'PUT',
-            url:`http://localhost:7000/api/v1/post/comments/${userid}`,
+            url:`http://localhost:7000/api/v1/reel/comments/${userid}`,
             withCredentials:true,
             data:{
                 reelid,comment

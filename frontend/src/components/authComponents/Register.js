@@ -67,7 +67,6 @@ async function handleRegister(e) {
             id="psw"
             required
           />
-          <hr />
           <label for="psw">
             <b>Confirm Password</b>
           </label>

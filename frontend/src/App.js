@@ -5,6 +5,8 @@ import Home from "./components/userComponents/Home";
 import Setup from "./components/userComponents/Setup";
 import Profile from "./components/userComponents/Profile";
 import Reel from "./components/userComponents/Reel";
+import Createstory from "./components/userComponents/Createstory";
+import StoryComponent from "./components/userComponents/StoryComponent"
 function App() {
   return (
     <>
@@ -22,8 +24,14 @@ function App() {
            <Route path="/profile">
             <Profile/>
           </Route>
-          <Route path="/reel">
+          <Route path="/reels">
             <Reel/>
+          </Route>
+          <Route path="/createstory">
+            <Createstory/>
+          </Route>
+            <Route path="/:userid/story">
+            <StoryComponent/>
           </Route>
            <Route path="/">
             <Home/>

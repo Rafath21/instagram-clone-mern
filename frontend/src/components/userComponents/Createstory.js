@@ -5,6 +5,7 @@ import { useSelector, useDispatch } from "react-redux";
 import { createStory } from "../../actions/storyActions";
 let Createstory = () => {
   let [uploadFile, setuploadFile] = useState("");
+  let dispatch=useDispatch();
   let [uploadCaption, setuploadCaption] = useState("");
   const { user, isAuthenticated } = useSelector((state) => state.user);
   const { isStoryCreated } = useSelector((state) => state.isStoryCreated);
@@ -48,9 +49,7 @@ let Createstory = () => {
           e.preventDefault();
           e.target.innerText = "POSTED";
           dispatch(createStory(user?._id, uploadFile, uploadCaption));
-          if (isStoryCreated) {
             history.push("/");
-          }
         }}
       >
         POST

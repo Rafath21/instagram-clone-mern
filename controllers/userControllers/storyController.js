@@ -45,8 +45,9 @@ exports.newStory=async(req,res)=>{
 }
 exports.story=async(req,res)=>{
     try{
-        let userid=await User.findById(req.params.userid);
-        let stories=userid.stories;
+        console.log("in own story cont")
+        let stories=await User.findById(req.params.userid).select('stories').populate({path:'stories'})
+        .populate({path:'stories',populate:{path:'postedBy',select:'username pfp _id'}})
         res.status(200).json({
             stories
         })

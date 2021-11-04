@@ -47,16 +47,20 @@ exports.comments=async(req,res)=>{
 //reel a new reel
 exports.newReel=async(req,res)=>{
     try{
+        console.log("in reel controller")
         let {reelurl,caption}=req.body; 
+        let reelid;
         const myCloud=await cloudinary.v2.uploader.upload(req.body.reelurl,{
+        resource_type:"video",
         folder:"instagram-clone",
-    });
-    reelurl=myCloud.secure_url;
-        let reelid=await Reel.create({
+    }).then(async(result)=>{
+            console.log(result);
+            reelurl=result.secure_url;
+            reelid=await Reel.create({
             reelurl:reelurl,
             caption:caption,
             postedBy:req.params.userid
-        })
+    });
         let user=await User.findById(req.params.userid).populate('followers');
         user.reels.push(reelid);
         await user.save();
@@ -72,6 +76,9 @@ exports.newReel=async(req,res)=>{
             success:true,
             message:"Posted succuessfully!"
         })
+
+    })
+     
     }catch(err){
         res.status(400).json({
             error:err.message

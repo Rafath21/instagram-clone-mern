@@ -36,7 +36,7 @@ const Profile=(props)=>{
     dispatch(getProfile(user._id,location.state.uid));
     setLoading(false);
     console.log(profile?.posts);
-  },[followStatus,dispatch,history])
+  },[followStatus,dispatch,history,location.state.uid])
   return (
     <>
       {loading ? (

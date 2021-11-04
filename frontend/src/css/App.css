@@ -689,6 +689,9 @@ hr {
   font-weight: bold;
   font-size: 20px;
 }
+.create-reel-heading {
+  right: 0;
+}
 .create-post-input,
 .create-reel-input {
   position: absolute;

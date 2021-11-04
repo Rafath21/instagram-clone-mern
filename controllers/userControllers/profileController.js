@@ -3,14 +3,16 @@ const User=require("../../models/User");
 exports.profile=async(req,res)=>{
     const curruserid=req.params.userid;
     const otheruserid=req.body.ouid;
-
+    console.log("in profile");
+    console.log(curruserid);
+    console.log(otheruserid);
     try{
     let otheruser=await User.findById(otheruserid)
     .populate({path:'posts',populate:{path:'postedBy', select:'username pfp _id'}})
     .populate({path:'posts',populate:{path:'comments',populate:{path:'userid',select:'username pfp _id'}}})
     .populate({path:'followers', select:'username _id pfp'})
     .populate({path:'followings', select:'username _id pfp'})
-    let otherUserFollowers=otheruser.getFollowers();
+    let otherUserFollowers=otheruser.followers;
     let followStatus="Follow";
     if(otherUserFollowers.includes(curruserid)){
         followStatus="Following"
@@ -43,6 +45,7 @@ exports.profile=async(req,res)=>{
         })
     }
     }catch(err){
+        console.log(err)
         res.status(400).json({
             error: err.message
         })

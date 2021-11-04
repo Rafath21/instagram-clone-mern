@@ -39,8 +39,9 @@ exports.reels=async(req,res)=>{
 exports.stories=async(req,res)=>{
  try{
         let curruserid=req.params.userid;
-        let storyFeed=await User.findById(curruserid).populate({path:'storyFeed',populate:{path:'userid',select:'username _id pfp'}})
-        .populate({path:'storyFeed',populate:{path:'stories'}})
+        let storyFeed=await User.findById(curruserid)
+        .populate({path:'storyFeed',populate:{path:'stories',populate:{path:'postedBy',select:'username pfp _id'}}})
+        .populate({path:'storyFeed',populate:{path:'userid',select:'username pfp _id'}})
         storyFeed=storyFeed.storyFeed;
         res.status(200).json({
             success:true,

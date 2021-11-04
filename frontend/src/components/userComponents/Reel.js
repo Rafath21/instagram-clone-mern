@@ -4,24 +4,27 @@ import VideoCard from "./VideoCard";
 import ReelsLoader from "../../Loaders/ReelsLoader";
 import { createReel } from "../../actions/reelActions";
 import { useSelector, useDispatch } from "react-redux";
-let Reels = () => {
+import {reelfeed} from "../../actions/feedActions"
+import {useHistory} from "react-router-dom";
+let Reel = () => {
+  let history=useHistory();
+  let dispatch=useDispatch();
   const {feedReels}=useSelector((state)=>state.feedReels);
+  const {isReelCreated}=useSelector((state)=>state.isReelCreated);
   let [loading, setLoading] = useState(false);
   let [createReelOpen, setCreateReelOpen] = useState(false);
   let [uploadFile, setuploadFile] = useState("");
   let [uploadCaption, setuploadCaption] = useState("");
   let captionRef = useRef();
-  let [username, setUsername] = useState("");
-  let [pfpUrl, setpfpUrl] = useState("");
   const { user, isAuthenticated } = useSelector((state) => state.user);
   function captionClear() {
     captionRef.current.value = "";
   }
   useEffect(async () => {
     setLoading(true);
-    dispatch(reelsfeed(user?._id));
+    dispatch(reelfeed(user?._id));
     setLoading(false);
-}, [history,dispatch]);
+}, [history,dispatch,isReelCreated]);
   return (
     <>
       {loading ? (
@@ -119,4 +122,4 @@ let Reels = () => {
     </>
   );
 };
-export default Reels;
+export default Reel;
