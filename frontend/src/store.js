@@ -9,6 +9,7 @@ import { createReelReducer, updateReelCommentsReducer, updateReelLikesReducer } 
 import { createStoryReducer, getOwnStoryReducer } from "./reducers/storyReducers";
 import { authReducer } from "./reducers/authReducers";
 import { getSuggestionsReducer } from "./reducers/suggestionsReducers";
+import { allUsersReducer } from "./reducers/allUsersReducer";
 const reducer=combineReducers({
     user:authReducer,
     feedPosts:getPostsFeedReducer,
@@ -30,7 +31,8 @@ const reducer=combineReducers({
     isStoryCreated:createStoryReducer,
     ownStories:getOwnStoryReducer,
     allSuggestions:getSuggestionsReducer,
-    followStatus:sendRequestReducer
+    followStatus:sendRequestReducer,
+    allUsers:allUsersReducer
 });
 
 let initialState={};

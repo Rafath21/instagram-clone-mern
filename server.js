@@ -42,6 +42,7 @@ app.use("/api/v1/setup",require("./routes/userRoutes/setupRoute"))
 app.use("/api/v1/story",require("./routes/userRoutes/storyRoute"));
 app.use("/api/v1/activity",require("./routes/userRoutes/activityRoute"));
 app.use("/api/v1/suggestions",require("./routes/userRoutes/suggestionRoute"));
+app.use("/api/v1/users",require('./routes/userRoutes/usersRoute'));
 /*app.use(express.static(path.join(__dirname,"./client/build")));
 app.get("*",(req,res)=>{
      res.sendFile(path.resolve(__dirname, "./client/build/index.html"));

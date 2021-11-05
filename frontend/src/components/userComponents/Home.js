@@ -19,6 +19,7 @@ import {
 } from "../../actions/requestsActions";
 import { getOwnStory } from '../../actions/storyActions';
 import {getSuggestions} from "../../actions/suggestionsActions"
+import { getUsers } from '../../actions/getallUsersAction';
 const Home=()=> {
   let history = useHistory();
   let dispatch = useDispatch();
@@ -34,8 +35,7 @@ const Home=()=> {
   const {isStoryCreated}=useSelector((state)=>state.isStoryCreated);
   const {allSuggestions}=useSelector((state)=>state.allSuggestions);
   const {isProfileUpdated}=useSelector((state)=>state.isProfileUpdated);
-  let [userName, setUserName] = useState("");
-  let [pfpUrl, setpfpUrl] = useState("");
+  const {allUsers}=useSelector((state)=>state.allUsers);
   let [reqOpen, setreqOpen] = useState(false);
   let [createBoxOpen, setcreateBoxOpen] = useState(false);
   let [uploadFilename, setuploadFilename] = useState("");
@@ -49,7 +49,8 @@ const Home=()=> {
   let [searchSuggOpen, setSearchSuggOpen] = useState(false);
   let [searchSugg, setSearchSugg] = useState([]);
   let [searchUid, setsearchUid] = useState(null);
-  let [loading, setLoading] = useState(false);
+  let [loading, setLoading] = useState(true);
+  let [preview,setPostPreview]=useState("");
   let {ownStories}=useSelector((state)=>state.ownStories);
   const {followStatus}=useSelector((state)=>state.followStatus);
 
@@ -60,7 +61,7 @@ const Home=()=> {
     const reader = new FileReader();
     reader.onload = () => {
       if (reader.readyState === 2) {
-        //setProfilePreview(reader.result);
+        setPostPreview(reader.result);
         setuploadFile(reader.result);
       }
     };
@@ -82,10 +83,6 @@ useEffect(()=>{
     dispatch(storiesfeed(user?._id));
     dispatch(getOwnStory(user?._id));
 },[history,dispatch,isAuthenticated,isStoryCreated])
-useEffect(()=>{
-    setUserName(user?.username);
-    setpfpUrl(user?.pfp);
-},[history,dispatch,isAuthenticated,isProfileUpdated]);
   useEffect(async () => {
   //set own stories
     if (user?.typeOfAccount == "Private") {
@@ -119,13 +116,14 @@ useEffect(()=>{
                   if (e.target.value.length == 0) setSearchSuggOpen(false);
                   else setSearchSuggOpen(true);
                   setsearchValue(e.target.value);
-                  /* setSearchSugg(
-                    allUsers.filter((obj) => {
+                  dispatch(getUsers(user?._id));
+                  setSearchSugg(
+                    allUsers?.filter((obj) => {
                       return obj.username
                         .toLowerCase()
                         .includes(searchValue.toLowerCase());
                     })
-                  );*/
+                  );
                 }}
               />
 
@@ -139,14 +137,14 @@ useEffect(()=>{
                           id="link"
                           to={
                             {
-                              // pathname: `/profile/${suggestion.username}`,
-                              // state: { uid: suggestion.uid },
+                              pathname: `/profile/${suggestion.username}`,
+                             state: { uid: suggestion._id },
                             }
                           }
                         >
                           <div className="search-suggestion">
-                            <img src="" />
-                            <p>Suggestion Username</p>
+                            <img src={suggestion.pfp} />
+                            <p>{suggestion.username}</p>
                           </div>
                         </Link>
                       </>
@@ -424,7 +422,7 @@ useEffect(()=>{
                     <Link
                       id="link"
                       to={{
-                        pathname: `/profile/${userName}`,
+                        pathname: `/profile/${user?.username}`,
                         state: {
                           uid: user?.id,
                         },
