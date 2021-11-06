@@ -20,6 +20,7 @@ const newChat= new Chat({
 
   try {
     const savedChat = await newChat.save();
+    console.log(savedChat);
     res.status(200).json(savedChat);
   } catch (err) {
     console.log(err);
@@ -30,8 +31,10 @@ const newChat= new Chat({
 exports.getConvo=async(req,res)=>{
   let usersIds=[];
   let users=[];
+  console.log("first userid:",req.params.firstuserid);
+  console.log("second userid:",req.body.seconduserid);
   usersIds.push(req.params.firstuserid);
-  usersIds.push(req.params.seconduserid);
+  usersIds.push(req.body.seconduserid);
   for(let i=0;i<usersIds.length;i++){
     users.push(new mongoose.Types.ObjectId(usersIds[i]))
   }
@@ -39,6 +42,7 @@ exports.getConvo=async(req,res)=>{
     const chat= await Chat.findOne({
       members: { $all: users },
     });
+    console.log(chat);
     res.status(200).json(chat)
   } catch (err) {
     res.status(500).json(err);

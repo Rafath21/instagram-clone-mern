@@ -78,9 +78,9 @@ const Profile=(props)=>{
                     <div className="two-btns">
                       <Link
                         to={{
-                          //pathname: `/chatwindow/${username}`,
+                          pathname: `/chatwindow/${profile?.username}`,
                           state: {
-                            //
+                            otheruser:profile
                           },
                         }}
                         style={{ textDecoration: "none" }}

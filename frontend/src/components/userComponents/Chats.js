@@ -1,18 +1,16 @@
-import "../css/App.css";
-import { Link, useLocation } from "react-router-dom";
+import "../../css/App.css";
+import { Link, useLocation ,useHistory} from "react-router-dom";
 import axios from "axios";
 import { useContext, useEffect, useState } from "react";
 import ChatWindow from "./ChatWindow";
-import Chatloader from "../Loaders/Chatsloader";
+import Chatloader from "../../Loaders/Chatsloader";
 import { useSelector, useDispatch } from "react-redux";
 import { io } from "socket.io-client";
-
 let Chats = () => {
   let history = useHistory();
   let dispatch = useDispatch();
   const { user, isAuthenticated } = useSelector((state) => state.user);
   let [allChats, setAllChats] = useState([]);
-  let value = useContext(AuthContext);
   let location = useLocation();
   let [loading, setLoading] = useState(false);
   useEffect(async () => {
@@ -24,7 +22,7 @@ let Chats = () => {
     setAllChats(data?.chats);
     setLoading(false);
   }, [user,history]);
-
+  console.log(allChats);
   return (
     <>
       {loading ? (
@@ -44,12 +42,12 @@ let Chats = () => {
               return (
                 <>
                   <Link
-                    /*to={{
-                      pathname: `chatwindow/${e.senderUsername}`,
+                    to={{
+                      pathname: `/chatwindow/${e.username}`,
                       state: {
-                       //
+                       otheruser:otheruser
                       },
-                    }}*/
+                    }}
                     style={{ textDecoration: "none" }}
                   >
                     <div className="chat" id="link" key={index}>

@@ -7,6 +7,8 @@ import Profile from "./components/userComponents/Profile";
 import Reel from "./components/userComponents/Reel";
 import Createstory from "./components/userComponents/Createstory";
 import StoryComponent from "./components/userComponents/StoryComponent"
+import Chats from "./components/userComponents/Chats";
+import ChatWindow from "./components/userComponents/ChatWindow";
 function App() {
   return (
     <>
@@ -32,6 +34,12 @@ function App() {
           </Route>
             <Route path="/:userid/story">
             <StoryComponent/>
+          </Route>
+            <Route path="/chats">
+            <Chats/>
+          </Route>
+            <Route path="/chatwindow/:username">
+            <ChatWindow/>
           </Route>
            <Route path="/">
             <Home/>

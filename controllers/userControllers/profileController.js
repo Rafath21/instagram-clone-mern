@@ -19,6 +19,7 @@ exports.profile=async(req,res)=>{
     }
     if(curruserid==otheruserid || otheruser.typeOfAccount=="Public" || otherUserFollowers.includes(curruserid)){
         res.status(200).json({
+            _id:otheruser._id,
             followStatus:followStatus,
             status:"allowed",
             username:otheruser.username,
@@ -33,6 +34,7 @@ exports.profile=async(req,res)=>{
         })
     }else{
         res.status(200).json({
+            _id:otheruser._id,
             followStatus:followStatus,
             status:"Not allowed",
             pfp:otheruser.pfp,

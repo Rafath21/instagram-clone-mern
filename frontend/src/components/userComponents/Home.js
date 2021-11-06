@@ -256,12 +256,7 @@ useEffect(()=>{
                 className="link"
                 to={
                   {
-                    /*pathname: "/chats",
-                  state: {
-                    uid: value ? value?.uid : "",
-                    username: userName,
-                    pfpUrl: pfpUrl,
-                  },*/
+                    pathname: "/chats",
                   }
                 }
                 style={{ textDecoration: "none" }}
