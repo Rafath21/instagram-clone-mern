@@ -92,11 +92,13 @@ const Profile=(props)=>{
                         className="follow-status"
                         onClick={(e) => {
                         e.preventDefault();
-                          if (profile.followStatus != "Following") 
-                          dispatch(sendRequest(user?._id,location.state.uid));
+                          if (profile.followStatus != "Following") {
+                            console.log("sending request")
+                            dispatch(sendRequest(user?._id,location.state.uid));
+                          }
                         }}
                       >
-                        {profile.followStatus}
+                        {profile?.followStatus}
                       </button>
                     </div>
                   )}

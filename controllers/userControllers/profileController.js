@@ -9,13 +9,20 @@ exports.profile=async(req,res)=>{
     .populate({path:'posts',populate:{path:'comments',populate:{path:'userid',select:'username pfp _id'}}})
     .populate({path:'followers', select:'username _id pfp'})
     .populate({path:'followings', select:'username _id pfp'})
+    console.log(otheruser);
     let otherUserFollowers=otheruser.followers;
-    let followStatus="Follow";
-    if(otherUserFollowers.includes(curruserid)){
+    let followStatus;
+    console.log(otherUserFollowers);
+    let find= otherUserFollowers.find(x=>x._id==curruserid)
+    if(find){
+        console.log(find);
         followStatus="Following"
+    }else{
+        followStatus="Follow";
     }
-    if(curruserid==otheruserid || otheruser.typeOfAccount=="Public" || otherUserFollowers.includes(curruserid)){
-        res.status(200).json({
+    if(curruserid==otheruserid || otheruser.typeOfAccount=="Public" || find){
+        console.log("sending data")
+       res.status(200).json({
             _id:otheruser._id,
             followStatus:followStatus,
             status:"allowed",
