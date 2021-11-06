@@ -9,6 +9,7 @@ const cookieParser = require("cookie-parser");
 const connectDB=require('./config/db');
 const path=require("path");
 const PORT=process.env.PORT;
+const io = module.exports.io = require('socket.io')
 cloudinary.config({
     cloud_name: process.env.CLOUDINARY_NAME,
     api_key: process.env.CLOUDINARY_API_KEY,
@@ -32,6 +33,7 @@ app.use(fileUpload());
 app.use(express.json())
 
 connectDB();
+//io.on('connection',require("./socket"));
 app.use("/api/v1/auth",require("./routes/authRoutes/authRoute"));
 app.use("/api/v1/feed",require("./routes/userRoutes/feedRoute"));
 app.use("/api/v1/profile",require("./routes/userRoutes/profileRoute"));
@@ -43,6 +45,8 @@ app.use("/api/v1/story",require("./routes/userRoutes/storyRoute"));
 app.use("/api/v1/activity",require("./routes/userRoutes/activityRoute"));
 app.use("/api/v1/suggestions",require("./routes/userRoutes/suggestionRoute"));
 app.use("/api/v1/users",require('./routes/userRoutes/usersRoute'));
+app.use("/api/v1/chats",require("./routes/userRoutes/chatRoute"));
+app.use("/api/v1/messages",require("./routes/userRoutes/messagesRoute"));
 /*app.use(express.static(path.join(__dirname,"./client/build")));
 app.get("*",(req,res)=>{
      res.sendFile(path.resolve(__dirname, "./client/build/index.html"));

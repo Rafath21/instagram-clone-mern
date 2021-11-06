@@ -8,6 +8,8 @@ const StorySchema=new mongoose.Schema({
         type: mongoose.Schema.Types.ObjectId,
         ref:'User'
     }
-})
+},
+{timestamps:true}
+)
 let Story=mongoose.model("Story",StorySchema);
 module.exports=Story;

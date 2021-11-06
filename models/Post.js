@@ -23,7 +23,9 @@ const PostSchema=new mongoose.Schema({
         type: mongoose.Schema.Types.ObjectId,
         ref:'User'
     }
-})
+},
+{timestamps:true}
+)
 PostSchema.methods.addToLikes=function(userid){
     this.likes.push(userid)
 }

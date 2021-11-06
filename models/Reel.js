@@ -23,7 +23,9 @@ const ReelSchema=new mongoose.Schema({
         type: mongoose.Schema.Types.ObjectId,
         ref:'User'
     }
-})
+},
+{timestamps:true}
+)
 ReelSchema.methods.addToLikes=function(userid){
     this.likes.push(userid)
 }

@@ -1,5 +1,5 @@
 import {GET_ALL_USERS_REQUEST,GET_ALL_USERS_SUCCESS,GET_ALL_USERS_FAILED} from "../constants/usersConstants";
-
+import axios from 'axios';
 export const getUsers=(userid)=>async(dispatch)=>{
     try{
         dispatch({type:GET_ALL_USERS_REQUEST});
