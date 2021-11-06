@@ -35,7 +35,6 @@ const Profile=(props)=>{
     }  
     dispatch(getProfile(user._id,location.state.uid));
     setLoading(false);
-    console.log(profile?.posts);
   },[followStatus,dispatch,history,location.state.uid])
   return (
     <>
@@ -173,7 +172,6 @@ const Profile=(props)=>{
                         key={index}
                         src={e.posturl}
                         onClick={async () => {
-                          console.log(e);
                           setModal({
                             isOpen: true,
                             postId: e._id,

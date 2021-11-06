@@ -52,13 +52,11 @@ exports.newPost=async(req,res)=>{
         folder:"instagram-clone",
     });
         posturl=myCloud.secure_url;
-        console.log(posturl);
         let postid=await Post.create({
             posturl:posturl,
             caption:caption,
             postedBy:req.params.userid
         })
-        console.log(postid);
         let user=await User.findById(req.params.userid).populate('followers');
         user.posts.push(postid);
         await user.save();
@@ -75,7 +73,6 @@ exports.newPost=async(req,res)=>{
             message:"Posted successfully!"
         })
     }catch(err){
-        console.log(err);
         res.status(400).json({
             error:err.message
         })

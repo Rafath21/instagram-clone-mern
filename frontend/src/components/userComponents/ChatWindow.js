@@ -7,7 +7,6 @@ let ChatWindow = () => {
   let history = useHistory();
   let dispatch = useDispatch();
   let [chatId,setChatId]=useState("");
-  let [chatIdCreated,setChatIdCreated]=useState(false);
   const { user, isAuthenticated } = useSelector((state) => state.user);
   let [currMsg, setCurrMsg] = useState("");
   const location = useLocation();
@@ -18,36 +17,45 @@ useEffect(async () => {
     console.log("use effect fired");
    getChat();
   }, [history,location,otheruser]);
-  console.log(otheruser._id);
 async function getChat(){
  try{
-    let data=await axios({
+    let data=axios({
           method:'post',
           url:`http://localhost:7000/api/v1/chats/convo/${user._id}`,
           data:{
              seconduserid:otheruser._id,
           },
           withCredentials:true,
+      }).then((res)=>{
+        console.log("getchat data:",res);
+        if(res.data!=null){
+        setChatId(res.data._id);
+        console.log(res.data._id);
+        getAllMsgs(res.data._id)
+        }else{
+         createChat();
+        }
       })
-      console.log("getchat data:",data);
-    if(data.data!=null){
-        setChatId(data.data_id);
-        setChatIdCreated(true);
+   /* if(data.data!==null){
+        setChatId(data.data._id);
+        console.log(data.data._id);
         getAllMsgs()
      }
      else{
          createChat();
-     }
+     }*/
    }catch(err){
        console.log(err);
    }
   }
-async  function getAllMsgs(){
+async  function getAllMsgs(id){
+  console.log("in get all msgs:",id);
     let data=await axios({
           method:'GET',
-          url:`http://localhost:7000/api/v1/messages/${chatId}`,
+          url:`http://localhost:7000/api/v1/messages/${id}`,
           withCredentials:true,
       })
+      console.log(data.data);
       setMsgs(data.data);
 }
 async function createChat(){
@@ -101,15 +109,15 @@ async function handleSendmsg() {
       </div>
       <div className="chat-window-messages">
         {msgs?.map((e, index) => {
-          let classname = "";
-         /* if (e.chatId.split("msg")[0] == value.uid) {
+        let classname = "";
+         if(e.sender._id===user?._id){
             classname = "chat-message-own";
-          } else {
+         }else{
             classname = "chat-message-sender";
-          }*/
-          return (
+          }
+         return (
             <div className={classname} key={index}>
-              <p></p>
+              <p>{e.message}</p>
             </div>
           );
         })}

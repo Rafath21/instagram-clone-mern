@@ -19,7 +19,8 @@ let Chats = () => {
           method:'GET',
           url:`http://localhost:7000/api/v1/chats/${user?._id}`
       })
-    setAllChats(data?.chats);
+    console.log(data);
+    setAllChats(data);
     setLoading(false);
   }, [user,history]);
   console.log(allChats);

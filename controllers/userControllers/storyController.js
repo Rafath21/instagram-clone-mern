@@ -24,7 +24,6 @@ exports.newStory=async(req,res)=>{
         }
         followers.map(async(e)=>{
             await User.findById(e._id).then(doc=>{
-                console.log(doc.storyFeed);
                let find= doc.storyFeed.find(x=>x.userid==req.params.userid)
                if(!find){
                    doc.storyFeed.push(obj);
@@ -45,7 +44,6 @@ exports.newStory=async(req,res)=>{
 }
 exports.story=async(req,res)=>{
     try{
-        console.log("in own story cont")
         let stories=await User.findById(req.params.userid).select('stories').populate({path:'stories'})
         .populate({path:'stories',populate:{path:'postedBy',select:'username pfp _id'}})
         res.status(200).json({

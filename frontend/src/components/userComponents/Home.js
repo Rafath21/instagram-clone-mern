@@ -44,7 +44,6 @@ const Home=()=> {
   let postCapref = useRef();
   let [searchValue, setsearchValue] = useState("");
   let [notificationCount, setnotificationCount] = useState("");
-  let [messagesCount, setmessagesCount] = useState(0);
   let [suggestionsOpen, setSuggestionsOpen] = useState(false);
   let [searchSuggOpen, setSearchSuggOpen] = useState(false);
   let [searchSugg, setSearchSugg] = useState([]);
@@ -94,7 +93,6 @@ useEffect(()=>{
     }
     setLoading(false);
   }, [history,dispatch,isAuthenticated,isActivityDeleted,isRequestAccepted,isRequestDeleted]);
-  console.log(feedStories); 
   return (
          <>
       {loading ? (
@@ -267,7 +265,6 @@ useEffect(()=>{
                   title="Messages"
                 ></i>
               </Link>
-              <span className="messages">{messagesCount}</span>
             </div>
           </div>
 

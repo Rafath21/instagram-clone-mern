@@ -3,9 +3,6 @@ const User=require("../../models/User");
 exports.profile=async(req,res)=>{
     const curruserid=req.params.userid;
     const otheruserid=req.body.ouid;
-    console.log("in profile");
-    console.log(curruserid);
-    console.log(otheruserid);
     try{
     let otheruser=await User.findById(otheruserid)
     .populate({path:'posts',populate:{path:'postedBy', select:'username pfp _id'}})
@@ -47,7 +44,6 @@ exports.profile=async(req,res)=>{
         })
     }
     }catch(err){
-        console.log(err)
         res.status(400).json({
             error: err.message
         })

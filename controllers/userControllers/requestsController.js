@@ -6,7 +6,6 @@ exports.handleRequests=async(req,res)=>{
     let curruser=await User.findById(curruserid);
         let otheruser=await User.findById(ouserid);
         if(otheruser.typeOfAccount==="Private"){
-            console.log("in private")
             otheruser.requests.push(curruserid)
             await otheruser.save();
             res.status(200).json({
