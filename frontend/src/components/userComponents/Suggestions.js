@@ -63,7 +63,7 @@ return (
                   className="suggestion-follow-btn"  disabled={state}
                   onClick={async (e) => {
                     e.preventDefault();
-                   e.target.innerText="Requested!"
+                   e.target.innerText="Requested"
                    setState(true)
                   dispatch(sendRequest(user._id,element._id));
                   }}

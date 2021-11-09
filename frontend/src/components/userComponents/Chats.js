@@ -44,7 +44,7 @@ let Chats = () => {
                 <>
                   <Link
                     to={{
-                      pathname: `/chatwindow/${e.username}`,
+                      pathname: `/chatwindow/${otheruser.username}`,
                       state: {
                        otheruser:otheruser
                       },

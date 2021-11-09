@@ -13,6 +13,10 @@ let Postcard = (props) => {
   let [currUserComment, setcurrUserComment] = useState("");
   let [commentBoxOpen, setcommentBoxOpen] = useState(false);
   let commentRef = useRef();
+  let commentsRef = useRef();
+     useEffect(() => {
+    commentsRef.current?.scrollIntoView({ behavior: "smooth" });
+  }, [comments]);
   function clearComment() {
     commentRef.current.value = "";
   }
@@ -102,7 +106,7 @@ let Postcard = (props) => {
             <div className="comment-form-comments">
               {comments?.map((e, index) => {
                 return (
-                  <div className="comment-form-inner" key={index}>
+                  <div className="comment-form-inner" key={index} ref={commentsRef}>
                     <img className="comment-pfp" src={e.userid.pfp} />
                     <Link
                       to={{

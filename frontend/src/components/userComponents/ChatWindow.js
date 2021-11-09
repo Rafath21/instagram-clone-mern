@@ -3,18 +3,49 @@ import { Link, useLocation,useHistory } from "react-router-dom";
 import axios from "axios";
 import { useSelector, useDispatch } from "react-redux";
 import "../../css/App.css";
+import { io } from "socket.io-client";
+import { format } from "timeago.js";
 let ChatWindow = () => {
   let history = useHistory();
   let dispatch = useDispatch();
   let [chatId,setChatId]=useState("");
   const { user, isAuthenticated } = useSelector((state) => state.user);
   let [currMsg, setCurrMsg] = useState("");
+  const [arrivalMessage, setArrivalMessage] = useState(null);
+  const socket = useRef();
+  const scrollRef=useRef();
   const location = useLocation();
-let otheruser=location.state.otheruser;
+  let otheruser=location.state.otheruser;
   let [msgs, setMsgs] = useState([]);
   let msgRef = useRef();
+     useEffect(() => {
+    scrollRef.current?.scrollIntoView({ behavior: "smooth" });
+  }, [msgs]);
+  useEffect(() => {
+    socket.current = io("ws://localhost:7000");
+    console.log(socket);
+    socket.current.on("getMessage", (data) => {
+      setArrivalMessage({
+        sender: data.senderId,
+        text: data.text,
+        createdAt: Date.now(),
+      });
+    });
+  }, []);
+  console.log(msgs);
+   useEffect(() => {
+    if(arrivalMessage && arrivalMessage?.sender==user?._id || arrivalMessage?.sender==otheruser?._id )
+    /*const newMessage={
+      senderId=arrivalMessage.senderId,
+    }*/
+    setMsgs((prev) => [...prev, arrivalMessage.text]);
+    console.log("arrival message:",arrivalMessage);
+  }, [arrivalMessage]);
+
+  useEffect(() => {
+    socket.current.emit("addUser", user?._id);
+  }, [user]);
 useEffect(async () => {
-    console.log("use effect fired");
    getChat();
   }, [history,location,otheruser]);
 async function getChat(){
@@ -36,14 +67,6 @@ async function getChat(){
          createChat();
         }
       })
-   /* if(data.data!==null){
-        setChatId(data.data._id);
-        console.log(data.data._id);
-        getAllMsgs()
-     }
-     else{
-         createChat();
-     }*/
    }catch(err){
        console.log(err);
    }
@@ -76,6 +99,22 @@ async function createChat(){
 async function sendMessage(){
 //post a message
   if(chatId!==""){
+let obj={
+         chatId:chatId,
+         sender:{
+           pfp:user?.pfp,
+           username:user?.username,
+           _id:user?._id
+         },
+         message:currMsg
+}
+console.log(obj);
+setMsgs([...msgs,obj]);
+const receiverId = otheruser?._id
+obj.receiverId=receiverId;
+      socket.current.emit("sendMessage", {
+       obj
+      });
  let postMsg=await axios({
      method:'POST',
      url:`http://localhost:7000/api/v1/messages`,
@@ -91,6 +130,12 @@ async function sendMessage(){
 }
 async function handleSendmsg() {
     msgRef.current.value = "";
+    const message = {
+      sender: user?._id,
+      text: currMsg,
+      chatId: chatId,
+    };
+    
     sendMessage();
 }
   return (
@@ -105,7 +150,18 @@ async function handleSendmsg() {
           <i class="fas fa-arrow-left" id="link"></i>
         </Link>
         <img src={otheruser.pfp} />
+        <Link id="link"
+          to={{
+            pathname: `/profile/${otheruser?.username}`,
+            state: {
+              uid: otheruser?._id,
+            },
+          }}
+
+          style={{ textDecoration: "none" }}
+        >
         <h4>{otheruser.username}</h4>
+        </Link>
       </div>
       <div className="chat-window-messages">
         {msgs?.map((e, index) => {
@@ -116,9 +172,12 @@ async function handleSendmsg() {
             classname = "chat-message-sender";
           }
          return (
-            <div className={classname} key={index}>
+           <>
+            <div className={classname} key={index} ref={scrollRef}>
               <p>{e.message}</p>
+              <span className="message-timestamp">{format(e.createdAt)}</span>
             </div>
+            </>
           );
         })}
       </div>

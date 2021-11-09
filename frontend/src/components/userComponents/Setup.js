@@ -3,6 +3,7 @@ import "../../css/setup.css";
 import { Redirect, useHistory } from "react-router-dom";
 import { useSelector, useDispatch } from "react-redux";
 import {updateProfile} from "../../actions/authActions";
+import axios from "axios";
 let Setup = () => {
   let disptach=useDispatch();
   let history=useHistory();
@@ -15,6 +16,17 @@ let Setup = () => {
     (state) => state.user
   );
   const {isProfileUpdated}=useSelector((state)=>state.isProfileUpdated)
+  async function handleDelete(){
+    try{
+      await axios({
+        method:'Delete',
+        url:`http://localhost:7000/api/v1/delete/${user?._id}`,
+        withCredentials:true,
+      }) 
+    }catch(err){
+      alert("Some error occured. Couldn't delete the account.")
+    }
+  }
   function handleTypechange(e) {
     setAccountType(e.currentTarget.value);
   }
@@ -111,7 +123,8 @@ let Setup = () => {
             "Sad to see you go 😕. Are you sure you want to delete?"
           );
           if (confirmation) {
-          //code for deleting account
+          //deleting account
+            handleDelete();
           }
         }}
       >

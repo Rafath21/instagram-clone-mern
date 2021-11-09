@@ -28,6 +28,7 @@ exports.register=async(req,res,next)=>{
         sendToken(user,200,res);
         
     }catch(err){
+        console.log(err);
         next(err);
     }
 }
@@ -49,6 +50,7 @@ exports.login=async(req,res,next)=>{
         sendToken(user,200,res);
     }
     catch(err){
+        console.log(err);
         next(err);
     }
 }

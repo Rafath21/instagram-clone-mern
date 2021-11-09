@@ -22,6 +22,10 @@ let VideoCard = (props) => {
   let captionRef = useRef();
   let commentRef = useRef();
   let [comments,setComments]=useState([]);
+   let commentsRef = useRef();
+     useEffect(() => {
+    commentsRef.current?.scrollIntoView({ behavior: "smooth" });
+  }, [comments]);
   function captionClear() {
     captionRef.current.value = "";
   }
@@ -213,7 +217,7 @@ let VideoCard = (props) => {
               <div className="reel-comments">
                 {comments?.map((element, index) => {
                   return (
-                    <div className="reel-comments-inner" key={index}>
+                    <div className="reel-comments-inner" key={index} ref={commentsRef}>
                       <Link
                         to={{
                           pathname: `/profile/${element.userid.username}`,

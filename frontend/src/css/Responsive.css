@@ -71,7 +71,7 @@
   }
   .post-img {
     height: 91%;
-    width: 16%;
+    width: 12%;
   }
   .profile-post {
     width: 103%;
@@ -111,7 +111,7 @@
   }
   .story-img-container {
     height: 88px;
-    width: 100%;
+    width: 100px;
   }
   .slick-track {
     margin-left: -10px;
@@ -134,10 +134,12 @@
     margin-left: 3px;
   }
   .chat > img {
-    width: 26%;
+    width: 15%;
+    height: 73%;
   }
   .chat-window-header > img {
-    width: 18%;
+    width: 68px;
+    height: 57px;
   }
   .chats-container,
   .chat-window-container {
@@ -149,7 +151,7 @@
     margin-top: 3%;
   }
   .story-img-container > img {
-    width: 111%;
+    width: 80%;
     object-fit: cover;
     height: 93%;
     border-radius: 50%;
@@ -176,6 +178,7 @@
     position: relative;
     top: 45%;
     right: 6px;
+    cursor: pointer;
   }
   .posts-title {
     margin-top: 114px;

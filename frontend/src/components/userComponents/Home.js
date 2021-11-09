@@ -42,14 +42,15 @@ const Home=()=> {
   let [uploadFile, setuploadFile] = useState("");
   let [uploadCaption, setuploadCaption] = useState("");
   let postCapref = useRef();
+  let [deleteActivity,setDeleteActivity]=useState("");
   let [searchValue, setsearchValue] = useState("");
-  let [notificationCount, setnotificationCount] = useState("");
+  let [notificationCount, setnotificationCount] = useState(0);
   let [suggestionsOpen, setSuggestionsOpen] = useState(false);
   let [searchSuggOpen, setSearchSuggOpen] = useState(false);
   let [searchSugg, setSearchSugg] = useState([]);
   let [searchUid, setsearchUid] = useState(null);
   let [loading, setLoading] = useState(true);
-  let [preview,setPostPreview]=useState("");
+  let [preview,setPostPreview]=useState("/default_post.png");
   let {ownStories}=useSelector((state)=>state.ownStories);
   const {followStatus}=useSelector((state)=>state.followStatus);
 
@@ -68,6 +69,7 @@ const Home=()=> {
   };
   const newPost=()=>{
 dispatch(createPost(user?._id, uploadFile, uploadCaption));
+setPostPreview("/default_post.png");
 }
 useEffect(()=>{
     if(isAuthenticated==false){
@@ -182,6 +184,7 @@ useEffect(()=>{
                     }}
                   ></i>
                   <p className="create-post-heading">Create New Post</p>
+                  <img className="default-post"src={preview}/>
                   <input
                     type="file"
                     accept="image/*"
