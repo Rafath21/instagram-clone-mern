@@ -19,16 +19,12 @@ module.exports=function(socket){
         io.emit('getUsers',users);
     })
     console.log(users);
-    socket.on('sendMessage',async({chatId,sender,receiverId,message})=>{
+    socket.on('sendMessage',async({senderId,receiverId,text})=>{
         const user=getUser(receiverId);
         console.log("in send message:",user);
-        let obj={
-            chatId,
-            sender,
-            message,
-        }
         io.to(user.socketId).emit('getMessage',{
-            obj
+            senderId,
+            text,
         })
     })
     socket.on('disconnect',()=>{

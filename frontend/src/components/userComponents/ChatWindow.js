@@ -25,21 +25,33 @@ let ChatWindow = () => {
     socket.current = io("ws://localhost:7000");
     console.log(socket);
     socket.current.on("getMessage", (data) => {
-      setArrivalMessage({
-        sender: data.senderId,
-        text: data.text,
-        createdAt: Date.now(),
-      });
-    });
+    let pfp,username,_id;
+    /*if(data.senderId===user?._id){
+      pfp=user?.pfp,
+      username=user?.username,
+      _id=user?._id
+    }else{
+      pfp=otheruser?.pfp,
+      username=otheruser?.username,
+      _id=otheruser?._id
+    }*/
+    let message={
+      chatId:chatId,
+      createdAt:Date.now(),
+      message:data.text,
+      sender:{
+        _id:data.senderId
+      }
+    }
+    setArrivalMessage(message);
+  })
   }, []);
   console.log(msgs);
    useEffect(() => {
-    if(arrivalMessage && arrivalMessage?.sender==user?._id || arrivalMessage?.sender==otheruser?._id )
-    /*const newMessage={
-      senderId=arrivalMessage.senderId,
-    }*/
-    setMsgs((prev) => [...prev, arrivalMessage.text]);
-    console.log("arrival message:",arrivalMessage);
+    if(arrivalMessage && (arrivalMessage?.sender==user?._id || arrivalMessage?.sender==otheruser?._id) )
+   setMsgs((prev) => [...prev, arrivalMessage]);
+   console.log(msgs); 
+   console.log("arrival message:",arrivalMessage);
   }, [arrivalMessage]);
 
   useEffect(() => {
@@ -109,12 +121,7 @@ let obj={
          message:currMsg
 }
 console.log(obj);
-setMsgs([...msgs,obj]);
-const receiverId = otheruser?._id
-obj.receiverId=receiverId;
-      socket.current.emit("sendMessage", {
-       obj
-      });
+//setMsgs([...msgs,obj]);
  let postMsg=await axios({
      method:'POST',
      url:`http://localhost:7000/api/v1/messages`,
@@ -130,12 +137,12 @@ obj.receiverId=receiverId;
 }
 async function handleSendmsg() {
     msgRef.current.value = "";
-    const message = {
-      sender: user?._id,
-      text: currMsg,
-      chatId: chatId,
-    };
-    
+    const receiverId = otheruser?._id
+      socket.current.emit("sendMessage", {
+       senderId:user?._id,
+       receiverId,
+       text:currMsg
+      });
     sendMessage();
 }
   return (
