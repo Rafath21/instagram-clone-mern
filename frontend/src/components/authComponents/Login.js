@@ -12,7 +12,7 @@ let Login = () => {
   const { error, isAuthenticated, user } = useSelector((state) => state.user);
  useEffect(() => {
     if (error) {
-      alert(error);
+      alert("Invalid Credentials!");
       dispatch(clearErrors());
     }if (isAuthenticated!=false) {
       history.push("/");

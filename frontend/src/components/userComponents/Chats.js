@@ -12,13 +12,12 @@ let Chats = () => {
   const { user, isAuthenticated } = useSelector((state) => state.user);
   let [allChats, setAllChats] = useState([]);
   let location = useLocation();
-  let [loading, setLoading] = useState(false);
+  let [loading, setLoading] = useState(true);
   useEffect(async () => {
-    setLoading(true);
     let {data}=  await axios({
-          method:'GET',
-          url:`http://localhost:7000/api/v1/chats/${user?._id}`
-      })
+      method:'GET',
+      url:`http://localhost:7000/api/v1/chats/${user?._id}`
+    })
     console.log(data);
     setAllChats(data);
     setLoading(false);

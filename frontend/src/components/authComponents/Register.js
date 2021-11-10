@@ -23,6 +23,7 @@ async function handleRegister(e) {
     }
   }
   useEffect(() => {
+    console.log(error)
     if (error) {
       alert(error);
     }

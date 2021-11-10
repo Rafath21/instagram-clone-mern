@@ -60,10 +60,11 @@ return (
               </Link>
               <div>
                 <button
-                  className="suggestion-follow-btn"
+                  className="suggestion-follow-btn" 
                   onClick={async (e) => {
                   e.preventDefault();
-                  e.target.innerText="Requested"
+                  e.target.innerText="Requested";
+                  e.target.disabled=true;
                   dispatch(sendRequest(user._id,element._id));
                   setState(true)
                   }}

@@ -18,6 +18,10 @@ let VideoCard = (props) => {
   let [currUserComment, setcurrUserComment] = useState("");
   let [currUserLike, setCurrUserlike] = useState(false);
   let [loading, setLoading] = useState(false);
+  const { isReelCreated } = useSelector((state) => state.isReelCreated);
+  useEffect(()=>{
+  setLoading(false);
+  },[isReelCreated])
   let videoRef = useRef();
   let captionRef = useRef();
   let commentRef = useRef();
@@ -192,9 +196,10 @@ let VideoCard = (props) => {
                   e.currentTarget.value = "Posting..";
                   captionClear();
                   dispatch(createReel(user?._id,uploadFile,uploadCaption))
+                  setLoading(true);
                   setTimeout(() => {
                   setCreateReelOpen(false);
-                  }, 4000);
+                  }, 8000);
                 }}
               >
                 POST

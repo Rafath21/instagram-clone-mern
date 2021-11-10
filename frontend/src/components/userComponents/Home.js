@@ -1,5 +1,5 @@
 import React from 'react';
-import { Redirect, Link ,useHistory} from "react-router-dom";
+import { Link ,useHistory} from "react-router-dom";
 import { useState ,useEffect, useRef} from "react";
 import { useSelector, useDispatch } from "react-redux";
 import { createPost } from '../../actions/postActions';
@@ -33,8 +33,6 @@ const Home=()=> {
   const {isRequestDeleted}=useSelector((state)=>state.isRequestDeleted);
   const {isPostCreated}=useSelector((state)=>state.isPostCreated);
   const {isStoryCreated}=useSelector((state)=>state.isStoryCreated);
-  const {allSuggestions}=useSelector((state)=>state.allSuggestions);
-  const {isProfileUpdated}=useSelector((state)=>state.isProfileUpdated);
   const {allUsers}=useSelector((state)=>state.allUsers);
   let [reqOpen, setreqOpen] = useState(false);
   let [createBoxOpen, setcreateBoxOpen] = useState(false);
@@ -50,7 +48,8 @@ const Home=()=> {
   let [loading, setLoading] = useState(true);
   let [preview,setPostPreview]=useState("/default_post.png");
   let {ownStories}=useSelector((state)=>state.ownStories);
-
+  let [requests,setRequests]=useState([]);
+  let [allActivity,setallActivity]=useState([]);
   function clearCaption() {
     postCapref.current.value = "";
   }
@@ -81,17 +80,32 @@ useEffect(()=>{
     dispatch(storiesfeed(user?._id));
     dispatch(getOwnStory(user?._id));
 },[history,dispatch,isAuthenticated,isStoryCreated])
-  useEffect(async () => {
-  //set own stories
+    useEffect(async () => {
     if (user?.typeOfAccount == "Private") {
-      //dispatch(requestsfeed(user?._id));
-      setnotificationCount(feedRequests?.length);
+      dispatch(requestsfeed(user?._id));
+      setRequests(feedRequests);
     } else {
-      //dispatch(activityfeed(user?._id));
-      setnotificationCount(feedActivity?.length);
+      dispatch(activityfeed(user?._id));
+      setallActivity(feedActivity);
     }
     setLoading(false);
-  }, [history,dispatch,isAuthenticated,isActivityDeleted,isRequestAccepted,isRequestDeleted]);
+  }, [history,dispatch,isActivityDeleted,isRequestAccepted,isRequestDeleted]);
+useEffect(()=>{
+  if(user?.typeOfAccount=="Private"){
+    setnotificationCount(requests?.length);
+  }else{
+    setnotificationCount(allActivity?.length);
+  }
+},[allActivity,requests])
+useEffect(()=>{
+   if(user?.typeOfAccount=="Private"){
+      setRequests(feedRequests);
+  }else{
+      setallActivity(feedActivity);
+  }
+},[feedRequests,feedActivity])
+  console.log(feedPosts);
+
   return (
          <>
       {loading ? (
@@ -270,7 +284,7 @@ useEffect(()=>{
 
           {reqOpen ? (
             <div className="requests-container">
-              {user.typeOfAccount == "private" ? (
+              {user.typeOfAccount == "Private" ? (
                 <>
                   <div className="requests-heading">Follow Requests</div>
                   <i
@@ -282,7 +296,7 @@ useEffect(()=>{
                   ></i>
 
                   <div className="requests">
-                    {feedRequests?.map((request, index) => {
+                    {requests?.map((request, index) => {
                       return (
                         <div key={index} className="requests-inner" >
                           
@@ -302,6 +316,11 @@ useEffect(()=>{
                             className="request-allow-btn"
                             onClick={async (e) => {
                               e.preventDefault();
+                               let arr=[];
+                              arr=requests.filter((c)=>{
+                                return c._id!=request._id;
+                              })
+                              setRequests(arr);
                               dispatch(acceptRequest(user?._id, request._id));
                             }}
                           >
@@ -311,10 +330,13 @@ useEffect(()=>{
                             class="far fa-times-circle"
                             id="request-close-btn"
                             onClick={async (e) => {
-                              let ouid = "";
                               e.preventDefault();
-                              e.target.style.color='grey';
-                              dispatch(deleteRequest(user?._id, ouid));
+                              let arr=[];
+                              arr=requests.filter((c)=>{
+                                return c._id!=request._id;
+                              })
+                              setRequests(arr);
+                              dispatch(deleteRequest(user?._id, request._id));
                             }}
                           ></i>
                         </div>
@@ -336,7 +358,7 @@ useEffect(()=>{
                       ></i>
                     </div>
                     <div className="follows-container-follows">
-                      {feedActivity?.map((request, index) => {
+                      {allActivity?.map((request, index) => {
                         return (
                           <div className="follows-container-inner-follows">
                              
@@ -365,7 +387,11 @@ useEffect(()=>{
                               id="follows-container-close"
                               onClick={async (e) => {
                               e.preventDefault();
-                              e.target.style.color='grey';
+                              let arr=[];
+                              arr=allActivity.filter((c)=>{
+                                return c._id!==request._id;
+                              })
+                              setallActivity(arr);
                               dispatch(deleteActivity(user._id,request._id));
                               }}
                             ></i>
@@ -418,7 +444,7 @@ useEffect(()=>{
                       to={{
                         pathname: `/profile/${user?.username}`,
                         state: {
-                          uid: user?.id,
+                          uid: user?._id,
                         },
                       }}
                     >
@@ -471,7 +497,7 @@ useEffect(()=>{
                 </div>
               ) : (
                 <div className="no-posts-container">
-                  <p className="no-post-title">No Posts here!</p>
+                  <p className="no-post-title">No posts here!</p>
                   <p className="no-post-matter">
                     Please follow people on Instagram-clone to see posts.
                   </p>

@@ -17,9 +17,13 @@ let Reel = () => {
   let [uploadCaption, setuploadCaption] = useState("");
   let captionRef = useRef();
   const { user, isAuthenticated } = useSelector((state) => state.user);
+
   function captionClear() {
     captionRef.current.value = "";
   }
+  useEffect(()=>{
+    setLoading(false);
+  },[isReelCreated])
   useEffect(async () => {
     setLoading(true);
     dispatch(reelfeed(user?._id));
@@ -107,6 +111,7 @@ let Reel = () => {
                       setTimeout(() => {
                         setCreateReelOpen(false);
                       }, 4000);
+                      setLoading(true);
                     }}
                   >
                     POST

@@ -4,8 +4,10 @@ import { Redirect, useHistory } from "react-router-dom";
 import { useSelector, useDispatch } from "react-redux";
 import {updateProfile} from "../../actions/authActions";
 import axios from "axios";
+import {logout} from "../../actions/authActions";
+
 let Setup = () => {
-  let disptach=useDispatch();
+  let dispatch=useDispatch();
   let history=useHistory();
   let [userName, setUserName] = useState("");
   let [bio, setBio] = useState("");
@@ -23,6 +25,8 @@ let Setup = () => {
         url:`http://localhost:7000/api/v1/delete/${user?._id}`,
         withCredentials:true,
       }) 
+      history.push("/");
+      dispatch(logout());
     }catch(err){
       alert("Some error occured. Couldn't delete the account.")
     }
@@ -41,7 +45,7 @@ let Setup = () => {
     reader.readAsDataURL(e.target.files[0]);
   };
   const setProfile=()=>{
-      disptach(updateProfile(user._id,userName,accountType,bio,img));
+      dispatch(updateProfile(user._id,userName,accountType,bio,img));
         history.push("/");
   }
   return (

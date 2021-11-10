@@ -71,6 +71,8 @@ html {
   position: absolute;
   right: 17%;
   top: 2%;
+  overflow-y: auto;
+  overflow-x: hidden;
   background: rgb(255, 255, 255);
   -webkit-box-shadow: 0 0 5px 3px #6ba6b3;
 }
@@ -96,7 +98,7 @@ html {
 }
 
 .request-pfp {
-  width: 50px;
+  width: 64px;
   height: 50px;
   margin-top: 10px;
   margin-bottom: 5px;
@@ -117,7 +119,7 @@ html {
 .request-username {
   margin-left: 30px;
   margin-top: 25px;
-  font-size: 20px;
+  font-size: 13px;
   font-weight: 100;
   color: black;
 }
@@ -181,7 +183,7 @@ html {
   width: 100%;
 }
 .stories-container > li:nth-child(n + 2) {
-  margin-left: 3px;
+  margin-left: -25px;
 }
 .follows-container-follows > div:nth-child(n + 2) {
   margin-top: 3%;
@@ -427,7 +429,7 @@ hr {
   justify-content: center;
 }
 #post-pic {
-  max-height: 101%;
+  max-height: 98%;
   width: 60%;
 }
 .own-story {
@@ -620,6 +622,10 @@ hr {
 .profile-sendMsg {
   border-radius: 50px;
   box-shadow: 12px 12px 24px #a9afbf, -12px -12px 24px #f9ffff;
+}
+.profile-followers-number,
+.profile-following-number {
+  cursor: pointer;
 }
 
 hr {
@@ -1044,7 +1050,6 @@ hr {
 
 .posts-title {
   color: var(--font-color);
-  text-decoration: underline;
   margin-left: 8px;
   margin-top: 60px;
   font-size: 30px;
@@ -1252,8 +1257,8 @@ hr {
 .acc-delete-btn {
   width: 30%;
   margin-left: 35%;
-  padding: 15px;
-  color: white;
+  padding: 6px;
+  color: #ffff;
   background: var(--secondary);
   border: none;
 }

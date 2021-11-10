@@ -157,14 +157,6 @@ UserSchema.methods.deleteFromPosts=function(postid){
     }
     this.posts=allposts;
 }
-UserSchema.methods.deleteFromRequests=function(ouid){
-      let allrequests=this.requests;
-    const index=allrequests.indexOf(ouid);
-    if(index>-1){
-        allrequests.splice(index,1)
-    }
-    this.requests=allrequests;
-}
 UserSchema.methods.deleteFromActivity=function(ouid){
       let allactivity=this.activity;
     const index=allactivity.indexOf(ouid);
