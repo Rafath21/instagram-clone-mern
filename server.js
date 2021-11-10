@@ -12,7 +12,6 @@ const PORT=process.env.PORT;
 const server=app.listen(PORT,()=>{
  console.log(`server is listening on this port:${PORT}`);
 })
-const io = module.exports.io = require('socket.io')(server);
 cloudinary.config({
     cloud_name: process.env.CLOUDINARY_NAME,
     api_key: process.env.CLOUDINARY_API_KEY,
@@ -35,7 +34,6 @@ app.use(fileUpload());
 app.use(express.json())
 
 connectDB();
-io.on('connection',require("./socket"));
 app.use("/api/v1/auth",require("./routes/authRoutes/authRoute"));
 app.use("/api/v1/feed",require("./routes/userRoutes/feedRoute"));
 app.use("/api/v1/profile",require("./routes/userRoutes/profileRoute"));

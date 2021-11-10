@@ -42,9 +42,7 @@ let Setup = () => {
   };
   const setProfile=()=>{
       disptach(updateProfile(user._id,userName,accountType,bio,img));
-      if(isProfileUpdated){
         history.push("/");
-      }
   }
   return (
     <div className="setup-container">

@@ -42,17 +42,14 @@ const Home=()=> {
   let [uploadFile, setuploadFile] = useState("");
   let [uploadCaption, setuploadCaption] = useState("");
   let postCapref = useRef();
-  let [deleteActivity,setDeleteActivity]=useState("");
   let [searchValue, setsearchValue] = useState("");
   let [notificationCount, setnotificationCount] = useState(0);
   let [suggestionsOpen, setSuggestionsOpen] = useState(false);
   let [searchSuggOpen, setSearchSuggOpen] = useState(false);
   let [searchSugg, setSearchSugg] = useState([]);
-  let [searchUid, setsearchUid] = useState(null);
   let [loading, setLoading] = useState(true);
   let [preview,setPostPreview]=useState("/default_post.png");
   let {ownStories}=useSelector((state)=>state.ownStories);
-  const {followStatus}=useSelector((state)=>state.followStatus);
 
   function clearCaption() {
     postCapref.current.value = "";
@@ -87,10 +84,10 @@ useEffect(()=>{
   useEffect(async () => {
   //set own stories
     if (user?.typeOfAccount == "Private") {
-      dispatch(requestsfeed(user?._id));
+      //dispatch(requestsfeed(user?._id));
       setnotificationCount(feedRequests?.length);
     } else {
-      dispatch(activityfeed(user?._id));
+      //dispatch(activityfeed(user?._id));
       setnotificationCount(feedActivity?.length);
     }
     setLoading(false);
@@ -287,16 +284,16 @@ useEffect(()=>{
                   <div className="requests">
                     {feedRequests?.map((request, index) => {
                       return (
-                        <div key={index} className="requests-inner">
+                        <div key={index} className="requests-inner" >
                           
                           <img className="request-pfp" src={request.pfp} />
                            <Link id="link" to={{
-                  pathname: `/profile/${request.username}`,
-                  state: {
-                    uid: request._id,
-                  },
-                }}
-                style={{ textDecoration: "none" }}>
+                              pathname: `/profile/${request.username}`,
+                              state: {
+                                uid: request._id,
+                              },
+                          }}
+                          style={{ textDecoration: "none" }}>
                           <p className="request-username">
                             {request.username} wants to follow you
                           </p>
@@ -316,6 +313,7 @@ useEffect(()=>{
                             onClick={async (e) => {
                               let ouid = "";
                               e.preventDefault();
+                              e.target.style.color='grey';
                               dispatch(deleteRequest(user?._id, ouid));
                             }}
                           ></i>
@@ -366,8 +364,9 @@ useEffect(()=>{
                               class="far fa-times-circle"
                               id="follows-container-close"
                               onClick={async (e) => {
-                                e.preventDefault();
-                                dispatch(deleteActivity(user._id,request._id));
+                              e.preventDefault();
+                              e.target.style.color='grey';
+                              dispatch(deleteActivity(user._id,request._id));
                               }}
                             ></i>
                           </div>

@@ -73,6 +73,13 @@
     height: 91%;
     width: 12%;
   }
+  .create-reel-container {
+    left: 2%;
+    width: 346px;
+  }
+  .create-reel-input {
+    left: 27%;
+  }
   .profile-post {
     width: 103%;
     height: 164px;

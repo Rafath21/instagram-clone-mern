@@ -80,9 +80,9 @@ html {
   width: 0px;
   height: 0px;
   position: absolute;
-  border-left: 22px solid #6ba6b3;
+  border-left: 22px solid var(--background-bs);
   border-right: 19px solid transparent;
-  border-top: 15px solid #6ba6b3;
+  border-top: 15px solid var(--background-bs);
   border-bottom: 16px solid transparent;
   right: -41px;
   top: -3px;
@@ -406,8 +406,9 @@ hr {
 }
 .post-img {
   margin-left: 6px;
-  width: 12%;
-  height: 100%;
+  width: 58px;
+  height: 58px;
+  margin-top: 5px;
   object-fit: cover;
   border-radius: 50%;
 }
@@ -756,7 +757,6 @@ hr {
 }
 .create-reel-container {
   position: absolute;
-  left: 1%;
   color: rgb(0, 0, 0);
 }
 .video-card > span {
@@ -764,15 +764,16 @@ hr {
 }
 .create-post-container > input::file-selector-button {
   cursor: pointer;
-  width: 100%;
+  width: 50%;
   height: 5vh;
   border: none;
   margin: 0%;
   font: 400 0.8vmax;
   transition: all 0.5s;
   padding: 0 1vmax;
-  color: rgba(0, 0, 0, 0.623);
-  background-color: rgb(255, 255, 255);
+  margin-right: 7px;
+  color: rgba(0, 0, 0, 0.66);
+  background: #ffff;
 }
 /*.main-video-container {
   overflow: scroll;
@@ -1426,6 +1427,7 @@ hr {
 }
 .message-timestamp {
   font-size: 0.7rem;
+  opacity: 0.4;
 }
 .chat-window-messages {
   scrollbar-width: thin;
@@ -1444,6 +1446,41 @@ hr {
   background-color: #a9afbf;
   border-radius: 20px;
 }
+.comment-form-comments {
+  scrollbar-width: thin;
+  scrollbar-color: #0f1724 #11ece5;
+}
+
+.comment-form-comments::-webkit-scrollbar {
+  width: 10px;
+}
+
+.comment-form-comments::-webkit-scrollbar-track {
+  background: #cfd9f59e;
+}
+
+.comment-form-comments::-webkit-scrollbar-thumb {
+  background-color: #a9afbf;
+  border-radius: 20px;
+}
+.stories-container {
+  scrollbar-width: thin;
+  scrollbar-color: #0f1724 #11ece5;
+}
+
+.stories-container::-webkit-scrollbar {
+  width: 8px;
+}
+
+.stories-container::-webkit-scrollbar-track {
+  background: #cfd9f59e;
+}
+
+.stories-container::-webkit-scrollbar-thumb {
+  background-color: #a9afbf;
+  border-radius: 20px;
+}
+
 /**********************************BACKGROUNDS*************************************************/
 
 .chat,
