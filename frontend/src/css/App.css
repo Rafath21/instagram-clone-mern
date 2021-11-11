@@ -588,6 +588,7 @@ hr {
   margin-left: 8px;
   width: 77px;
   height: 75px;
+  object-fit: cover;
 }
 .sidebar-username {
   margin-top: 40px;
@@ -656,6 +657,7 @@ hr {
   border-radius: 50%;
   width: 70px;
   height: 70px;
+  object-fit: cover;
 }
 .suggestion-username {
   margin-left: 12px;
@@ -965,6 +967,7 @@ hr {
   width: 70px;
   height: 70px;
   border-radius: 50%;
+  object-fit: cover;
 }
 .comment-username {
   margin-left: 12px;
@@ -1379,6 +1382,7 @@ hr {
 .chat > img {
   width: 18%;
   border-radius: 50%;
+  object-fit: cover;
 }
 .chat > h4 {
   margin-top: 38px;
