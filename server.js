@@ -1,31 +1,24 @@
 const express=require('express');
 const app=express();
-require("dotenv").config({ path: "./config.env" });
 const cloudinary=require("cloudinary");
 const cors=require("cors");
+if(process.env.NODE_ENV!=="PRODUCTION"){
+    require("dotenv").config({ path: "./config.env" });
+    app.use(cors());
+}
 const bodyParser=require("body-parser");
 const fileUpload=require("express-fileupload");
 const cookieParser = require("cookie-parser");
 const connectDB=require('./config/db');
 const path=require("path");
 const PORT=process.env.PORT;
-const server=app.listen(PORT,()=>{
- console.log(`server is listening on this port:${PORT}`);
-})
+
 cloudinary.config({
     cloud_name: process.env.CLOUDINARY_NAME,
     api_key: process.env.CLOUDINARY_API_KEY,
     api_secret: process.env.CLOUDINARY_API_SECRET
 })
-app.use('/', function (req, res,next) {
-    res.header("Access-Control-Allow-Origin", "http://localhost:3000");
-    res.setHeader('Access-Control-Allow-Methods', 'GET, POST, OPTIONS, PUT, PATCH, DELETE');
-    res.header(
-    'Access-Control-Allow-Headers',
-    'Origin, X-Requested-With, Content-Type, Accept'
-  );
-    next();
-})
+
  
 app.use(cookieParser());
 app.use(bodyParser({limit: '50mb'}));
@@ -48,9 +41,13 @@ app.use("/api/v1/users",require('./routes/userRoutes/usersRoute'));
 app.use("/api/v1/chats",require("./routes/userRoutes/chatRoute"));
 app.use("/api/v1/messages",require("./routes/userRoutes/messagesRoute"));
 app.use("/api/v1/delete",require("./routes/userRoutes/deleteUserRoute"));
-/*app.use(express.static(path.join(__dirname,"./client/build")));
-app.get("*",(req,res)=>{
-     res.sendFile(path.resolve(__dirname, "./client/build/index.html"));
-})*/
 
+app.use(express.static(path.join(__dirname,"./frontend/build")));
+app.get("*",(req,res)=>{
+     res.sendFile(path.resolve(__dirname, "./frontend/build/index.html"));
+})
+
+app.listen(PORT,()=>{
+ console.log(`server is listening on this port:${PORT}`);
+})
 

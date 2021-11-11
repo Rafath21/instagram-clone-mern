@@ -1,5 +1,5 @@
 import "../../css/stories.css";
-import { useLocation, useHistory } from "react-router-dom";
+import { useHistory } from "react-router-dom";
 import { useState } from "react";
 import { useSelector, useDispatch } from "react-redux";
 import { createStory } from "../../actions/storyActions";
@@ -8,8 +8,6 @@ let Createstory = () => {
   let dispatch=useDispatch();
   let [uploadCaption, setuploadCaption] = useState("");
   const { user, isAuthenticated } = useSelector((state) => state.user);
-  const { isStoryCreated } = useSelector((state) => state.isStoryCreated);
-  let location = useLocation();
   let history = useHistory();
   const updateStoryImg = (e) => {
     const reader = new FileReader();

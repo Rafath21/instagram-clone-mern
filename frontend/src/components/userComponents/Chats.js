@@ -5,7 +5,6 @@ import { useContext, useEffect, useState } from "react";
 import ChatWindow from "./ChatWindow";
 import Chatloader from "../../Loaders/Chatsloader";
 import { useSelector, useDispatch } from "react-redux";
-import { io } from "socket.io-client";
 let Chats = () => {
   let history = useHistory();
   let dispatch = useDispatch();

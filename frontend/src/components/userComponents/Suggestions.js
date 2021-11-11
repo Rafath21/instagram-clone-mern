@@ -1,8 +1,7 @@
 import React from 'react';
-import { Redirect, Link ,useHistory} from "react-router-dom";
-import { useState ,useEffect,useRef} from "react";
+import {  Link ,useHistory} from "react-router-dom";
+import { useState } from "react";
 import { useSelector, useDispatch} from "react-redux";
-import {getProfile} from "../../actions/profileActions";
 import {sendRequest} from "../../actions/requestsActions"
 import {logout} from "../../actions/authActions";
 const Suggestions=()=> {

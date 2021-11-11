@@ -1,4 +1,4 @@
-import { useState, useContext, useEffect, useRef } from "react";
+import { useState, useEffect, useRef } from "react";
 import "../../css/App.css";
 import VideoCard from "./VideoCard";
 import ReelsLoader from "../../Loaders/ReelsLoader";

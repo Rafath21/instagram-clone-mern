@@ -1,4 +1,4 @@
-import React, { useEffect, useState, useContext } from "react";
+import React, { useEffect, useState} from "react";
 import { useLocation, Link,useHistory } from "react-router-dom";
 import "../../css/App.css";
 import Postcard from "./Postcard";

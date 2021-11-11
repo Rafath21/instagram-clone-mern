@@ -1,6 +1,6 @@
-import {  useState, useEffect } from "react";
+import {  useState } from "react";
 import "../../css/setup.css";
-import { Redirect, useHistory } from "react-router-dom";
+import { useHistory } from "react-router-dom";
 import { useSelector, useDispatch } from "react-redux";
 import {updateProfile} from "../../actions/authActions";
 import axios from "axios";
