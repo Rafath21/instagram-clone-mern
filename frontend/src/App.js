@@ -16,7 +16,9 @@ import { LOGIN_SUCCESS } from "./constants/authConstants";
 function App() {
   let dispatch = useDispatch();
 useEffect(()=>{
-        dispatch({type:LOGIN_SUCCESS,payload:JSON.parse(window.localStorage.getItem("user"))});
+        if(window.localStorage.getItem("user")){
+          dispatch({type:LOGIN_SUCCESS,payload:JSON.parse(window.localStorage.getItem("user"))});
+      }
   },[])
   return (
     <>
