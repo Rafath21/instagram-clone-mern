@@ -5,7 +5,7 @@ export const getProfile=(userid,ouid)=>async(dispatch)=>{
         dispatch({type:GET_PROFILE_REQUEST});
         const {data}=await axios({
             method:'POST',
-            url:`http://localhost:7000/api/v1/profile/${userid}`,
+            url:`/api/v1/profile/${userid}`,
             withCredentials:true,
             data:{
                 ouid:ouid,

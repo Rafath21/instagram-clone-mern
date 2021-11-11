@@ -22,7 +22,7 @@ let Setup = () => {
     try{
       await axios({
         method:'Delete',
-        url:`http://localhost:7000/api/v1/delete/${user?._id}`,
+        url:`/api/v1/delete/${user?._id}`,
         withCredentials:true,
       }) 
       history.push("/");

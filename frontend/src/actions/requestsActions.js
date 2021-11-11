@@ -7,7 +7,7 @@ export const acceptRequest=(userid,ouid)=>async(dispatch)=>{
         dispatch({type:ACCEPT_REQUEST_REQUEST});
         const {data}=await axios({
             method:'POST',
-            url:`http://localhost:7000/api/v1/requests/acceptRequest/${userid}`,
+            url:`/api/v1/requests/acceptRequest/${userid}`,
             withCredentials:true,
             data:{
                 ouid:ouid,
@@ -23,7 +23,7 @@ export const deleteRequest=(userid,ouid)=>async(dispatch)=>{
         dispatch({type:DELETE_REQUEST_REQUEST});
         const {data}=await axios({
             method:'DELETE',
-            url:`http://localhost:7000/api/v1/requests/deleteRequest/${userid}`,
+            url:`/api/v1/requests/deleteRequest/${userid}`,
             withCredentials:true,
             data:{
                 ouid:ouid,
@@ -39,7 +39,7 @@ export const deleteActivity=(userid,ouid)=>async(dispatch)=>{
         dispatch({type:DELETE_ACTIVITY_REQUEST});
         const {data}=await axios({
             method:'DELETE',
-            url:`http://localhost:7000/api/v1/activity/deleteActivity/${userid}`,
+            url:`/api/v1/activity/deleteActivity/${userid}`,
             withCredentials:true,
             data:{
                 ouid:ouid,
@@ -55,7 +55,7 @@ export const sendRequest=(userid,ouid)=>async(dispatch)=>{
         dispatch({type:SEND_REQUEST_REQUEST});
         const {data}=await axios({
             method:'POST',
-            url:`http://localhost:7000/api/v1/requests/handleRequest/${userid}`,
+            url:`/api/v1/requests/handleRequest/${userid}`,
             withCredentials:true,
             data:{
                 ouid:ouid,

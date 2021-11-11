@@ -7,7 +7,7 @@ export const createStory=(userid,storyurl,caption)=>async(dispatch)=>{
         dispatch({type:CREATE_STORY_REQUEST});
         const {data}=await axios({
             method:'POST',
-            url:`http://localhost:7000/api/v1/story/${userid}`,
+            url:`/api/v1/story/${userid}`,
             withCredentials:true,
             data:{
                 storyurl,caption
@@ -23,7 +23,7 @@ export const getOwnStory=(userid)=>async(dispatch)=>{
         dispatch({type:GET_OWN_STORY_REQUEST});
         const {data}=await axios({
             method:'GET',
-            url:`http://localhost:7000/api/v1/story/${userid}`,
+            url:`/api/v1/story/${userid}`,
             withCredentials:true,
         })
         dispatch({type:GET_OWN_STORY_SUCCESS,payload:data.stories})

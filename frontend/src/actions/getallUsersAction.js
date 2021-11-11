@@ -5,7 +5,7 @@ export const getUsers=(userid)=>async(dispatch)=>{
         dispatch({type:GET_ALL_USERS_REQUEST});
         const {data}=await axios({
             method:'GET',
-            url:`http://localhost:7000/api/v1/users/${userid}`,
+            url:`/api/v1/users/${userid}`,
             withCredentials:true,
         })
         dispatch({type:GET_ALL_USERS_SUCCESS,payload:data.users})

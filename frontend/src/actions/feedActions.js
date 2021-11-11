@@ -5,7 +5,7 @@ export const postfeed=(userid)=>async(dispatch)=>{
         dispatch({type:FEED_POSTS_REQUEST});
         const {data}=await axios({
             method:'GET',
-            url:`http://localhost:7000/api/v1/feed/posts/${userid}`,
+            url:`/api/v1/feed/posts/${userid}`,
             withCredentials:true,
         })
         dispatch({type:FEED_POSTS_SUCCESS,payload:data.postFeed})
@@ -18,7 +18,7 @@ export const reelfeed=(userid)=>async(dispatch)=>{
         dispatch({type:FEED_REELS_REQUEST});
         const {data}=await axios({
             method:'GET',
-            url:`http://localhost:7000/api/v1/feed/reels/${userid}`,
+            url:`/api/v1/feed/reels/${userid}`,
             withCredentials:true,
         })
         dispatch({type:FEED_REELS_SUCCESS,payload:data.reelFeed})
@@ -31,7 +31,7 @@ export const activityfeed=(userid)=>async(dispatch)=>{
         dispatch({type:FEED_ACTIVITY_REQUEST});
         const {data}=await axios({
             method:'GET',
-            url:`http://localhost:7000/api/v1/feed/activity/${userid}`,
+            url:`/api/v1/feed/activity/${userid}`,
             withCredentials:true,
         })
         dispatch({type:FEED_ACTIVITY_SUCCESS,payload:data.activityFeed})
@@ -44,7 +44,7 @@ export const requestsfeed=(userid)=>async(dispatch)=>{
         dispatch({type:FEED_REQUESTS_REQUEST});
         const {data}=await axios({
             method:'GET',
-            url:`http://localhost:7000/api/v1/feed/requestsfeed/${userid}`,
+            url:`/api/v1/feed/requestsfeed/${userid}`,
             withCredentials:true,
         })
         dispatch({type:FEED_REQUESTS_SUCCESS,payload:data.requestsFeed})
@@ -57,7 +57,7 @@ export const storiesfeed=(userid)=>async(dispatch)=>{
         dispatch({type:FEED_STORIES_REQUEST});
         const {data}=await axios({
             method:'GET',
-            url:`http://localhost:7000/api/v1/feed/stories/${userid}`,
+            url:`/api/v1/feed/stories/${userid}`,
             withCredentials:true,
         })
         dispatch({type:FEED_STORIES_SUCCESS,payload:data.storyFeed})

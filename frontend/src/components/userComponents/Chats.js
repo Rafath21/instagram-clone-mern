@@ -15,7 +15,7 @@ let Chats = () => {
   useEffect(async () => {
     let {data}=  await axios({
       method:'GET',
-      url:`http://localhost:7000/api/v1/chats/${user?._id}`
+      url:`/api/v1/chats/${user?._id}`
     })
     setAllChats(data);
     setLoading(false);

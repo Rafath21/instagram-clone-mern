@@ -26,7 +26,7 @@ async function getChat(){
  try{
     let data=axios({
           method:'post',
-          url:`http://localhost:7000/api/v1/chats/convo/${user._id}`,
+          url:`/api/v1/chats/convo/${user._id}`,
           data:{
              seconduserid:otheruser._id,
           },
@@ -46,7 +46,7 @@ async function getChat(){
 async  function getAllMsgs(id){
     let data=await axios({
           method:'GET',
-          url:`http://localhost:7000/api/v1/messages/${id}`,
+          url:`/api/v1/messages/${id}`,
           withCredentials:true,
       })
       setMsgs(data.data);
@@ -55,7 +55,7 @@ async function createChat(){
     //create a chat first
         let createChatData=await axios({
             method:'POST',
-            url:`http://localhost:7000/api/v1/chats`,
+            url:`/api/v1/chats`,
             withCredentials:true,
             data:{
                 senderId:user?._id,
@@ -79,7 +79,7 @@ let obj={
 setMsgs([...msgs,obj]);
  let postMsg=await axios({
      method:'POST',
-     url:`http://localhost:7000/api/v1/messages`,
+     url:`/api/v1/messages`,
      withCredentials:true,
      data:{
          chatId:chatId,
