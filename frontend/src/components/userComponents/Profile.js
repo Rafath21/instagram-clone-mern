@@ -1,7 +1,7 @@
 import React, { useEffect, useState} from "react";
 import { useLocation, Link,useHistory } from "react-router-dom";
 import "../../css/App.css";
-import Postcard from "./Postcard";
+import Postcard from "./PostCard";
 import {getProfile} from "../../actions/profileActions"
 import Profileloader from "../../Loaders/Profileloader";
 import { useSelector, useDispatch } from "react-redux";
