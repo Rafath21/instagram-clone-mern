@@ -1,3 +1,4 @@
+const path=require("path");
 const express=require('express');
 const app=express();
 const cloudinary=require("cloudinary");
@@ -10,7 +11,6 @@ const bodyParser=require("body-parser");
 const fileUpload=require("express-fileupload");
 const cookieParser = require("cookie-parser");
 const connectDB=require('./config/db');
-const path=require("path");
 const PORT=process.env.PORT;
 
 cloudinary.config({
@@ -42,10 +42,10 @@ app.use("/api/v1/chats",require("./routes/userRoutes/chatRoute"));
 app.use("/api/v1/messages",require("./routes/userRoutes/messagesRoute"));
 app.use("/api/v1/delete",require("./routes/userRoutes/deleteUserRoute"));
 
-/*app.use(express.static(path.join(__dirname,"./frontend/build")));
+app.use(express.static(path.join(__dirname,"./frontend/build")));
 app.get("*",(req,res)=>{
      res.sendFile(path.resolve(__dirname, "./frontend/build/index.html"));
-})*/
+})
 
 app.listen(PORT,()=>{
  console.log(`server is listening on this port:${PORT}`);
