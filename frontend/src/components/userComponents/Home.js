@@ -4,7 +4,7 @@ import { useState ,useEffect, useRef} from "react";
 import { useSelector, useDispatch } from "react-redux";
 import { createPost } from '../../actions/postActions';
 import HomeLoader from "../../Loaders/HomeLoader";
-import Postcard from "./Postcard";
+import Postcard from "./PostCard";
 import  Suggestions  from "./Suggestions";
 import {
   activityfeed,
