@@ -3,14 +3,12 @@ import axios from "axios";
 
 export const getSuggestions=(userid)=>async(dispatch)=>{
     try{
-        console.log("in getSuggestions");
         dispatch({type:GET_SUGGESTIONS_REQUEST});
         const {data}=await axios({
             method:'POST',
             url:`http://localhost:7000/api/v1/suggestions/${userid}`,
             withCredentials:true,
         })
-        console.log(data.suggestions);
         dispatch({type:GET_SUGGESTIONS_SUCCESS,payload:data.suggestions})
     }catch(err){
         dispatch({type:GET_SUGGESTIONS_FAILED,payload:err})

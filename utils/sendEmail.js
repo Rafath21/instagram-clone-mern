@@ -5,7 +5,6 @@ const sendEmail=(options)=>{
         host:"smtp.gmail.com",
         port:587,
         secure:false,
-        //service: process.env.EMAIL_SERVICE,
         auth:{
             user:process.env.EMAIL_USER,
             pass:process.env.EMAIL_PASS,

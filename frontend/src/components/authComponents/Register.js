@@ -23,12 +23,10 @@ async function handleRegister(e) {
     }
   }
   useEffect(() => {
-    console.log(error)
     if (error) {
-      alert(error);
+      alert("Email already exists");
     }
-
-    if (isAuthenticated) {
+   if (isAuthenticated) {
       history.push("/setup");
     }
   }, [dispatch, error, history, isAuthenticated]);

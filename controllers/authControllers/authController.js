@@ -18,17 +18,21 @@ const sendToken=(user,statusCode,res)=>{
   });
 }
 exports.register=async(req,res,next)=>{
-    console.log("in register");
     const{email,password}=req.body;
     try{
         const user=await User.create({
             email,
             password,
         });
+        let message=`Hi! thank you for signing up! Hope you enjoy the website experience.😊`
+        await sendEmail({
+               to:email,
+               subject:"Welcome to Instagram-clone",
+               text:message,
+           })
         sendToken(user,200,res);
         
     }catch(err){
-        console.log(err);
         next(err);
     }
 }
@@ -50,7 +54,6 @@ exports.login=async(req,res,next)=>{
         sendToken(user,200,res);
     }
     catch(err){
-        console.log(err);
         next(err);
     }
 }

@@ -65,7 +65,6 @@ export const clearErrors = () => async (dispatch) => {
 export const updateProfile=(userid,username,typeOfAccount,bio,pfp)=>async(dispatch)=>{
      try{
         dispatch({type:UPDATE_PROFILE_REQUEST});
-        console.log(userid,username,bio,pfp,typeOfAccount);
         const {data}=await axios({
             method:'POST',
             url:`http://localhost:7000/api/v1/setup/${userid}`,
@@ -78,6 +77,7 @@ export const updateProfile=(userid,username,typeOfAccount,bio,pfp)=>async(dispat
             },
            headers:{"Content-type":"Application/json"}
         })
+        window.localStorage.setItem('user',JSON.stringify(data.user));
         dispatch({type:UPDATE_PROFILE_SUCCESS,payload:data.user})
     }catch(err){
         dispatch({type:UPDATE_PROFILE_FAILED,payload:err})

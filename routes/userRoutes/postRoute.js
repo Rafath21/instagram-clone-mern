@@ -1,8 +1,9 @@
 const express=require("express");
 const router=express.Router();
 const {newPost,likes,comments,post}=require("../../controllers/userControllers/postController");
-router.route("/:userid").post(newPost);
-router.route("/likes/:userid").put(likes);
-router.route("/comments/:userid").put(comments);
-router.route("/delete/:userid").delete(post);
+const {isAuthenticated}=require("../../middlewares/auth");
+router.route("/:userid").post(isAuthenticated,newPost);
+router.route("/likes/:userid").put(isAuthenticated,likes);
+router.route("/comments/:userid").put(isAuthenticated,comments);
+router.route("/delete/:userid").delete(isAuthenticated,post);
 module.exports=router;

@@ -104,7 +104,6 @@ useEffect(()=>{
       setallActivity(feedActivity);
   }
 },[feedRequests,feedActivity])
-  console.log(feedPosts);
 
   return (
          <>

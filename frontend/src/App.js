@@ -9,7 +9,15 @@ import Createstory from "./components/userComponents/Createstory";
 import StoryComponent from "./components/userComponents/StoryComponent"
 import Chats from "./components/userComponents/Chats";
 import ChatWindow from "./components/userComponents/ChatWindow";
+import {useEffect} from "react";
+import { useDispatch } from "react-redux";
+import { LOGIN_SUCCESS } from "./constants/authConstants";
+
 function App() {
+  let dispatch = useDispatch();
+useEffect(()=>{
+        dispatch({type:LOGIN_SUCCESS,payload:JSON.parse(window.localStorage.getItem("user"))});
+  },[])
   return (
     <>
       <Router>

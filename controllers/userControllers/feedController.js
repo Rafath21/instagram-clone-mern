@@ -18,7 +18,6 @@ exports.posts=async(req,res)=>{
 }
 exports.reels=async(req,res)=>{
     try{
-        console.log("in reel feed");
         let curruserid=req.params.userid;
         let reelFeed=await User.findById(curruserid)
         .populate({path:'reelFeed',populate:{path:'postedBy', select:'username _id pfp'}})
