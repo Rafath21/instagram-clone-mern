@@ -1570,6 +1570,9 @@ hr {
   outline: none;
   padding: 5px;
 }
+.chat-window-msgform > textarea {
+  padding: 8px;
+}
 .post-card-container {
   -webkit-border-radius: 30px;
   border-radius: 30px;

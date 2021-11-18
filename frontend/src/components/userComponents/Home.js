@@ -64,8 +64,12 @@ const Home=()=> {
     reader.readAsDataURL(e.target.files[0]);
   };
   const newPost=()=>{
-dispatch(createPost(user?._id, uploadFile, uploadCaption));
-setPostPreview("/default_post.png");
+    if(uploadFile==""){
+      alert("please select a photo");
+    }else{
+      dispatch(createPost(user?._id, uploadFile, uploadCaption));
+      setPostPreview("/default_post.png");
+    }
 }
 useEffect(()=>{
     if(isAuthenticated==false){
@@ -104,7 +108,10 @@ useEffect(()=>{
       setallActivity(feedActivity);
   }
 },[feedRequests,feedActivity])
-
+useEffect(()=>{
+  if(user.username=="")
+  history.push("/setup")
+},[])
   return (
          <>
       {loading ? (
