@@ -111,6 +111,7 @@ const Profile=(props)=>{
                           if (profile.followStatus != "Following" && profile.followStatus!="Requested") {
                             setLoading(true);
                             dispatch(sendRequest(user?._id,location.state.uid));
+                            setLoading(false);
                           }
                         }}
                       >
