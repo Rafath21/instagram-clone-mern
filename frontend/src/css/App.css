@@ -1553,7 +1553,16 @@ hr {
   height: 35px;
   padding: 10px;
 }
-
+.post-card-header button {
+  padding: 7px;
+  border: none;
+  margin-left: 62%;
+  height: 40%;
+  margin-top: 20px;
+  background: #ed5050;
+  color: #ffff;
+  border-radius: 10px;
+}
 .chat-window-msgform > textarea,
 .header-search-box,
 .other-icons > i,

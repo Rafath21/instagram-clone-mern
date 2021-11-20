@@ -22,7 +22,6 @@ let Postcard = (props) => {
   function clearComment() {
     commentRef.current.value = "";
   }
-  console.log(location.pathname);
   useEffect(() => {
     let f = async () => {
       setComments(props.post.comments);
