@@ -63,7 +63,7 @@ return (
                   onClick={async (e) => {
                   e.preventDefault();
                   if(element?.typeOfAccount=="Private"){
-                    e.target.innerText="Request"
+                    e.target.innerText="Requested"
                   }else{
                     e.target.innerText="Following"
                   }
