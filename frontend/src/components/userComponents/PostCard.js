@@ -56,7 +56,7 @@ useEffect(()=>{
           <p className="post-username">{props.post?.postedBy.username}</p>
         </Link>
         {currProfile?(
-          <button onClick={(e)=>deleteHandler(e)}>Delete</button>
+          <button className="post-delete-btn" onClick={(e)=>deleteHandler(e)}>Delete</button>
         ):""
       }
         

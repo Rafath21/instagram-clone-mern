@@ -1553,7 +1553,7 @@ hr {
   height: 35px;
   padding: 10px;
 }
-.post-card-header button {
+.post-delete-btn {
   padding: 7px;
   border: none;
   margin-left: 62%;
