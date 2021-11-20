@@ -1314,7 +1314,7 @@ hr {
 }
 .chat-window-msgform > textarea {
   width: 85%;
-  height: 7vh;
+  height: 10vh;
 }
 .chat-window-header > img {
   width: 11%;
@@ -1583,7 +1583,7 @@ hr {
   padding: 5px;
 }
 .chat-window-msgform > textarea {
-  padding: 8px;
+  padding: 12px;
 }
 .post-card-container {
   -webkit-border-radius: 30px;
