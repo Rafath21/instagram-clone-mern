@@ -30,7 +30,7 @@ const Profile=(props)=>{
     postId: "",
   });
   useEffect(()=>{
-    if(user?._id==location.state.uid || user?._id==profile?._id){
+    if(location.pathname.includes(`/${user?.username}`)){
         setownProfile(true);
     }  
     dispatch(getProfile(user._id,location.state.uid));
