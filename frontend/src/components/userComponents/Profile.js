@@ -32,13 +32,19 @@ const Profile=(props)=>{
   });
   useEffect(()=>{
     let name=location.pathname.split("/")[2];
-    console.log(name);
+    console.log(name+"in first useeffect");
     if(name==user?.username){
         setownProfile(true);
     }  
     dispatch(getProfile(user._id,location.state.uid));
     setLoading(false);
   },[followStatus,dispatch,history,location.state.uid,performance])
+  useEffect(()=>{
+    if(location.pathname.split("/")[2]==user?.username){
+      console.log(location.pathname.split("/")[2]);
+      setownProfile(true);
+    }
+  },[performance])
   return (
     <>
       {loading ? (
