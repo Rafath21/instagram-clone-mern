@@ -9,6 +9,7 @@ import {sendRequest} from "../../actions/requestsActions";
 const Profile=(props)=>{
   let history=useHistory();
   const location = useLocation();
+  let performance=window.performance;
   let dispatch = useDispatch();
   let {user}=useSelector((state)=>state.user);
   let {followStatus}=useSelector((state)=>state.followStatus);
@@ -31,13 +32,13 @@ const Profile=(props)=>{
   });
   useEffect(()=>{
     let name=location.pathname.split("/")[2];
+    console.log(name);
     if(name==user?.username){
         setownProfile(true);
     }  
     dispatch(getProfile(user._id,location.state.uid));
     setLoading(false);
-  },[followStatus,dispatch,history,location.state.uid])
-
+  },[followStatus,dispatch,history,location.state.uid,performance])
   return (
     <>
       {loading ? (
