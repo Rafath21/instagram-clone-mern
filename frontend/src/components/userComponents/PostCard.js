@@ -52,7 +52,7 @@ let Postcard = (props) => {
           <p className="post-username">{props.post?.postedBy.username}</p>
         </Link>
         {}
-        <button onClick={deleteHandler(e)}>Delete</button>
+        <button onClick={(e)=>deleteHandler(e)}>Delete</button>
       </div>
       <div className="post-photo">
         <img id="post-pic" src={props.post?.posturl} />
