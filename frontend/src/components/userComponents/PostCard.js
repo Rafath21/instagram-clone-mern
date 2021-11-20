@@ -36,7 +36,9 @@ let Postcard = (props) => {
   function deleteHandler(e,postid){
     console.log(postid);
     e.preventDefault();
-   axios({
+    let confirmation=window.confirm("Do you really want to delete this post?");
+    if(confirmation){
+       axios({
       method: 'DELETE',
       url: `/api/v1/post/delete/${user?._id}`,
       withCredentials: true,
@@ -50,6 +52,7 @@ let Postcard = (props) => {
     }).catch((err)=>{
       alert("Some error occured!");
     })
+    }
 }
 useEffect(()=>{
   if(location.pathname.includes("/profile") && location.pathname.includes(`/${user?.username}`)){
