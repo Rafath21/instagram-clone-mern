@@ -46,7 +46,9 @@ let Setup = () => {
   };
   const setProfile=()=>{
       dispatch(updateProfile(user._id,userName,accountType,bio,img));
+      setTimeout(()=>{
         history.push("/");
+      },4000)
   }
   return (
     <div className="setup-container">
@@ -108,6 +110,7 @@ let Setup = () => {
               alert("You are only allowed to have 164 characters in your bio.");
               return;
             } else {
+              e.target.innerText="Please wait.."
               setProfile();
             }
           }}
