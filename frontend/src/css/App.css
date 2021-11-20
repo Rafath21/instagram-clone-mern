@@ -1563,6 +1563,9 @@ hr {
   color: #ffff;
   border-radius: 10px;
 }
+.post-delete-btn:hover {
+  background: #a33636;
+}
 .chat-window-msgform > textarea,
 .header-search-box,
 .other-icons > i,

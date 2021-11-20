@@ -32,8 +32,23 @@ let Postcard = (props) => {
     };
     f();
   }, []);
-  function deleteHandler(e){
+  function deleteHandler(e,postid){
+    console.log(postid);
     e.preventDefault();
+   axios({
+      method: 'DELETE',
+      url: `/api/v1/post/delete/${user?._id}`,
+      withCredentials: true,
+      data:{
+         postid:postid
+      },
+      headers:{"Content-type":"Application/json"}
+    }).then((res)=>{
+      console.log(res);
+    }).catch((err)=>{
+      console.log(err);
+    })
+
   }
 useEffect(()=>{
   if(location.pathname.includes("/profile") && location.pathname.includes(`/${user?.username}`)){
@@ -56,7 +71,8 @@ useEffect(()=>{
           <p className="post-username">{props.post?.postedBy.username}</p>
         </Link>
         {currProfile?(
-          <button className="post-delete-btn" onClick={(e)=>deleteHandler(e)}>Delete</button>
+          <button className="post-delete-btn" onClick={(e)=>
+            deleteHandler(e,props.post?._id)}>Delete</button>
         ):""
       }
         
