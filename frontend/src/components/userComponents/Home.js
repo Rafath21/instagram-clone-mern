@@ -248,10 +248,8 @@ useEffect(()=>{
                 ""
               )}
                 <i class="fas fa-home" title="Home" id="home-icon" onClick={()=>{
-                  console.log("home clicked")
                    const body = document.querySelector('#root');
-
-                       body.scrollIntoView({
+                      body.scrollIntoView({
                            behavior: 'smooth'
                        }, 500)
                    
