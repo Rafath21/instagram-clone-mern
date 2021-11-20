@@ -32,7 +32,7 @@ const Profile=(props)=>{
     postId: "",
   });
   function handleChange(){
-    console.log("in handle change");
+    setModal({ isOpen: false })
     setIsDeleted(true);
   }
   useEffect(()=>{
