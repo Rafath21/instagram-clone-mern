@@ -34,7 +34,7 @@ let Chats = () => {
             <hr></hr>
           </div>
           <div className="chats">
-            {allChats?.map((e, index) => {
+            {allChats?.length>0 ? allChats?.map((e, index) => {
                 let otheruser=e.members.find((c)=>c._id!==user?._id);
               return (
                 <>
@@ -54,7 +54,9 @@ let Chats = () => {
                   </Link>
                 </>
               );
-            })}
+            }):(
+              <h3>No chats yet!</h3>
+            )}
           </div>
         </div>
       )}
