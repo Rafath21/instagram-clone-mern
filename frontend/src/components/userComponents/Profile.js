@@ -30,12 +30,13 @@ const Profile=(props)=>{
     postId: "",
   });
   useEffect(()=>{
-    if(user._id==profile._id){
+    if(user?._id==location.state.uid || user?._id==profile?._id){
         setownProfile(true);
     }  
     dispatch(getProfile(user._id,location.state.uid));
     setLoading(false);
   },[followStatus,dispatch,history,location.state.uid])
+
   return (
     <>
       {loading ? (
