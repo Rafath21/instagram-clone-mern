@@ -249,10 +249,12 @@ useEffect(()=>{
               )}
                 <i class="fas fa-home" title="Home" id="home-icon" onClick={()=>{
                   console.log("home clicked")
-                  window.scrollTo({
-                    top: 0,
-                    behavior: "smooth"
-                  })
+                   const body = document.querySelector('#root');
+
+                       body.scrollIntoView({
+                           behavior: 'smooth'
+                       }, 500)
+                   
                 }}></i>
               <Link
                 className="link"
