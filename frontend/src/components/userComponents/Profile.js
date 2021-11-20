@@ -15,6 +15,7 @@ const Profile=(props)=>{
   let {followStatus}=useSelector((state)=>state.followStatus);
   let {profile}=useSelector((state)=>state.profile)
   let [loading, setLoading] = useState(true);
+  let [isDeleted,setIsDeleted]=useState(false);
   let [followsBoxOpen, setfollowsBoxOpen] = useState(false);
   let [followersBoxOpen, setfollowersBoxOpen] = useState(false);
   let [ownProfile, setownProfile] = useState(false);
@@ -31,8 +32,15 @@ const Profile=(props)=>{
     postId: "",
   });
   function handleChange(){
-    setownProfile(true);
+    console.log("in handle change");
+    setIsDeleted(true);
   }
+  useEffect(()=>{
+    setLoading(true);
+    setownProfile(true);
+    dispatch(getProfile(user?._id,user?._id));
+    setLoading(false);
+  },[isDeleted])
   useEffect(()=>{
     let name=location.pathname.split("/")[2];
     console.log(name+"in first useeffect");

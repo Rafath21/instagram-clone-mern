@@ -47,7 +47,6 @@ let Postcard = (props) => {
       headers:{"Content-type":"Application/json"}
     }).then((res)=>{
       alert("Your post was deleted!");
-      window.location.reload(false);
     }).catch((err)=>{
       alert("Some error occured!");
     })
