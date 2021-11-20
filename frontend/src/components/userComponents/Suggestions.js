@@ -11,6 +11,7 @@ let history = useHistory();
   const { user, isAuthenticated } = useSelector((state) => state.user);
   const {allSuggestions}=useSelector((state)=>state.allSuggestions);
   const {followStatus}=useSelector((state)=>state.followStatus);
+  console.log(allSuggestions);
 return (
           <div className="sidebar-container">
       <div className="sidebar-profile">
@@ -62,6 +63,7 @@ return (
                   className="suggestion-follow-btn" 
                   onClick={async (e) => {
                   e.preventDefault();
+                  console.log(element?.typeOfAccount);
                   if(element?.typeOfAccount=="Private"){
                     e.target.innerText="Requested"
                   }else{
