@@ -45,12 +45,11 @@ let Postcard = (props) => {
       },
       headers:{"Content-type":"Application/json"}
     }).then((res)=>{
-      console.log(res);
+      window.location.reload(false);
     }).catch((err)=>{
-      console.log(err);
+      alert("Some error occured!");
     })
-
-  }
+}
 useEffect(()=>{
   if(location.pathname.includes("/profile") && location.pathname.includes(`/${user?.username}`)){
     setCurrProfile(true);
