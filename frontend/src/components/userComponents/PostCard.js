@@ -35,7 +35,7 @@ let Postcard = (props) => {
   }, []);
   function deleteHandler(e,postid){
     e.preventDefault();
-    let confirmation=window.confirm("Do you really want to delete this post?");
+    let confirmation=window.confirm("Are you sure want to delete this post?");
     if(confirmation){
        axios({
       method: 'DELETE',
@@ -89,8 +89,17 @@ useEffect(()=>{
             className="post-like"
             onClick={async () => {
               dispatch(likePost(user?._id, props.post?._id));
-              if (currUserLike == false) setCurrUserLike(true);
-              else setCurrUserLike(false);
+              let updatedLikes;
+              if (currUserLike == false){
+                updatedLikes=likes+1;
+                setLikes(updatedLikes);
+                setCurrUserLike(true);
+              } 
+              else{
+                updatedLikes=likes-1;
+                setLikes(updatedLikes);
+                setCurrUserLike(false);
+              } 
             }}
           >
             {currUserLike ? (
@@ -108,7 +117,7 @@ useEffect(()=>{
           ></i>
         </div>
         <div className="post-likes-number">
-          {props.post?.likes.length} likes
+          {likes} likes
         </div>
         <div className="post-username-and-caption-container">
           <Link
