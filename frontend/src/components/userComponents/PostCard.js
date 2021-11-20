@@ -13,6 +13,7 @@ let Postcard = (props) => {
   let [currUserLike, setCurrUserLike] = useState(false);
   let [currUserComment, setcurrUserComment] = useState("");
   let [commentBoxOpen, setcommentBoxOpen] = useState(false);
+  let [currProfile,setCurrProfile]=useState(false);
   let commentRef = useRef();
   let commentsRef = useRef();
      useEffect(() => {
@@ -35,7 +36,11 @@ let Postcard = (props) => {
   function deleteHandler(e){
     e.preventDefault();
   }
-
+useEffect(()=>{
+  if(location.pathname.includes("/profile") && location.pathname.includes(`/${user?.username}`)){
+    setCurrProfile(true);
+  }
+},[])
   return (
     <div className="post-card-container">
       <div className="post-card-header">
@@ -51,8 +56,11 @@ let Postcard = (props) => {
         >
           <p className="post-username">{props.post?.postedBy.username}</p>
         </Link>
-        {}
-        <button onClick={(e)=>deleteHandler(e)}>Delete</button>
+        {currProfile?(
+          <button onClick={(e)=>deleteHandler(e)}>Delete</button>
+        ):""
+      }
+        
       </div>
       <div className="post-photo">
         <img id="post-pic" src={props.post?.posturl} />
