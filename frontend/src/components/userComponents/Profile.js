@@ -37,10 +37,12 @@ const Profile=(props)=>{
   }
   useEffect(()=>{
     console.log("in isdeleted")
+    if(isDeleted){
     setLoading(true);
     setownProfile(true);
     dispatch(getProfile(user?._id,user?._id));
     setLoading(false);
+    }
   },[isDeleted])
   useEffect(()=>{
     if(location.state.uid==user?._id){
