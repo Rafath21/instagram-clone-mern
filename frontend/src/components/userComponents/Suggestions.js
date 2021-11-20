@@ -62,7 +62,11 @@ return (
                   className="suggestion-follow-btn" 
                   onClick={async (e) => {
                   e.preventDefault();
-                  e.target.innerText="Requested";
+                  if(element?.typeOfAccount=="Private"){
+                    e.target.innerText="Request"
+                  }else{
+                    e.target.innerText="Following"
+                  }
                   e.target.disabled=true;
                   dispatch(sendRequest(user._id,element._id));
                   setState(true)

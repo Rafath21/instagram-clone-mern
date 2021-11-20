@@ -34,7 +34,6 @@ let Postcard = (props) => {
     f();
   }, []);
   function deleteHandler(e,postid){
-    console.log(postid);
     e.preventDefault();
     let confirmation=window.confirm("Do you really want to delete this post?");
     if(confirmation){
