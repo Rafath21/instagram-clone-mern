@@ -249,7 +249,10 @@ useEffect(()=>{
               )}
                 <i class="fas fa-home" title="Home" id="home-icon" onClick={()=>{
                   console.log("home clicked")
-                  window.scrollTo(0, 0)
+                  window.scrollTo({
+                    top: 0,
+                    behavior: "smooth"
+                  })
                 }}></i>
               <Link
                 className="link"
