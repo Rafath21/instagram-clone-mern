@@ -247,11 +247,9 @@ useEffect(()=>{
               ) : (
                 ""
               )}
-              <Link id="link" to={{ pathname: "/#header" }}>
                 <i class="fas fa-home" title="Home" id="home-icon" onClick={()=>{
                   window.scrollTo(0, 0)
                 }}></i>
-              </Link>
               <Link
                 className="link"
                 to={{
