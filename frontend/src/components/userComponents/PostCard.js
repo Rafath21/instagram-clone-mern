@@ -1,10 +1,11 @@
 import React from 'react'
 import { useSelector, useDispatch } from "react-redux";
 import { useState ,useEffect,useRef} from "react";
-import { Link } from "react-router-dom";
+import { Link,useLocation } from "react-router-dom";
 import "../../css/App.css";
 import {likePost, commentPost } from "../../actions/postActions";
 let Postcard = (props) => {
+  let location=useLocation();
   let dispatch = useDispatch();
   let {user}=useSelector((state)=>state.user);
   let [comments, setComments] = useState([]);
@@ -20,6 +21,7 @@ let Postcard = (props) => {
   function clearComment() {
     commentRef.current.value = "";
   }
+  console.log(location.pathname);
   useEffect(() => {
     let f = async () => {
       setComments(props.post.comments);
@@ -30,6 +32,9 @@ let Postcard = (props) => {
     };
     f();
   }, []);
+  function deleteHandler(e){
+    e.preventDefault();
+  }
 
   return (
     <div className="post-card-container">
@@ -46,6 +51,8 @@ let Postcard = (props) => {
         >
           <p className="post-username">{props.post?.postedBy.username}</p>
         </Link>
+        {}
+        <button onClick={deleteHandler(e)}>Delete</button>
       </div>
       <div className="post-photo">
         <img id="post-pic" src={props.post?.posturl} />
