@@ -172,7 +172,8 @@ UserSchema.methods.getSuggestions=function(users,uid){
             let user={
                 _id:e._id,
                 pfp:e.pfp,
-                username:e.username
+                username:e.username,
+                typeOfAccount:e.typeOfAccount
             }
             return user;
         }
