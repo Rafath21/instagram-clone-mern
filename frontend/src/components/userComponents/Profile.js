@@ -31,7 +31,6 @@ const Profile=(props)=>{
   });
   useEffect(()=>{
     let name=location.pathname.split("/")[2];
-    console.log(name);
     if(name==user?.username){
         setownProfile(true);
     }  
@@ -96,6 +95,7 @@ const Profile=(props)=>{
                         onClick={(e) => {
                         e.preventDefault();
                           if (profile.followStatus != "Following" && profile.followStatus!="Requested") {
+                            setLoading(true);
                             dispatch(sendRequest(user?._id,location.state.uid));
                           }
                         }}
