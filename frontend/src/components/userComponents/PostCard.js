@@ -46,6 +46,8 @@ let Postcard = (props) => {
       },
       headers:{"Content-type":"Application/json"}
     }).then((res)=>{
+      let handlechange=props?.handlechange;
+      handlechange();
       alert("Your post was deleted!");
     }).catch((err)=>{
       alert("Some error occured!");
@@ -75,9 +77,7 @@ useEffect(()=>{
         {currProfile?(
           <button className="post-delete-btn" 
           onClick={(e)=>{
-            let handlechange=props?.handlechange;
             deleteHandler(e,props.post?._id)
-            handlechange();
           }
           }>Delete</button>
         ):""
