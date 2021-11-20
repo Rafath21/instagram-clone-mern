@@ -10,11 +10,16 @@ exports.profile=async(req,res)=>{
     .populate({path:'followers', select:'username _id pfp'})
     .populate({path:'followings', select:'username _id pfp'})
     let otherUserFollowers=otheruser.followers;
+    let otherUserRequests=otheruser.requests;
     let followStatus;
     let find= otherUserFollowers.find(x=>x._id==curruserid)
+    let findInRequests=otherUserRequests.find(y=>y._id==curruserid)
     if(find){
         followStatus="Following"
-    }else{
+    }else if(findInRequests){
+        followStatus="Requested"
+    }
+    else{
         followStatus="Follow";
     }
     if(curruserid==otheruserid || otheruser.typeOfAccount=="Public" || find){

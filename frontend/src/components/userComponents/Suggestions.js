@@ -11,7 +11,6 @@ let history = useHistory();
   const { user, isAuthenticated } = useSelector((state) => state.user);
   const {allSuggestions}=useSelector((state)=>state.allSuggestions);
   const {followStatus}=useSelector((state)=>state.followStatus);
-  console.log(allSuggestions);
 return (
           <div className="sidebar-container">
       <div className="sidebar-profile">

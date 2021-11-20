@@ -183,32 +183,3 @@ UserSchema.methods.getSuggestions=function(users,uid){
 let User=mongoose.model("User",UserSchema);
 module.exports=User;
 
-/*
-UserSchema.methods.addToRequests=function(ouserid){
-    this.requests.push(ouserid);
-}
-UserSchema.methods.addToFollowers=function(ouserid){
-    this.followers.push(ouserid)
-}
-UserSchema.methods.addToFollowings=function(ouserid){
-    this.followings.push(ouserid);
-}
-UserSchema.methods.addToActivity=function(ouserid){
-    this.activity.push(ouserid);
-}
-UserSchema.methods.getFollowers=function(){
-    return this.followers;
-}
-UserSchema.methods.addToPosts=function(postid){
-    this.posts.push(postid);
-}
-UserSchema.methods.addToPostFeed=function(postid){
-    this.postFeed.push(postid);
-}
-UserSchema.methods.addToReels=function(reelid){
-    this.reels.push(reelid);
-}
-UserSchema.methods.addToReelFeed=function(reelid){
-    this.reelFeed.push(reelid);
-}
-*/
