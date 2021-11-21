@@ -248,12 +248,8 @@ useEffect(()=>{
                 ""
               )}
                 <i class="fas fa-home" title="Home" id="home-icon" onClick={()=>{
-                   const body = document.querySelector('#root');
-                      body.scrollIntoView({
-                           behavior: 'smooth'
-                       }, 500)
-                   
-                }}></i>
+                   window.location.reload(false);
+                 }}></i>
               <Link
                 className="link"
                 to={{
