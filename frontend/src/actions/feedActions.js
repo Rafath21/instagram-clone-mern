@@ -8,7 +8,11 @@ export const postfeed=(userid)=>async(dispatch)=>{
             url:`/api/v1/feed/posts/${userid}`,
             withCredentials:true,
         })
-        dispatch({type:FEED_POSTS_SUCCESS,payload:data.postFeed})
+        let postFeed=data.postFeed;
+       postFeed= postFeed.sort(function(a,b){
+       return new Date(b.createdAt) - new Date(a.createdAt);
+     });
+        dispatch({type:FEED_POSTS_SUCCESS,payload:postFeed})
     }catch(err){
         dispatch({type:FEED_POSTS_FAILED,payload:err})
     }
