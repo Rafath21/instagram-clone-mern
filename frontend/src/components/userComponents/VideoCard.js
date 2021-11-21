@@ -18,6 +18,7 @@ let VideoCard = (props) => {
   let [currUserComment, setcurrUserComment] = useState("");
   let [currUserLike, setCurrUserlike] = useState(false);
   let [loading, setLoading] = useState(false);
+  let [likes, setLikes] = useState(0);
   const { isReelCreated } = useSelector((state) => state.isReelCreated);
   useEffect(()=>{
   setLoading(false);
@@ -60,6 +61,7 @@ let VideoCard = (props) => {
   useEffect(async () => {
     setLoading(true);
     setComments(props.reel?.comments);
+    setLikes(props.reel.likes?.length);
     if (props.reel.likes?.includes(user?._id)) {
       setCurrUserlike(true);
     }
@@ -90,9 +92,19 @@ let VideoCard = (props) => {
                 <div
                   className="reel-like"
                   onClick={() => {
-                    if (currUserLike) setCurrUserlike(false);
-                    else setCurrUserlike(true);
                    dispatch(likeReel(user?._id, props.reel?._id));
+                    let updatedLikes;
+                        if (currUserLike == false){
+                          updatedLikes=likes+1;
+                          setLikes(updatedLikes);
+                          setCurrUserlike(true);
+                        } 
+                        else{
+                          updatedLikes=likes-1;
+                          setLikes(updatedLikes);
+                          setCurrUserlike(false);
+                        } 
+                    
                  }}
                 >
                   {currUserLike ? (
@@ -117,7 +129,7 @@ let VideoCard = (props) => {
                   }}
                 ></i>
               </div>
-              <h4>{props.reel.likes?.length} likes</h4>
+              <h4>{likes} likes</h4>
               <div className="username-pfp-container">
                 <Link
                   to={{
