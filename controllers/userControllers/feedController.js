@@ -2,9 +2,8 @@ const User=require("../../models/User");
 exports.posts=async(req,res)=>{ 
     try{
         let curruserid=req.params.userid;
-        const options = { sort: '-createdAt' };
         let postFeed=await User.findById(curruserid)
-        .populate({path:'postFeed',populate:{path:'postedBy', select:'username _id pfp'},options})
+        .populate({path:'postFeed',populate:{path:'postedBy', select:'username _id pfp'}})
         .populate({path:'postFeed',populate:{path:'comments',populate:{path:'userid',select:'username _id pfp'}}});
         postFeed=postFeed.postFeed;
         res.status(200).json({
