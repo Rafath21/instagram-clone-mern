@@ -43,7 +43,7 @@ const Profile=(props)=>{
     dispatch(getProfile(user?._id,user?._id));
     setTimeout(()=>{
       setLoading(false);
-    },3500)
+    },2000)
     setIsDeleted(false);
     }
 },[isDeleted])
@@ -113,7 +113,9 @@ const Profile=(props)=>{
                           if (profile.followStatus != "Following" && profile.followStatus!="Requested") {
                             setLoading(true);
                             dispatch(sendRequest(user?._id,location.state.uid));
+                            setTimeout(()=>{
                             setLoading(false);
+                            },2200)
                           }
                         }}
                       >
