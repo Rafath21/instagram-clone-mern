@@ -37,6 +37,7 @@ let Postcard = (props) => {
     e.preventDefault();
     let confirmation=window.confirm("Are you sure want to delete this post?");
     if(confirmation){
+      e.target.innerText="Deleting";
        axios({
       method: 'DELETE',
       url: `/api/v1/post/delete/${user?._id}`,
@@ -78,7 +79,6 @@ useEffect(()=>{
         (
           <button className="post-delete-btn" 
           onClick={(e)=>{
-            e.target.innerText="Deleting..";
             deleteHandler(e,props.post?._id)
           }
           }>Delete</button>
