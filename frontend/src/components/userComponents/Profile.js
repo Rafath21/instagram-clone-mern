@@ -41,7 +41,9 @@ const Profile=(props)=>{
     setLoading(true);
     setownProfile(true);
     dispatch(getProfile(user?._id,user?._id));
-    setLoading(false);
+    setTimeout(()=>{
+      setLoading(false);
+    },3500)
     setIsDeleted(false);
     }
 },[isDeleted])
