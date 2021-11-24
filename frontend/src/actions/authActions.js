@@ -15,7 +15,7 @@ export const login=(email,password)=>async(dispatch)=>{
                         },
                         headers:{"Content-type":"Application/json"}
         })
-       const ttl=24*24*60*60*1000;
+       const ttl=2*24*60*60*1000;
 	    const user = {
 		value: data.user,
 		expiry: Date.now() + ttl,
@@ -42,7 +42,7 @@ try{
     'Content-Type': 'application/json'
     }
         })
-         const ttl=24*24*60*60*1000;
+         const ttl=2*24*60*60*1000;
 	    const user = {
 		value: data.user,
 		expiry: Date.now() + ttl,
