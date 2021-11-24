@@ -168,7 +168,7 @@ UserSchema.methods.deleteFromActivity=function(ouid){
 UserSchema.methods.getSuggestions=function(users,uid){
     let followings=this.followings;
     users=users.map((e)=>{
-        if(!followings.includes(e._id) && e._id!=uid && !e.requests.includes(uid) && !e.activity.includes(uid)){
+        if(!followings.includes(e._id) && e._id!=uid && !e.requests.includes(uid) && !e.activity.includes(uid) && !e.username==""){
             let user={
                 _id:e._id,
                 pfp:e.pfp,
