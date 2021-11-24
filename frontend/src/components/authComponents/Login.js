@@ -14,7 +14,7 @@ let Login = () => {
     if (error) {
       alert("Invalid Credentials!");
       dispatch(clearErrors());
-    }if (user!=null) {
+    }if (isAuthenticated!=false) {
       history.push("/");
     }
   }, [dispatch, error, history, isAuthenticated]);
