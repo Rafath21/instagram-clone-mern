@@ -15,13 +15,12 @@ export const login=(email,password)=>async(dispatch)=>{
                         },
                         headers:{"Content-type":"Application/json"}
         })
-       const ttl=24*60*60*1000;
+       const ttl=24*24*60*60*1000;
 	    const user = {
 		value: data.user,
 		expiry: Date.now() + ttl,
 	}
 	window.localStorage.setItem("user", JSON.stringify(user))
-        //window.localStorage.setItem('user',JSON.stringify(user));
         dispatch({type:LOGIN_SUCCESS,payload:user.value});
     }catch(err){
         dispatch({type:LOGIN_FAIL,payload:err});
@@ -43,9 +42,13 @@ try{
     'Content-Type': 'application/json'
     }
         })
-        window.localStorage.setItem('user',JSON.stringify(data.user));
-
-        dispatch({type:REGISTER_USER_SUCCESS,payload:data.user});
+         const ttl=24*24*60*60*1000;
+	    const user = {
+		value: data.user,
+		expiry: Date.now() + ttl,
+	}
+	window.localStorage.setItem("user", JSON.stringify(user))
+    dispatch({type:REGISTER_USER_SUCCESS,payload:user.value});
     }catch(err){
         dispatch({type:REGISTER_USER_FAIL,payload:err});
     }
@@ -83,8 +86,15 @@ export const updateProfile=(userid,username,typeOfAccount,bio,pfp)=>async(dispat
             },
            headers:{"Content-type":"Application/json"}
         })
-        window.localStorage.setItem('user',JSON.stringify(data.user));
-        dispatch({type:UPDATE_PROFILE_SUCCESS,payload:data.user})
+      const ls=localStorage.getItem("user");
+      let info=JSON.parse(ls);
+      const expiry=info.expiry;
+      const user={
+          value:data.user,
+          expiry:expiry
+      }
+        window.localStorage.setItem('user',JSON.stringify(user));
+        dispatch({type:UPDATE_PROFILE_SUCCESS,payload:user.value})
     }catch(err){
         dispatch({type:UPDATE_PROFILE_FAILED,payload:err})
     }

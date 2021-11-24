@@ -19,14 +19,10 @@ useEffect(()=>{
       const data=localStorage.getItem("user");
       const user=JSON.parse(data);
       if(data && Date.now()<user.expiry){
-      console.log(user.expiry);
           dispatch({type:LOGIN_SUCCESS,payload:user.value});
       }else{
         localStorage.removeItem("user");
       }
-     /* if(window.localStorage.getItem("user") ){
-          dispatch({type:LOGIN_SUCCESS,payload:JSON.parse(window.localStorage.getItem("user"))});
-      }*/
   },[])
   return (
     <>
