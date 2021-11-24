@@ -103,7 +103,7 @@ let Setup = () => {
           onClick={async (e) => {
             e.preventDefault();
             e.currentTarget.value = "setting up..";
-            if (user?.username=="" && userName == "") {
+            if (!user?.username && userName == "") {
               alert("Please enter a username");
               return;
             } else if (bio.length > 164) {
