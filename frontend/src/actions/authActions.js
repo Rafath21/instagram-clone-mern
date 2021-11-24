@@ -15,8 +15,14 @@ export const login=(email,password)=>async(dispatch)=>{
                         },
                         headers:{"Content-type":"Application/json"}
         })
-        window.localStorage.setItem('user',JSON.stringify(data.user));
-        dispatch({type:LOGIN_SUCCESS,payload:data.user});
+       const ttl=24*60*60*1000;
+	    const user = {
+		value: data.user,
+		expiry: Date.now() + ttl,
+	}
+	window.localStorage.setItem("user", JSON.stringify(user))
+        //window.localStorage.setItem('user',JSON.stringify(user));
+        dispatch({type:LOGIN_SUCCESS,payload:user.value});
     }catch(err){
         dispatch({type:LOGIN_FAIL,payload:err});
     }

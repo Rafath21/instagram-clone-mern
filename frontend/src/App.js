@@ -16,9 +16,16 @@ import { LOGIN_SUCCESS } from "./constants/authConstants";
 function App() {
   let dispatch = useDispatch();
 useEffect(()=>{
-        if(window.localStorage.getItem("user")){
-          dispatch({type:LOGIN_SUCCESS,payload:JSON.parse(window.localStorage.getItem("user"))});
+      const data=localStorage.getItem("user");
+      const user=JSON.parse(data);
+      if(data && Date.now()<user.expiry){
+          dispatch({type:LOGIN_SUCCESS,payload:user.value});
+      }else{
+        localStorage.removeItem("user");
       }
+     /* if(window.localStorage.getItem("user") ){
+          dispatch({type:LOGIN_SUCCESS,payload:JSON.parse(window.localStorage.getItem("user"))});
+      }*/
   },[])
   return (
     <>
