@@ -18,6 +18,7 @@ function App() {
 useEffect(()=>{
       const data=localStorage.getItem("user");
       const user=JSON.parse(data);
+      console.log(user.expiry);
       if(data && Date.now()<user.expiry){
           dispatch({type:LOGIN_SUCCESS,payload:user.value});
       }else{
