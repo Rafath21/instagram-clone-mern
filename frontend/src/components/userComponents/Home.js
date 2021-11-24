@@ -109,7 +109,7 @@ useEffect(()=>{
   }
 },[feedRequests,feedActivity])
 useEffect(()=>{
-  if(user.username=="")
+  if(!user?.username)
   history.push("/setup")
 },[])
   return (
