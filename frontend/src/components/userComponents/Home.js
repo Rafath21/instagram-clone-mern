@@ -108,10 +108,10 @@ useEffect(()=>{
       setallActivity(feedActivity);
   }
 },[feedRequests,feedActivity])
-//useEffect(()=>{
-  //if(isAuthenticated==true && !user?.username)
-  //history.push("/setup")
-//},[])
+useEffect(()=>{
+  if(isAuthenticated==true && !user?.username)
+  history.push("/setup")
+},[])
   return (
          <>
       {loading ? (
