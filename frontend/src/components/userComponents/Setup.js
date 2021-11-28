@@ -14,6 +14,10 @@ let Setup = () => {
   let [img, setImg] = useState("");
   let [profilePreview, setProfilePreview] = useState("/defaultpfp.jpg");
   let [accountType, setAccountType] = useState("Private");
+  let defUsername="";
+  if(user?.username){
+    defUsername=user?.username
+  }
   const { error, loading, isAuthenticated ,user} = useSelector(
     (state) => state.user
   );
@@ -70,7 +74,7 @@ let Setup = () => {
         <p>Username:</p>
         <input
           type="text"
-          placeholder="username for insta-clone.."
+          placeholder="username for insta-clone.."  defaultValue={defUsername}
           onChange={(e) => {
             setUserName(e.currentTarget.value);
           }}
@@ -81,7 +85,7 @@ let Setup = () => {
         <select
           onChange={(e) => {
             handleTypechange(e);
-          }}
+          }}  defaultValue={user?.typeOfAccount}
           id="account-type"
         >
           <option value="Private">Private</option>
@@ -90,7 +94,7 @@ let Setup = () => {
       </div>
       <div className="setup-bio-container">
         <p>Bio:</p>
-        <textarea
+        <textarea defaultValue={user?.bio}
           placeholder="what describes you best?"
           onChange={(e) => {
             setBio(e.target.value);
